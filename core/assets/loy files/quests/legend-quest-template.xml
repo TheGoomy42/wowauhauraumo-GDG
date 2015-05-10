@@ -1,0 +1,57 @@
+<quest id="%ID%" location="%LOCATION%" title="%TITLE%" level="%LEVEL%"
+	summary="%SUMMARY%">
+	<start>
+		<showDialog name="%ELDER%" portrait="%ELDER_PORTRAIT%"
+			text="%INTRO_TEXT%">
+			<option name="Ok">
+				<showDialog name="%ELDER%" portrait="%ELDER_PORTRAIT%"
+					text="%REQUEST_TEXT%">
+					<option name="Ok">
+						<startQuest id="%ID%" />
+					</option>
+					<option name="No way">
+					</option>
+				</showDialog>
+			</option>
+		</showDialog>
+	</start>
+
+	<cancel>
+		<takeItem name="%QUEST_ITEM%" count="5" />
+	</cancel>
+
+	<event type="kill" param="%MONSTER%">
+		<if attribute="count-%QUEST_ITEM%" compare="1" operation="lt">
+			<getItem name="%QUEST_ITEM%" />
+			<if attribute="count-%QUEST_ITEM%" compare="0" operation="gt">
+				<showDialog name="%ELDER%" portrait="%ELDER_PORTRAIT%"
+					text="%FOUND_TEXT%">
+					<option name="Right away!">
+					</option>
+				</showDialog>
+			</if>
+		</if>
+	</event>
+
+	<event type="quest" param="%LOCATION%">
+		<if attribute="count-%QUEST_ITEM%" compare="1" operation="lt">
+			<showDialog name="%ELDER%" portrait="%ELDER_PORTRAIT%" text="%WAITING_TEXT%">
+				<option name="I'll get it">
+				</option>
+			</showDialog>
+		</if>
+		<if attribute="count-%QUEST_ITEM%" compare="0" operation="gt">
+			<getExp value="%REWARD_EXP%" />
+			<takeItem name="%QUEST_ITEM%" count="5" />
+			<getItem name="%REWARD_ITEM%" />
+			<getItem name="Gold" count="%REWARD_GOLD%" />
+			<showDialog name="%ELDER%" portrait="%ELDER_PORTRAIT%"
+				text="%COMPLETE_TEXT%">
+				<option name="Thanks">
+				</option>
+			</showDialog>
+			<completeQuest />
+		</if>
+	</event>
+</quest>
+	

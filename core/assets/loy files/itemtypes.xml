@@ -1,0 +1,777 @@
+<types>
+	<itemType name="Apple" id="0" tile="81" desc="A healthy red apple" use="true" destroy="true" equip="false" level="0" ranged="false" cost="4" stacks="true" sellType="inn" >
+		<action attribute="hp" delta="3" />
+	</itemType>
+	<itemType name="Red Potion" id="1" tile="80" desc="A vial of red liquid (+8HP)" use="true" destroy="true" equip="false" level="0" ranged="false" cost="25" stacks="true" sellType="magic" >
+		<action attribute="hp" delta="8" />
+	</itemType>
+	<itemType name="Key" id="2" tile="84" desc="To use, walk through a locked door" use="false" destroy="true" equip="false" level="0" ranged="false" save="false" stacks="true" />
+	<itemType name="Sword" id="3" tile="86" desc="A light-weight short sword" use="false" destroy="true" equip="true" level="0" slot="hands" ranged="false" classes="warrior" attackMod="0" defenceMod="0" cost="300" sellType="weapon" />
+	<itemType name="Bow" id="4" tile="90" desc="A strong willow bow" use="false" destroy="true" equip="true" level="0" slot="ranged" ranged="true" classes="archer" projectile="96" cost="300" failChance="5" sellType="weapon" />
+	<itemType name="Staff" id="5" tile="94" desc="A magical staff" use="false" destroy="true" equip="true" level="0" slot="hands" ranged="false" classes="wizard" cost="300" sellType="weapon" />
+	<itemType name="Fireball" id="6" tile="95" desc="Casts a ball fire towards the opponent" use="false" destroy="true" equip="true" level="0" slot="spell" ranged="true" classes="wizard" charge="6" attackMod="4" defenceMod="0" projectile="97" cost="500" stacks="true" failChance="6" sellType="magic" />
+	<itemType name="Town Portal" id="7" tile="100" desc="Portal - summon a portal back to the nearest town" use="true" destroy="true" equip="false" level="0" ranged="false" cost="250" stacks="true" sellType="magic" />
+	<itemType name="Gold" id="8" tile="82" desc="Gold coins" use="false" destroy="true" equip="false" ranged="false" cost="1" save="true" stacks="true" />
+	<itemType name="Cloak" id="9" tile="129" desc="A simple woolen cloak" destroy="true" equip="true" level="0" slot="cloak" defenceMod="1" cost="50" sellType="weapon" />
+	<itemType name="Leather Armor" id="10" tile="165" desc="Leather Armor" destroy="true" equip="true" level="4" slot="body" classes="warrior,archer" defenceMod="2" cost="500" sellType="weapon" />
+	<itemType name="Leather Helmet" id="11" tile="140" desc="A basic leather helmet" destroy="true" equip="true" level="4" slot="head" classes="warrior,archer" defenceMod="1" cost="400" sellType="weapon" />
+	<itemType name="Statue" id="12" tile="142" desc="A small stone statue" destroy="true" cost="800" stacks="true" sellType="magic" />
+	<itemType name="Ruby" id="13" tile="160" desc="A shiny red ruby" destroy="true" cost="600" stacks="true" sellType="magic" />
+	<itemType name="Leather Gloves" id="14" tile="181" destroy="true" equip="true" slot="gloves" classes="warrior,archer" defenceMod="1" cost="500" sellType="weapon" />
+	<itemType name="Meat" id="15" tile="98" desc="A meaty drum stick" use="true" destroy="true" equip="false" level="0" cost="5" stacks="true" sellType="inn" >
+		<action attribute="hp" delta="5" />
+	</itemType>
+	<itemType name="Green Potion" id="16" tile="85" desc="Regenerates some magical charge (+12C)" use="true" destroy="true" equip="false" level="1" cost="30" stacks="true" sellType="magic" >
+		<action attribute="charge" delta="12" />
+	</itemType>
+	<itemType name="Longsword" id="17" tile="87" desc="A bright long blade" use="false" destroy="true" equip="true" level="6" slot="hands" ranged="false" classes="warrior" attackMod="2" defenceMod="0" cost="800" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Mighty Blade" id="18" tile="88" desc="A golden glowing sword" use="false" destroy="true" equip="true" level="15" slot="hands" ranged="false" classes="warrior" attackMod="6" defenceMod="0" cost="21500" save="true" stacks="false" sellType="weapon" >
+		<modifier type="undead" attribute="atk" value="3" />
+	</itemType>
+	<itemType name="Magic Sword" id="19" tile="89" desc="A elven sword infused with lightning" use="false" destroy="true" equip="true" level="22" slot="hands" ranged="false" classes="warrior" attackMod="10" defenceMod="0" cost="64000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Composite Bow" id="20" tile="91" desc="A tightly strung mechanical bow" use="false" destroy="true" equip="true" level="8" slot="ranged" ranged="true" classes="archer" attackMod="3" defenceMod="0" projectile="96" cost="4850" save="true" stacks="false" failChance="10" sellType="weapon" />
+	<itemType name="Hunters Bow" id="21" tile="92" desc="A master archers bow" use="false" destroy="true" equip="true" level="14" slot="ranged" ranged="true" classes="archer" attackMod="6" defenceMod="0" projectile="96" cost="21600" save="true" stacks="false" failChance="15" sellType="weapon" >
+		<modifier type="crawler" attribute="atk" value="1" />
+	</itemType>
+	<itemType name="Magic Bow" id="22" tile="93" desc="A bow glowing with magical energy" use="false" destroy="true" equip="true" level="24" slot="ranged" ranged="true" classes="archer" attackMod="10" defenceMod="0" projectile="96" cost="43600" save="true" stacks="false" failChance="10" sellType="weapon" >
+		<modifier type="undead" attribute="atk" value="2" />
+	</itemType>
+	<itemType name="Frost Bolt" id="23" tile="107" desc="Casts a bolt of ice towards the opponent" use="false" destroy="true" equip="true" level="7" slot="spell" ranged="true" classes="wizard" charge="20" attackMod="9" defenceMod="0" projectile="68" cost="2200" save="true" stacks="true" failChance="4" sellType="magic" />
+	<itemType name="Explosion" id="24" tile="109" desc="Cast to damage the target and others" use="false" destroy="true" equip="true" level="27" slot="spell" ranged="true" classes="wizard" charge="50" attackMod="18" defenceMod="0" projectile="70" cost="8000" save="true" stacks="true" failChance="3" sellType="magic" />
+	<itemType name="Greater Heal" id="25" tile="103" desc="Powerful healing spell" use="true" destroy="true" equip="false" level="15" classes="wizard" charge="40" cost="2500" save="true" stacks="true" failChance="1" sellType="magic" >
+		<action attribute="hp" delta="200" />
+	</itemType>
+	<itemType name="Totem" id="26" tile="141" desc="A golden relic" use="false" destroy="true" equip="false" cost="1500" stacks="true" sellType="magic" />
+	<itemType name="Magic Cloak" id="27" tile="132" desc="A magic infused cloak" destroy="true" equip="true" level="12" slot="cloak" classes="wizard" defenceMod="3" cost="7880" save="true" stacks="false" sellType="weapon" >
+		<modifier type="tick" attribute="charge" value="1" />
+		<modifier type="magic" value="1" />
+	</itemType>
+	<itemType name="Gem" id="28" tile="163" desc="A glittering gem" use="false" destroy="true" equip="false" cost="2000" stacks="true" sellType="magic" />
+	<itemType name="Steel Helmet" id="29" tile="133" desc="A solid steel helmet" use="false" destroy="true" equip="true" level="7" slot="head" classes="warrior,archer" defenceMod="3" cost="1000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Borite Helm" id="30" tile="134" desc="A helmet made from the precious mineral borite" use="false" destroy="true" equip="true" level="15" slot="head" classes="warrior" defenceMod="6" cost="1700" save="true" stacks="false" sellType="weapon" >
+		<modifier type="undead" attribute="def" value="2" />
+	</itemType>
+	<itemType name="Legion Helm" id="31" tile="139" desc="A mighty legionaries helmet" use="false" destroy="true" equip="true" level="23" slot="head" classes="warrior" defenceMod="8" cost="2500" save="true" stacks="false" sellType="weapon" >
+		<modifier type="crawler" attribute="def" value="1" />
+	</itemType>
+	<itemType name="Book of Ohm" id="32" tile="150" desc="The ancient book of Ohm, master magician" use="false" destroy="true" equip="true" level="20" slot="shield" classes="wizard" attackMod="4" defenceMod="4" cost="38000" save="true" stacks="false" sellType="magic" >
+		<modifier type="magic" value="1" />
+	</itemType>
+	<itemType name="Steel Gauntlets" id="33" tile="144" desc="A pair of solid steel gauntlets" use="false" destroy="true" equip="true" level="10" slot="gloves" ranged="false" classes="warrior,archer" defenceMod="3" cost="1000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Chainmail" id="34" tile="169" desc="Light chain mail" use="false" destroy="true" equip="true" level="12" slot="body" classes="warrior,archer" defenceMod="5" cost="7000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Scalemail" id="35" tile="167" desc="Heavy-weight scale mail" use="false" destroy="true" equip="true" level="21" slot="body" classes="warrior" defenceMod="8" cost="12800" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Wooden Shield" id="36" tile="183" desc="A simple wooden shield" use="false" destroy="true" equip="true" level="3" slot="shield" ranged="false" classes="warrior,archer" defenceMod="2" cost="400" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Steel Shield" id="37" tile="185" desc="A solid steel shield" use="false" destroy="true" equip="true" level="10" slot="shield" ranged="false" classes="warrior,archer" defenceMod="5" cost="1000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Staff of Mord" id="38" tile="189" desc="A magical staff " use="false" destroy="true" equip="true" level="8" slot="hands" ranged="false" classes="wizard" attackMod="4" cost="1500" save="true" stacks="false" sellType="magic" >
+		<modifier type="tick" attribute="charge" value="1" />
+		<modifier type="undead" attribute="hp" value="1" />
+	</itemType>
+	<itemType name="Mighty Axe" id="39" tile="204" desc="A heavy axe" use="false" destroy="true" equip="true" level="7" slot="hands" ranged="false" classes="warrior" attackMod="2" defenceMod="0" cost="800" save="true" stacks="false" sellType="weapon" >
+		<modifier type="vermin" attribute="atk" value="1" />
+	</itemType>
+	<itemType name="Mace" id="40" tile="205" desc="A well crafted mace" use="false" destroy="true" equip="true" level="10" slot="hands" ranged="false" classes="warrior" attackMod="3" defenceMod="0" cost="1100" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Blue Potion" id="41" tile="83" desc="A vial of blue liquid (+30HP)" use="true" destroy="true" equip="false" level="0" ranged="false" cost="80" stacks="true" sellType="magic" >
+		<action attribute="hp" delta="30" />
+	</itemType>
+	<itemType name="Powder Keg" id="42" tile="73" desc="An explosive powder keg" use="true" destroy="true" level="0" cost="2000" sellType="inn" />
+	<itemType name="Freeze" id="43" tile="122" desc="Attempt to freeze an opponent" use="false" destroy="true" equip="true" level="8" slot="spell" ranged="true" classes="wizard" charge="30" attackMod="3" defenceMod="0" projectile="68" cost="3000" stacks="true" failChance="40" sellType="magic" />
+	<itemType name="Dagger" id="44" tile="180" desc="A simple dagger" use="false" destroy="true" equip="true" level="0" slot="hands" ranged="false" attackMod="0" defenceMod="0" cost="300" sellType="weapon" />
+	<itemType name="Dog Pelt" id="45" tile="208" desc="A furry dog pelt" destroy="true" level="0" cost="200" save="true" stacks="true" sellType="inn" />
+	<itemType name="Tooth" id="46" tile="209" desc="A sharp tooth" destroy="true" level="0" cost="230" save="true" stacks="true" sellType="inn" />
+	<itemType name="Package" id="47" tile="210" desc="A package for delivery" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Teleport" id="48" tile="105" desc="Teleport yourself to another location" use="true" destroy="true" equip="false" level="10" ranged="false" classes="wizard" charge="35" cost="4000" save="true" stacks="true" failChance="10" sellType="magic" />
+	<itemType name="Stinger" id="49" tile="211" desc="A scorpion stinger" destroy="true" level="0" cost="260" save="true" stacks="true" sellType="magic" />
+	<itemType name="Tooth Dagger" id="50" tile="212" desc="A mighty tooth dagger" destroy="true" equip="true" level="10" slot="hands" classes="archer" attackMod="3" defenceMod="0" cost="1500" save="true" sellType="weapon" >
+		<modifier type="vermin" attribute="atk" value="2" />
+		<modifier type="tick" attribute="zen" value="1" />
+	</itemType>
+	<itemType name="Pelt Cloak" id="51" tile="131" desc="A thick cloak" destroy="true" equip="true" level="10" slot="cloak" classes="wizard" attackMod="2" defenceMod="2" cost="1500" save="true" sellType="weapon" >
+		<modifier type="orc" attribute="def" value="2" />
+	</itemType>
+	<itemType name="Stinger Sword" id="52" tile="206" desc="A light and fast sword" destroy="true" equip="true" level="10" slot="hands" classes="warrior" attackMod="5" defenceMod="0" cost="11500" save="true" sellType="weapon" >
+		<modifier type="undead" attribute="atk" value="2" />
+		<modifier type="orc" attribute="atk" value="1" />
+	</itemType>
+	<itemType name="Attack Elixir" id="53" tile="76" desc="Increase attack by one permanently (max 3)" use="true" destroy="true" equip="false" level="15" cost="150000" save="true" stacks="true" sellType="magic" >
+		<action attribute="atk" delta="1" />
+	</itemType>
+	<itemType name="Defence Elixir" id="54" tile="77" desc="Increase defence by one permanently (max 3)" use="true" destroy="true" equip="false" level="15" cost="150000" save="true" stacks="true" sellType="magic" >
+		<action attribute="def" delta="1" />
+	</itemType>
+	<itemType name="Staff of Demid" id="55" tile="190" desc="A magical staff " use="false" destroy="true" equip="true" level="13" slot="hands" ranged="false" classes="wizard" attackMod="5" defenceMod="1" cost="34000" save="true" stacks="false" sellType="magic" >
+		<modifier type="tick" attribute="charge" value="2" />
+		<modifier type="undead" attribute="atk" value="2" />
+		<modifier type="crawler" attribute="atk" value="1" />
+		<modifier type="tick" attribute="hp" value="1" />
+	</itemType>
+	<itemType name="Trap" id="56" tile="78" desc="A hunter's trap" use="true" destroy="true" level="0" classes="archer" cost="50" stacks="true" sellType="inn" />
+	<itemType name="Move" id="57" tile="119" desc="Open doors or chests from a distance" use="true" destroy="true" equip="false" level="21" ranged="false" classes="wizard" charge="35" cost="6000" save="true" stacks="true" failChance="10" sellType="magic" />
+	<itemType name="Lava Sword" id="58" tile="207" desc="A scolding hot blade" destroy="true" equip="true" level="15" slot="hands" classes="warrior" attackMod="7" defenceMod="0" cost="21500" save="true" sellType="weapon" >
+		<modifier type="orc" attribute="atk" value="3" />
+	</itemType>
+	<itemType name="Crusader Sword" id="59" tile="2" desc="A gleaming fine crafted blade" destroy="true" equip="true" level="25" slot="hands" classes="warrior" attackMod="11" defenceMod="1" cost="27500" save="true" sellType="weapon" >
+		<modifier type="human" attribute="atk" value="4" />
+		<modifier type="tick" attribute="rage" value="1" />
+		<modifier type="set" value="1" />
+	</itemType>
+	<itemType name="Wicket Blade" id="60" tile="7" desc="A thin glowing sword" destroy="true" equip="true" level="31" slot="hands" classes="warrior" attackMod="12" defenceMod="2" cost="36500" save="true" sellType="weapon" >
+		<modifier type="vermin" attribute="atk" value="2" />
+		<modifier type="undead" attribute="atk" value="2" />
+	</itemType>
+	<itemType name="Demonic Axe" id="61" tile="5" desc="A bloody axe" destroy="true" equip="true" level="40" slot="hands" classes="warrior" attackMod="13" defenceMod="0" cost="51500" save="true" sellType="weapon" >
+		<modifier type="tick" attribute="rage" value="2" />
+		<modifier type="tick" attribute="hp" value="-1" />
+		<modifier type="human" attribute="atk" value="4" />
+		<modifier type="undead" attribute="def" value="5" />
+	</itemType>
+	<itemType name="Elven Bow" id="62" tile="18" desc="A seemingly simple bow" use="false" destroy="true" equip="true" level="29" slot="ranged" ranged="true" classes="archer" attackMod="14" defenceMod="0" projectile="96" cost="43600" save="true" stacks="false" failChance="10" sellType="weapon" >
+		<modifier type="undead" attribute="atk" value="2" />
+		<modifier type="human" attribute="atk" value="2" />
+		<modifier type="vermin" attribute="hp" value="2" />
+		<modifier type="set" value="2" />
+	</itemType>
+	<itemType name="Task Spear" id="63" tile="203" desc="A long hunting spear" destroy="true" equip="true" level="27" slot="hands" classes="archer" attackMod="8" defenceMod="2" cost="31500" save="true" sellType="weapon" >
+		<modifier type="vermin" attribute="atk" value="3" />
+		<modifier type="tick" attribute="zen" value="1" />
+		<modifier type="crawler" attribute="atk" value="4" />
+	</itemType>
+	<itemType name="Zann Wand" id="64" tile="191" desc="The wand of Zann" use="false" destroy="true" equip="true" level="23" slot="hands" ranged="false" classes="wizard" attackMod="7" defenceMod="2" cost="42000" save="true" stacks="false" sellType="magic" >
+		<modifier type="tick" attribute="charge" value="2" />
+		<modifier type="undead" attribute="atk" value="3" />
+		<modifier type="crawler" attribute="atk" value="1" />
+		<modifier type="tick" attribute="hp" value="1" />
+	</itemType>
+	<itemType name="Warlock Staff" id="65" tile="34" desc="A mighty staff of magic" use="false" destroy="true" equip="true" level="31" slot="hands" ranged="false" classes="wizard" attackMod="9" defenceMod="2" cost="52000" save="true" stacks="false" sellType="magic" >
+		<modifier type="tick" attribute="charge" value="2" />
+		<modifier type="vermin" attribute="atk" value="4" />
+		<modifier type="crawler" attribute="atk" value="1" />
+		<modifier type="tick" attribute="hp" value="2" />
+		<modifier type="set" value="3" />
+	</itemType>
+	<itemType name="Ruby Staff" id="66" tile="195" desc="A gem encrusted staff" use="false" destroy="true" equip="true" level="43" slot="hands" ranged="false" classes="wizard" attackMod="11" defenceMod="3" cost="72000" save="true" stacks="false" sellType="magic" >
+		<modifier type="tick" attribute="charge" value="3" />
+		<modifier type="vermin" attribute="atk" value="5" />
+		<modifier type="crawler" attribute="atk" value="2" />
+		<modifier type="tick" attribute="hp" value="2" />
+		<modifier type="undead" attribute="atk" value="3" />
+	</itemType>
+	<itemType name="Winged Helm" id="67" tile="192" desc="A valkyrie helmet" use="false" destroy="true" equip="true" level="23" slot="head" classes="warrior" defenceMod="9" cost="11000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Goif Helm" id="112" tile="135" desc="A magic helmet" use="false" destroy="true" equip="true" level="25" slot="head" classes="archer,warrior" defenceMod="10" cost="11000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Crusader Helm" id="68" tile="0" desc="A gleaming helm" use="false" destroy="true" equip="true" level="31" slot="head" classes="warrior" defenceMod="10" cost="11000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="undead" attribute="def" value="2" />
+		<modifier type="set" value="1" />
+	</itemType>
+	<itemType name="Elven Coif" id="69" tile="16" desc="Archer's chain coif" use="false" destroy="true" equip="true" level="31" slot="head" classes="archer" defenceMod="11" cost="22000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="tick" attribute="zen" value="1" />
+		<modifier type="set" value="2" />
+	</itemType>
+	<itemType name="Wizard Hat" id="70" tile="32" desc="A magical hat" use="false" destroy="true" equip="true" level="31" slot="head" classes="wizard" defenceMod="4" cost="22000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="tick" attribute="charge" value="1" />
+		<modifier type="set" value="3" />
+	</itemType>
+	<itemType name="Shimmering Helm" id="71" tile="23" desc="A full face helm" use="false" destroy="true" equip="true" level="37" slot="head" classes="warrior" defenceMod="11" cost="21000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="undead" attribute="def" value="3" />
+		<modifier type="orc" attribute="def" value="5" />
+	</itemType>
+	<itemType name="Dark Bow" id="72" tile="196" desc="A bow of pure evil" use="false" destroy="true" equip="true" level="36" slot="ranged" ranged="true" classes="archer" attackMod="17" defenceMod="0" projectile="96" cost="53600" save="true" stacks="false" failChance="5" sellType="weapon" >
+		<modifier type="undead" attribute="atk" value="-1" />
+		<modifier type="human" attribute="hp" value="3" />
+		<modifier type="vermin" attribute="hp" value="3" />
+	</itemType>
+	<itemType name="Shimmering Shield" id="73" tile="186" desc="A bright glowing shield" use="false" destroy="true" equip="true" level="15" slot="shield" ranged="false" classes="warrior,archer" defenceMod="7" cost="11000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Mighty Shield" id="74" tile="187" desc="A bright glowing shield" use="false" destroy="true" equip="true" level="23" slot="shield" ranged="false" classes="warrior,archer" defenceMod="9" cost="22000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="undead" attribute="def" value="2" />
+		<modifier type="crawler" attribute="def" value="1" />
+	</itemType>
+	<itemType name="Kite Shield" id="75" tile="6" desc="A large strong shield" use="false" destroy="true" equip="true" level="18" slot="shield" ranged="false" classes="warrior" defenceMod="9" cost="26000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Crusader Shield" id="76" tile="3" desc="A glowing shield" use="false" destroy="true" equip="true" level="31" slot="shield" ranged="false" classes="warrior" defenceMod="10" cost="26000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="tick" attribute="hp" value="1" />
+		<modifier type="undead" attribute="def" value="3" />
+		<modifier type="set" value="1" />
+	</itemType>
+	<itemType name="Bronze Shield" id="77" tile="201" desc="A simple round shield" use="false" destroy="true" equip="true" level="31" slot="shield" ranged="false" classes="warrior,archer" defenceMod="9" cost="26000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Boots" id="78" tile="202" desc="An ugly pair of boots" use="false" destroy="true" equip="true" level="8" slot="feet" ranged="false" defenceMod="1" cost="1000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Iron Helm" id="79" tile="193" desc="A full face helm" use="false" destroy="true" equip="true" level="15" slot="head" classes="warrior" defenceMod="7" cost="7000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Elven Boots" id="80" tile="20" desc="Bright green boots" use="false" destroy="true" equip="true" level="23" slot="feet" ranged="false" classes="archer" defenceMod="3" cost="7000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="set" value="2" />
+	</itemType>
+	<itemType name="Pointy Boots" id="81" tile="36" desc="Shiney purple boots" use="false" destroy="true" equip="true" level="22" slot="feet" ranged="false" classes="wizard" defenceMod="3" cost="21000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="set" value="3" />
+		<modifier type="magic" value="2" />
+	</itemType>
+	<itemType name="Goif Gloves" id="82" tile="146" desc="Magic conducting gloves" destroy="true" equip="true" level="12" slot="gloves" defenceMod="3" cost="13500" sellType="weapon" />
+	<itemType name="Borite Gloves" id="83" tile="145" desc="Borite studded gloves" destroy="true" equip="true" level="18" slot="gloves" classes="warrior,archer" defenceMod="4" cost="12500" sellType="weapon" >
+		<modifier type="undead" attribute="def" value="1" />
+	</itemType>
+	<itemType name="Gauntlets of Ra" id="84" tile="147" desc="Magic infused heavy gloves" destroy="true" equip="true" level="28" slot="gloves" classes="warrior" defenceMod="5" cost="23500" sellType="weapon" >
+		<modifier type="undead" attribute="def" value="2" />
+		<modifier type="tick" attribute="rage" value="-1" />
+	</itemType>
+	<itemType name="Ring of Health" id="85" tile="159" desc="A ruby ring" destroy="true" equip="true" level="15" slot="ring" cost="18500" sellType="magic" >
+		<modifier type="tick" attribute="hp" value="1" />
+	</itemType>
+	<itemType name="Ring of Attack" id="86" tile="156" desc="A sapphire ring" destroy="true" equip="true" level="12" slot="ring" attackMod="1" cost="18500" sellType="magic" />
+	<itemType name="Ring of Defence" id="87" tile="158" desc="An emerald ring" destroy="true" equip="true" level="7" slot="ring" defenceMod="1" cost="15500" sellType="magic" />
+	<itemType name="Ring of Moria" id="88" tile="157" desc="Ring of the undead king" destroy="true" equip="true" level="21" slot="ring" defenceMod="1" cost="25500" sellType="magic" >
+		<modifier type="undead" attribute="atk" value="1" />
+	</itemType>
+	<itemType name="Band of Evil" id="89" tile="8" desc="A ring with a dark stone" destroy="true" equip="true" level="28" slot="ring" defenceMod="2" cost="35500" sellType="magic" >
+		<modifier type="human" attribute="atk" value="2" />
+	</itemType>
+	<itemType name="Band of Odin" id="90" tile="9" desc="A glowing green ring" destroy="true" equip="true" level="32" slot="ring" classes="wizard" defenceMod="3" cost="45500" sellType="magic" >
+		<modifier type="undead" attribute="atk" value="2" />
+		<modifier type="tick" attribute="charge" value="1" />
+	</itemType>
+	<itemType name="Ring of Tra" id="91" tile="35" desc="A powerful ring" destroy="true" equip="true" level="41" slot="ring" classes="wizard" defenceMod="4" cost="55500" sellType="magic" >
+		<modifier type="human" attribute="atk" value="2" />
+		<modifier type="tick" attribute="charge" value="1" />
+		<modifier type="vermin" attribute="atk" value="1" />
+		<modifier type="set" value="3" />
+	</itemType>
+	<itemType name="Book of Ka" id="92" tile="154" desc="The ancient book of Ka, necromancer" use="false" destroy="true" equip="true" level="21" slot="shield" classes="wizard" attackMod="2" defenceMod="5" cost="18000" save="true" stacks="false" sellType="magic" >
+		<modifier type="undead" attribute="atk" value="-1" />
+		<modifier type="magic" value="1" />
+	</itemType>
+	<itemType name="Tome of Doom" id="93" tile="151" desc="An old tattered book" use="false" destroy="true" equip="true" level="13" slot="shield" classes="wizard" attackMod="0" defenceMod="1" cost="11000" save="true" stacks="false" sellType="magic" >
+		<modifier type="undead" attribute="atk" value="1" />
+		<modifier type="magic" value="2" />
+	</itemType>
+	<itemType name="Dark Bible" id="94" tile="152" desc="A powerful old tome" use="false" destroy="true" equip="true" level="38" slot="shield" classes="wizard" attackMod="4" defenceMod="6" cost="55000" save="true" stacks="false" sellType="magic" >
+		<modifier type="undead" attribute="atk" value="2" />
+		<modifier type="human" attribute="atk" value="2" />
+		<modifier type="tick" attribute="charge" value="1" />
+	</itemType>
+	<itemType name="Canabe Cloak" id="95" tile="128" desc="A complex woven cloak" destroy="true" equip="true" level="19" slot="cloak" attackMod="0" defenceMod="2" cost="23500" save="true" sellType="weapon" />
+	<itemType name="Cloak of Ra" id="96" tile="129" desc="A stinky old cloak" destroy="true" equip="true" level="26" slot="cloak" attackMod="0" defenceMod="3" cost="43500" save="true" sellType="weapon" >
+		<modifier type="magic" value="2" />
+	</itemType>
+	<itemType name="Robes" id="97" tile="115" desc="Clean plain robes" destroy="true" equip="true" level="6" slot="body" defenceMod="2" cost="600" sellType="weapon" />
+	<itemType name="Elven Cloak" id="98" tile="19" desc="A bright green cloak" destroy="true" equip="true" level="41" slot="cloak" classes="archer" attackMod="0" defenceMod="3" cost="63500" save="true" sellType="weapon" >
+		<modifier type="orc" attribute="def" value="3" />
+		<modifier type="set" value="2" />
+	</itemType>
+	<itemType name="Robes of Ra" id="99" tile="116" desc="Dark tattered robes" destroy="true" equip="true" level="16" slot="body" classes="wizard" defenceMod="2" cost="11500" sellType="weapon" >
+		<modifier type="magic" value="3" />
+	</itemType>
+	<itemType name="Infused Robes" id="100" tile="113" desc="Charge inducing robes" destroy="true" equip="true" level="24" slot="body" classes="wizard" defenceMod="3" cost="33500" sellType="weapon" >
+		<modifier type="orc" attribute="def" value="1" />
+		<modifier type="undead" attribute="def" value="2" />
+		<modifier type="magic" value="2" />
+	</itemType>
+	<itemType name="Scarlet Robes" id="101" tile="114" desc="Mystic robes" destroy="true" equip="true" level="32" slot="body" classes="wizard" defenceMod="4" cost="53500" sellType="weapon" >
+		<modifier type="orc" attribute="def" value="2" />
+		<modifier type="undead" attribute="def" value="2" />
+		<modifier type="magic" value="2" />
+	</itemType>
+	<itemType name="Magicians Robes" id="102" tile="33" desc="Decorated robes" destroy="true" equip="true" level="37" slot="body" classes="wizard" defenceMod="5" cost="53500" sellType="weapon" >
+		<modifier type="vermin" attribute="def" value="2" />
+		<modifier type="undead" attribute="def" value="2" />
+		<modifier type="set" value="3" />
+		<modifier type="magic" value="3" />
+	</itemType>
+	<itemType name="Borite Mail" id="103" tile="168" desc="Mail made from borite" destroy="true" equip="true" level="26" slot="body" classes="warrior" defenceMod="8" cost="33500" sellType="weapon" >
+		<modifier type="undead" attribute="def" value="2" />
+		<modifier type="orc" attribute="def" value="2" />
+	</itemType>
+	<itemType name="Plate Armor" id="104" tile="170" desc="Full plate" destroy="true" equip="true" level="32" slot="body" classes="warrior" defenceMod="10" cost="53500" sellType="weapon" />
+	<itemType name="Templar Armor" id="105" tile="166" desc="Ancient lightweight armor" destroy="true" equip="true" level="17" slot="body" classes="warrior,archer" defenceMod="6" cost="13500" sellType="weapon" />
+	<itemType name="Holy Armor" id="106" tile="171" desc="Blessed armor" destroy="true" equip="true" level="29" slot="body" classes="warrior" defenceMod="9" cost="47500" sellType="weapon" >
+		<modifier type="vermin" attribute="def" value="2" />
+	</itemType>
+	<itemType name="Crafted Armor" id="107" tile="21" desc="Finely crafted armor" destroy="true" equip="true" level="34" slot="body" classes="warrior,archer" defenceMod="11" cost="66500" sellType="weapon" />
+	<itemType name="Crusader Armor" id="108" tile="1" desc="Glowing armor" destroy="true" equip="true" level="29" slot="body" classes="warrior" defenceMod="10" cost="66500" sellType="weapon" >
+		<modifier type="set" value="1" />
+		<modifier type="undead" attribute="atk" value="1" />
+	</itemType>
+	<itemType name="Elven Chainmail" id="109" tile="17" desc="Light magic armor" destroy="true" equip="true" level="29" slot="body" classes="archer" defenceMod="10" cost="66500" sellType="weapon" >
+		<modifier type="set" value="2" />
+		<modifier type="undead" attribute="def" value="1" />
+		<modifier type="tick" attribute="zen" value="2" />
+	</itemType>
+	<itemType name="Crusader Gloves" id="110" tile="4" desc="Glowing gloves" destroy="true" equip="true" level="38" slot="gloves" classes="warrior" defenceMod="3" cost="53500" sellType="weapon" >
+		<modifier type="vermin" attribute="atk" value="1" />
+		<modifier type="vermin" attribute="def" value="1" />
+		<modifier type="set" value="1" />
+	</itemType>
+	<itemType name="Purple Potion" id="111" tile="79" desc="A vial of purple liquid (+65HP)" use="true" destroy="true" equip="false" level="0" ranged="false" cost="220" stacks="true" sellType="magic" >
+		<action attribute="hp" delta="65" />
+	</itemType>
+	<itemType name="Treaty" id="113" tile="214" desc="A treaty of Yore" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Baby" id="115" tile="215" desc="A helpless baby" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Magic Missile" id="116" tile="108" desc="Cast to damage the target" use="false" destroy="true" equip="true" level="31" slot="spell" ranged="true" classes="wizard" charge="45" attackMod="30" defenceMod="0" projectile="70" cost="28000" save="true" stacks="true" failChance="3" sellType="magic" />
+	<itemType name="Leaf Armor" id="117" tile="198" desc="Light Armor" destroy="true" equip="true" level="9" slot="body" classes="warrior,archer" defenceMod="3" cost="1500" sellType="weapon" />
+	<itemType name="Feather Robes" id="118" tile="112" desc="Clean plain robes" destroy="true" equip="true" level="11" slot="body" defenceMod="2" cost="8500" sellType="weapon" />
+	<itemType name="Merc Armor" id="119" tile="197" desc="A light plate armor" use="false" destroy="true" equip="true" level="15" slot="body" classes="warrior" defenceMod="6" cost="2800" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Ring of Offence" id="120" tile="157" desc="A magic ring" destroy="true" equip="true" level="13" slot="ring" cost="11500" sellType="magic" >
+		<modifier type="human" attribute="atk" value="1" />
+		<modifier type="orc" attribute="atk" value="1" />
+	</itemType>
+	<itemType name="Wisp" id="121" tile="216" desc="A fleck of light" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Hydra Claw" id="122" tile="213" desc="The claw of the mighty hydra" destroy="true" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Love Letter" id="123" tile="217" desc="A letter of passion!" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Chicken Feather" id="124" tile="218" desc="A bloody chicken feather" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Berries" id="125" tile="219" desc="Some unusual red berries" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Lion Shield" id="126" tile="220" desc="The shield of Lionheart" use="false" destroy="true" equip="true" level="61" slot="shield" ranged="false" classes="warrior" defenceMod="18" cost="56000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="undead" attribute="def" value="3" />
+		<modifier type="vermin" attribute="def" value="2" />
+		<modifier type="crawler" attribute="def" value="2" />
+	</itemType>
+	<itemType name="Lava Bow" id="127" tile="221" desc="A burning bow of pain" use="false" destroy="true" equip="true" level="44" slot="ranged" ranged="true" classes="archer" attackMod="20" defenceMod="0" projectile="96" cost="63600" save="true" stacks="false" failChance="10" sellType="weapon" >
+		<modifier type="undead" attribute="atk" value="2" />
+		<modifier type="crawler" attribute="atk" value="2" />
+		<modifier type="vermin" attribute="atk" value="3" />
+	</itemType>
+	<itemType name="Buckler" id="128" tile="200" desc="A small round shield" use="false" destroy="true" equip="true" level="12" slot="shield" ranged="false" classes="archer" defenceMod="6" cost="22000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Round Shield" id="129" tile="199" desc="A well made small shield" use="false" destroy="true" equip="true" level="19" slot="shield" ranged="false" classes="archer" defenceMod="8" cost="32000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Fire Arrow" id="130" tile="110" desc="A flaming arrow" use="false" destroy="true" equip="true" level="15" slot="shield" classes="archer" attackMod="3" projectile="110" cost="30" stacks="true" sellType="weapon" ammo="true" baseDamage="1" />
+	<itemType name="Frost Arrow" id="131" tile="111" desc="A freezing arrow" use="false" destroy="true" equip="true" level="25" slot="shield" classes="archer" attackMod="5" projectile="111" cost="50" stacks="true" sellType="weapon" ammo="true" baseDamage="2" />
+	<itemType name="Long Bow" id="132" tile="224" desc="A powerful bow" use="false" destroy="true" equip="true" level="5" slot="ranged" ranged="true" classes="archer" attackMod="2" projectile="96" cost="600" failChance="5" sellType="weapon" />
+	<itemType name="Crossbow" id="133" tile="225" desc="A sturdy crossbow" use="false" destroy="true" equip="true" level="19" slot="ranged" ranged="true" classes="archer" attackMod="8" projectile="96" cost="31400" failChance="5" sellType="weapon" />
+	<itemType name="Ridged Dagger" id="134" tile="226" desc="A spiky dagger" use="false" destroy="true" equip="true" level="5" slot="hands" ranged="false" classes="archer" attackMod="2" defenceMod="0" cost="350" sellType="weapon" />
+	<itemType name="Hunter Knife" id="135" tile="227" desc="A long bladed carving knife" use="false" destroy="true" equip="true" level="16" slot="hands" ranged="false" classes="archer" attackMod="4" defenceMod="0" cost="10800" sellType="weapon" />
+	<itemType name="Razor Knife" id="136" tile="228" desc="A thin twisted blade" use="false" destroy="true" equip="true" level="22" slot="hands" ranged="false" classes="archer" attackMod="6" defenceMod="0" cost="17800" sellType="weapon" >
+		<modifier type="vermin" attribute="atk" value="1" />
+	</itemType>
+	<itemType name="Sickle" id="137" tile="229" desc="A rounded hooked weapon" use="false" destroy="true" equip="true" level="35" slot="hands" ranged="false" classes="archer" attackMod="9" defenceMod="0" cost="47800" sellType="weapon" />
+	<itemType name="Cleaver" id="138" tile="230" desc="A wide bladed knife" use="false" destroy="true" equip="true" level="41" slot="hands" ranged="false" classes="archer,warrior" attackMod="10" defenceMod="0" cost="57800" sellType="weapon" >
+		<modifier type="human" attribute="atk" value="2" />
+	</itemType>
+	<itemType name="Bone Staff" id="139" tile="231" desc="A staff made of bone" use="false" destroy="true" equip="true" level="5" slot="hands" ranged="false" classes="wizard" attackMod="2" cost="800" sellType="weapon" >
+		<modifier type="undead" attribute="atk" value="1" />
+	</itemType>
+	<itemType name="Staff of Ra" id="140" tile="232" desc="A magical staff" use="false" destroy="true" equip="true" level="19" slot="hands" ranged="false" classes="wizard" attackMod="6" cost="22800" sellType="weapon" />
+	<itemType name="Dark Staff" id="141" tile="233" desc="A mystic staff" use="false" destroy="true" equip="true" level="28" slot="hands" ranged="false" classes="wizard" attackMod="8" cost="46800" sellType="weapon" >
+		<modifier type="crawler" attribute="atk" value="1" />
+		<modifier type="undead" attribute="atk" value="1" />
+	</itemType>
+	<itemType name="Obsidian Wand" id="142" tile="234" desc="A dark stone wand" use="false" destroy="true" equip="true" level="36" slot="hands" ranged="false" classes="wizard" attackMod="10" cost="62800" sellType="weapon" >
+		<modifier type="tick" attribute="hp" value="1" />
+	</itemType>
+	<itemType name="Fishing Pole" id="143" tile="235" desc="A fishing rod" use="true" destroy="true" level="4" cost="500" save="true" stacks="true" />
+	<itemType name="Fish" id="144" tile="236" desc="A tasty looking fish" use="true" destroy="true" equip="false" level="0" ranged="false" cost="4" stacks="true" sellType="inn" >
+		<action attribute="hp" delta="3" />
+	</itemType>
+	<itemType name="Lion Armor" id="145" tile="222" desc="King Richard's Armor" destroy="true" equip="true" level="58" slot="body" classes="warrior" defenceMod="13" cost="67500" sellType="weapon" >
+		<modifier type="vermin" attribute="def" value="2" />
+		<modifier type="undead" attribute="def" value="2" />
+	</itemType>
+	<itemType name="Gands Wand" id="146" tile="195" desc="The mighty Gand's wand" use="false" destroy="true" equip="true" level="58" slot="hands" ranged="false" classes="wizard" attackMod="13" defenceMod="3" cost="92000" save="true" stacks="false" sellType="magic" >
+		<modifier type="tick" attribute="charge" value="2" />
+		<modifier type="tick" attribute="hp" value="1" />
+		<modifier type="undead" attribute="atk" value="5" />
+	</itemType>
+	<itemType name="Spade" id="147" tile="237" desc="A sturdy spade" use="true" destroy="true" level="3" cost="500" save="true" stacks="true" />
+	<itemType name="Skull" id="148" tile="238" desc="A musty skull (enchant +1 ATK undead)" use="true" destroy="false" level="27" cost="100000" save="true" stacks="false" />
+	<itemType name="Skaven Claw" id="149" tile="239" desc="A blood claw (enchant +1 ATK vermin)" use="true" destroy="false" level="29" cost="100000" save="true" stacks="false" />
+	<itemType name="Turq Potion" id="151" tile="126" desc="A vial of cyan liquid (+130HP)" use="true" destroy="true" equip="false" level="0" ranged="false" cost="450" stacks="true" sellType="magic" >
+		<action attribute="hp" delta="130" />
+	</itemType>
+	<itemType name="Orange Potion" id="150" tile="127" desc="A vial of orange liquid (+260HP)" use="true" destroy="true" equip="false" level="0" ranged="false" cost="1000" stacks="true" sellType="magic" >
+		<action attribute="hp" delta="260" />
+	</itemType>
+	<itemType name="Ice Shards" id="152" tile="12" desc="Shards of magical ice (enchant +1 ATK human)" use="true" destroy="false" level="35" cost="100000" save="true" stacks="false" sellType="magic" />
+	<itemType name="Explosion Arrow" id="153" tile="10" desc="A explosive arrow" use="false" destroy="true" equip="true" level="35" slot="shield" classes="archer" attackMod="4" projectile="10" cost="75" stacks="true" sellType="weapon" ammo="true" baseDamage="2" />
+	<itemType name="Freeze Arrow" id="154" tile="11" desc="A magic arrow" use="false" destroy="true" equip="true" level="40" slot="shield" classes="archer" attackMod="4" projectile="11" cost="150" stacks="true" sellType="weapon" ammo="true" baseDamage="2" />
+	<itemType name="Lion Blade" id="155" tile="13" desc="An ancient blade" destroy="true" equip="true" level="51" slot="hands" classes="warrior" attackMod="14" defenceMod="2" cost="87500" save="true" sellType="weapon" />
+	<itemType name="Opal Wand" id="156" tile="25" desc="A bright stone wand" use="false" destroy="true" equip="true" level="65" slot="hands" ranged="false" classes="wizard" attackMod="14" defenceMod="1" cost="92800" sellType="magic" >
+		<modifier type="tick" attribute="charge" value="1" />
+	</itemType>
+	<itemType name="Fire Sword" id="157" tile="27" desc="A fiery hot blade" destroy="true" equip="true" level="61" slot="hands" classes="warrior" attackMod="16" defenceMod="1" cost="107500" save="true" sellType="weapon" >
+		<modifier type="human" attribute="atk" value="4" />
+		<modifier type="vermin" attribute="def" value="1" />
+	</itemType>
+	<itemType name="Crucifix" id="158" tile="26" desc="A golden cross" use="false" destroy="true" equip="true" level="45" slot="head" classes="wizard" defenceMod="6" cost="67000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="undead" attribute="def" value="3" />
+	</itemType>
+	<itemType name="Hunters Mace" id="159" tile="14" desc="An ancient weapon" destroy="true" equip="true" level="49" slot="hands" classes="archer" attackMod="11" defenceMod="1" cost="87500" save="true" sellType="weapon" />
+	<itemType name="Warhammer" id="160" tile="15" desc="A massive heavy hammer" destroy="true" equip="true" level="70" slot="hands" classes="warrior" attackMod="17" defenceMod="1" cost="117500" save="true" sellType="weapon" />
+	<itemType name="Diamond" id="161" tile="28" desc="A crystal clear diamond" use="false" destroy="true" equip="false" cost="62000" stacks="true" sellType="magic" />
+	<itemType name="Ring of Mot" id="162" tile="24" desc="A powerful ring" destroy="true" equip="true" level="61" slot="ring" defenceMod="5" cost="75500" sellType="magic" >
+		<modifier type="undead" attribute="atk" value="2" />
+		<modifier type="tick" attribute="charge" value="1" />
+		<modifier type="orc" attribute="atk" value="2" />
+	</itemType>
+	<itemType name="Ring of Kami" id="163" tile="29" desc="A powerful ring" destroy="true" equip="true" level="62" slot="ring" defenceMod="4" cost="85500" sellType="magic" >
+		<modifier type="tick" attribute="hp" value="1" />
+		<modifier type="orc" attribute="atk" value="3" />
+		<modifier type="orc" attribute="def" value="3" />
+		<modifier type="magic" value="3" />
+	</itemType>
+	<itemType name="Gold Crown" id="164" tile="30" desc="An ancient relic" use="false" destroy="true" equip="true" level="38" slot="head" classes="wizard" defenceMod="5" cost="87000" save="true" stacks="false" sellType="magic" >
+		<modifier type="tick" attribute="charge" value="1" />
+	</itemType>
+	<itemType name="Gold Ring" id="165" tile="31" desc="A seemingly simple ring" destroy="true" equip="true" level="73" slot="ring" classes="wizard,archer" defenceMod="6" cost="95500" sellType="magic" resist="5" >
+		<modifier type="human" attribute="def" value="3" />
+		<modifier type="orc" attribute="def" value="3" />
+		<modifier type="magic" value="2" />
+	</itemType>
+	<itemType name="Merlins Cloak" id="166" tile="39" desc="Simple blue robes" destroy="true" equip="true" level="16" slot="body" classes="wizard" defenceMod="2" cost="23500" sellType="weapon" >
+		<modifier type="undead" attribute="def" value="1" />
+		<modifier type="set" value="4" />
+		<modifier type="magic" value="1" />
+	</itemType>
+	<itemType name="Merlins Cap" id="167" tile="38" desc="A magical hat" use="false" destroy="true" equip="true" level="17" slot="head" classes="wizard" defenceMod="2" cost="22000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="set" value="4" />
+		<modifier type="magic" value="2" />
+	</itemType>
+	<itemType name="Merlins Wand" id="168" tile="40" desc="A magical wand " use="false" destroy="true" equip="true" level="18" slot="hands" ranged="false" classes="wizard" attackMod="6" defenceMod="0" cost="34000" save="true" stacks="false" sellType="magic" >
+		<modifier type="set" value="4" />
+		<modifier type="undead" attribute="atk" value="1" />
+		<modifier type="crawler" attribute="atk" value="1" />
+	</itemType>
+	<itemType name="Viking Helm" id="169" tile="41" desc="A horned helmet " use="false" destroy="true" equip="true" level="16" slot="head" classes="warrior" defenceMod="8" cost="2700" save="true" stacks="false" sellType="weapon" >
+		<modifier type="orc" attribute="def" value="2" />
+		<modifier type="set" value="5" />
+	</itemType>
+	<itemType name="Viking Armor" id="170" tile="43" desc="Metal plated leather armor" use="false" destroy="true" equip="true" level="17" slot="body" classes="warrior" defenceMod="7" cost="12800" save="true" stacks="false" sellType="weapon" >
+		<modifier type="set" value="5" />
+	</itemType>
+	<itemType name="Viking Axe" id="171" tile="42" desc="A mighty double headed axe" destroy="true" equip="true" level="18" slot="hands" classes="warrior" attackMod="8" defenceMod="0" cost="31500" save="true" sellType="weapon" >
+		<modifier type="orc" attribute="atk" value="2" />
+		<modifier type="set" value="5" />
+	</itemType>
+	<itemType name="Bandana" id="172" tile="45" desc="A face hiding bandana" use="false" destroy="true" equip="true" level="16" slot="head" classes="archer" defenceMod="1" cost="17000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="human" attribute="def" value="1" />
+		<modifier type="set" value="6" />
+	</itemType>
+	<itemType name="Bandit Shiv" id="173" tile="44" desc="An evil looking short blade" use="false" destroy="true" equip="true" level="17" slot="hands" ranged="false" classes="archer" attackMod="5" defenceMod="0" cost="15800" sellType="weapon" >
+		<modifier type="set" value="6" />
+	</itemType>
+	<itemType name="Bandit Armor" id="174" tile="46" desc="Metal plated leather armor" use="false" destroy="true" equip="true" level="18" slot="body" classes="archer" defenceMod="8" cost="12800" save="true" stacks="false" sellType="weapon" >
+		<modifier type="set" value="6" />
+	</itemType>
+	<itemType name="Fire Fists" id="175" tile="121" desc="Cast a magical fire around the wizards hands (+4 ATK)" use="true" destroy="true" equip="false" level="76" ranged="false" classes="wizard" charge="60" cost="54000" save="true" stacks="true" failChance="10" sellType="magic" />
+	<itemType name="Steel Skin" id="176" tile="120" desc="Make the wizard's skin as steel (+4 DEF)" use="true" destroy="true" equip="false" level="71" ranged="false" classes="wizard" charge="80" cost="43000" save="true" stacks="true" failChance="10" sellType="magic" />
+	<itemType name="Golden Bow" id="177" tile="49" desc="A shimmering magic bow" use="false" destroy="true" equip="true" level="55" slot="ranged" ranged="true" classes="archer" attackMod="21" defenceMod="0" projectile="96" cost="73600" save="true" stacks="false" failChance="10" sellType="weapon" >
+		<modifier type="undead" attribute="atk" value="3" />
+		<modifier type="crawler" attribute="atk" value="3" />
+		<modifier type="vermin" attribute="atk" value="3" />
+	</itemType>
+	<itemType name="Goif Bow" id="178" tile="48" desc="A bow made of precious metal" use="false" destroy="true" equip="true" level="65" slot="ranged" ranged="true" classes="archer" attackMod="22" defenceMod="0" projectile="96" cost="73600" save="true" stacks="false" failChance="10" sellType="weapon" >
+		<modifier type="undead" attribute="atk" value="4" />
+		<modifier type="crawler" attribute="atk" value="4" />
+	</itemType>
+	<itemType name="Lightning" id="179" tile="117" desc="Cast to damage the target" use="false" destroy="true" equip="true" level="45" slot="spell" ranged="true" classes="wizard" charge="70" attackMod="40" defenceMod="0" projectile="70" cost="48000" save="true" stacks="true" failChance="5" sellType="magic" />
+	<itemType name="Smite" id="180" tile="118" desc="Cast to damage the target" use="false" destroy="true" equip="true" level="55" slot="spell" ranged="true" classes="wizard" charge="85" attackMod="52" defenceMod="0" projectile="70" cost="68000" save="true" stacks="true" failChance="5" sellType="magic" />
+	<itemType name="Invisibility" id="181" tile="102" desc="Turn the caster invisible for 10 turns" use="true" destroy="true" equip="false" level="28" ranged="false" classes="wizard" charge="40" cost="54000" save="true" stacks="true" failChance="10" sellType="magic" />
+	<itemType name="Aqua Potion" id="182" tile="124" desc="Regenerates some magical charge (+48C)" use="true" destroy="true" equip="false" level="1" cost="130" stacks="true" sellType="magic" >
+		<action attribute="charge" delta="48" />
+	</itemType>
+	<itemType name="Gold Potion" id="183" tile="125" desc="Regenerates some magical charge (+96C)" use="true" destroy="true" equip="false" level="1" cost="270" stacks="true" sellType="magic" >
+		<action attribute="charge" delta="96" />
+	</itemType>
+	<itemType name="Stealth" id="184" tile="248" desc="Hide yourself and sneak around" use="true" destroy="false" equip="false" level="19" charge="36" cost="2" save="true" />
+	<itemType name="First Aid" id="185" tile="249" desc="Heal yourself" use="true" destroy="false" equip="false" level="17" charge="60" save="true" failChance="2" />
+	<itemType name="Distraction" id="186" tile="250" desc="Distract your opponents for a short time" use="true" destroy="false" equip="false" level="41" charge="85" cost="5" save="true" failChance="5" />
+	<itemType name="Capped Boots" id="187" tile="50" desc="A reinforced pair of sturdy boots" use="false" destroy="true" equip="true" level="17" slot="feet" ranged="false" classes="warrior" defenceMod="2" cost="1000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Knee High Boots" id="188" tile="51" desc="A long pair of boots" use="false" destroy="true" equip="true" level="21" slot="feet" ranged="false" defenceMod="2" cost="2000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Spiked Boots" id="189" tile="52" desc="A pair of spiked boots" use="false" destroy="true" equip="true" level="35" slot="feet" ranged="false" classes="warrior" attackMod="1" defenceMod="2" cost="8000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Spiked Shield" id="190" tile="53" desc="A spikey shield" use="false" destroy="true" equip="true" level="38" slot="shield" ranged="false" classes="warrior,archer" attackMod="1" defenceMod="10" cost="36000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Knights Shield" id="191" tile="54" desc="A massive shield" use="false" destroy="true" equip="true" level="44" slot="shield" ranged="false" classes="warrior" defenceMod="11" cost="43000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Gilt Shield" id="192" tile="55" desc="A gold embossed shield" use="false" destroy="true" equip="true" level="52" slot="shield" ranged="false" classes="warrior,archer" defenceMod="12" cost="63000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Gold Fish" id="193" tile="240" desc="A tasty shiny fish" use="true" destroy="true" equip="false" level="0" ranged="false" cost="15000" stacks="true" sellType="inn" >
+		<action attribute="hp" delta="100" />
+	</itemType>
+	<itemType name="Protect" id="194" tile="123" desc="Protect wizard from attack (+2 DEF)" use="true" destroy="true" equip="false" level="2" ranged="false" classes="wizard" charge="20" cost="2000" save="true" stacks="true" failChance="5" sellType="magic" />
+	<itemType name="Flashbang" id="195" tile="99" desc="Bright flash used to stun monsters in melee" use="false" destroy="true" equip="true" level="4" slot="spell" ranged="false" classes="wizard" charge="10" attackMod="1" defenceMod="0" projectile="511" cost="2000" stacks="true" failChance="5" sellType="magic" />
+	<itemType name="Push" id="196" tile="251" desc="Push an opponent away 2 spaces" use="true" destroy="false" equip="false" level="9" charge="28" cost="2" save="true" failChance="10" />
+	<itemType name="Stun" id="197" tile="252" desc="Stun an opponent" use="true" destroy="false" equip="false" level="17" charge="60" cost="2" save="true" failChance="10" />
+	<itemType name="Field Dressing" id="198" tile="253" desc="Minor healing " use="true" destroy="false" equip="false" level="34" charge="70" cost="2" save="true" />
+	<itemType name="Bezerk" id="199" tile="254" desc="Crazed attack hitting those around you" use="true" destroy="false" equip="false" level="25" charge="100" cost="2" save="true" failChance="10" />
+	<itemType name="Grapes of Wrath" id="200" tile="47" desc="Magical fruit (enchant +1 ATK orc)" use="true" destroy="false" level="45" cost="100000" save="true" stacks="false" />
+	<itemType name="Mystic Orb" id="201" tile="182" desc="Glowing ball (enchant +1 MAGIC ATK)" use="true" destroy="false" level="55" cost="100000" save="true" stacks="false" />
+	<itemType name="Stone Eye" id="202" tile="247" desc="Piece of a statue (enchant +1 ATK crawler)" use="true" destroy="false" level="45" cost="100000" save="true" stacks="false" />
+	<itemType name="Ogre Scalp" id="203" tile="258" desc="Scalp of the Ogre" destroy="true" level="0" cost="200" save="true" stacks="true" sellType="inn" />
+	<itemType name="Lion Skin" id="204" tile="257" desc="The skin of the lion" destroy="true" level="0" cost="200" save="true" stacks="true" sellType="inn" />
+	<itemType name="Frost Claw" id="205" tile="260" desc="A claw of the frostie" destroy="true" level="0" cost="230" save="true" stacks="true" sellType="inn" />
+	<itemType name="Dragon Horn" id="206" tile="262" desc="A massive dragon horn" destroy="true" level="0" cost="230" save="true" stacks="true" sellType="inn" />
+	<itemType name="Orc Fang" id="207" tile="261" desc="A fang direct from a orc" destroy="true" level="0" cost="230" save="true" stacks="true" sellType="inn" />
+	<itemType name="Dragon Skin" id="208" tile="259" desc="Some skin from a dragon" destroy="true" level="0" cost="200" save="true" stacks="true" sellType="inn" />
+	<itemType name="Shield Bash" id="209" tile="179" desc="Push a monster back with your shield" use="true" destroy="false" equip="false" level="14" charge="35" cost="2" save="true" failChance="15" />
+	<itemType name="Double Shot" id="210" tile="223" desc="Shoot two arrows at once (need special arrows)" use="false" destroy="false" equip="true" level="40" slot="skill" charge="20" cost="2" save="true" failChance="0" />
+	<itemType name="Charge" id="211" tile="63" desc="Run full speed into an area" use="true" destroy="false" equip="false" level="40" slot="skill" charge="0" cost="2" save="true" failChance="0" />
+	<itemType name="Assasin Blade" id="212" tile="263" desc="A finely crafted blade" destroy="true" equip="true" level="54" slot="hands" classes="archer" attackMod="12" defenceMod="3" cost="95500" save="true" sellType="weapon" >
+		<modifier type="poison" value="1" />
+	</itemType>
+	<itemType name="Cabbage" id="213" tile="264" desc="A ripe cabbage" destroy="true" level="0" cost="200" save="true" stacks="true" sellType="inn" />
+	<itemType name="Chop" id="214" tile="265" desc="A large chop of meat" use="true" destroy="true" equip="false" level="0" ranged="false" cost="100" stacks="true" sellType="inn" >
+		<action attribute="hp" delta="20" />
+	</itemType>
+	<itemType name="Lightning Shield" id="215" tile="266" desc="A lightning infused shield" use="false" destroy="true" equip="true" level="57" slot="shield" ranged="false" classes="warrior,archer" attackMod="1" defenceMod="13" cost="72000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Bandit Hood" id="216" tile="267" desc="A hood and mask" use="false" destroy="true" equip="true" level="58" slot="head" classes="archer" defenceMod="10" cost="11000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="human" attribute="atk" value="1" />
+		<modifier type="set" value="7" />
+	</itemType>
+	<itemType name="Nunchuks" id="217" tile="268" desc="Solid wood chuks" destroy="true" equip="true" level="62" slot="hands" classes="archer,warrior" attackMod="15" defenceMod="2" cost="87500" save="true" sellType="weapon" >
+		<modifier type="set" value="7" />
+	</itemType>
+	<itemType name="Tabi Boots" id="218" tile="269" desc="Cloth boots" use="false" destroy="true" equip="true" level="65" slot="feet" ranged="false" classes="archer" attackMod="1" defenceMod="4" cost="28000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="set" value="7" />
+	</itemType>
+	<itemType name="Ninja Gi" id="219" tile="270" desc="Ninja robes" use="false" destroy="true" equip="true" level="68" slot="body" ranged="false" classes="archer" attackMod="1" defenceMod="12" cost="28000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="set" value="7" />
+	</itemType>
+	<itemType name="Snake Shield" id="220" tile="271" desc="A magical shield" use="false" destroy="true" equip="true" level="73" slot="shield" ranged="false" classes="warrior" defenceMod="18" cost="72000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="crawler" attribute="def" value="5" />
+	</itemType>
+	<itemType name="Fire Shield" id="221" tile="286" desc="A fire infused shield" use="false" destroy="true" equip="true" level="75" slot="shield" ranged="false" classes="warrior" attackMod="4" defenceMod="13" cost="92000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Harp Bow" id="222" tile="272" desc="A thick set martial bow" use="false" destroy="true" equip="true" level="71" slot="ranged" ranged="true" classes="archer" attackMod="24" defenceMod="0" projectile="96" cost="83600" save="true" stacks="false" failChance="7" sellType="weapon" />
+	<itemType name="Phoenix Blade" id="223" tile="273" desc="A wide bladed sword" destroy="true" equip="true" level="67" slot="hands" classes="warrior" attackMod="18" defenceMod="1" cost="117500" save="true" sellType="weapon" >
+		<modifier type="tick" attribute="rage" value="1" />
+	</itemType>
+	<itemType name="Trident" id="224" tile="274" desc="A pronged melee weapon" destroy="true" equip="true" level="65" slot="hands" classes="warrior,archer" attackMod="17" defenceMod="1" cost="117500" save="true" sellType="weapon" />
+	<itemType name="Elder Bow" id="225" tile="285" desc="A jewel encrusted bow" use="false" destroy="true" equip="true" level="75" slot="ranged" ranged="true" classes="archer" attackMod="25" defenceMod="0" projectile="96" cost="93600" save="true" stacks="false" failChance="8" sellType="weapon" >
+		<modifier type="orc" attribute="atk" value="2" />
+		<modifier type="tick" attribute="zen" value="1" />
+	</itemType>
+	<itemType name="Fish Bone" id="226" tile="287" desc="The remains of a tasty fish supper" destroy="true" level="0" cost="100" save="true" stacks="true" sellType="inn" />
+	<itemType name="Juggling Balls" id="227" tile="288" desc="Magical balls of pain!" use="false" destroy="true" equip="true" level="71" slot="ranged" ranged="true" classes="archer" attackMod="18" defenceMod="0" projectile="304" cost="73600" save="true" stacks="false" failChance="10" sellType="weapon" >
+		<modifier type="undead" attribute="atk" value="2" />
+		<modifier type="set" value="8" />
+	</itemType>
+	<itemType name="Jesters Shaker" id="228" tile="289" desc="A comedians aid with spikes!" use="false" destroy="true" equip="true" level="68" slot="hands" ranged="false" classes="archer" attackMod="8" cost="46800" sellType="weapon" >
+		<modifier type="crawler" attribute="atk" value="1" />
+		<modifier type="undead" attribute="atk" value="1" />
+		<modifier type="set" value="8" />
+	</itemType>
+	<itemType name="Jester Hat" id="229" tile="290" desc="A belled hat" use="false" destroy="true" equip="true" level="75" slot="head" classes="archer,warrior" defenceMod="12" cost="11000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="set" value="8" />
+	</itemType>
+	<itemType name="Curly Clogs" id="230" tile="291" desc="Belled boots" use="false" destroy="true" equip="true" level="68" slot="feet" ranged="false" classes="archer" defenceMod="4" cost="28000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="set" value="8" />
+		<modifier type="crawler" attribute="def" value="4" />
+	</itemType>
+	<itemType name="Jingly Gloves" id="231" tile="292" desc="Coloured gloves" destroy="true" equip="true" level="77" slot="gloves" classes="warrior,archer" defenceMod="5" cost="53500" sellType="weapon" >
+		<modifier type="vermin" attribute="atk" value="2" />
+		<modifier type="vermin" attribute="def" value="2" />
+		<modifier type="set" value="8" />
+	</itemType>
+	<itemType name="Jester Robes" id="232" tile="293" desc="Silly looking robes" destroy="true" equip="true" level="74" slot="body" classes="wizard,archer" defenceMod="8" cost="83500" sellType="weapon" >
+		<modifier type="magic" value="4" />
+		<modifier type="set" value="8" />
+	</itemType>
+	<itemType name="Tribal Mask" id="233" tile="294" desc="A brightly coloured mask" use="false" destroy="true" equip="true" level="75" slot="head" classes="wizard" defenceMod="10" cost="11000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="set" value="9" />
+		<modifier type="magic" value="1" />
+	</itemType>
+	<itemType name="Grass Skirt" id="234" tile="295" desc="An strangely powerful skirt" destroy="true" equip="true" level="75" slot="body" classes="wizard" defenceMod="9" cost="83500" sellType="weapon" >
+		<modifier type="set" value="9" />
+		<modifier type="magic" value="5" />
+	</itemType>
+	<itemType name="Amulet of the Sun" id="235" tile="296" desc="A bone and gem necklace" use="false" destroy="true" equip="true" level="68" slot="cloak" classes="wizard" defenceMod="3" cost="11000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="set" value="9" />
+		<modifier type="magic" value="1" />
+	</itemType>
+	<itemType name="Bone Ring" id="236" tile="297" desc="A ring made from a finger" destroy="true" equip="true" level="78" slot="ring" cost="21500" sellType="magic" >
+		<modifier type="human" attribute="atk" value="2" />
+		<modifier type="orc" attribute="atk" value="2" />
+		<modifier type="set" value="9" />
+		<modifier type="magic" value="1" />
+	</itemType>
+	<itemType name="Pygmy Staff" id="237" tile="298" desc="A staff topped with a shrunken head" use="false" destroy="true" equip="true" level="65" slot="hands" ranged="false" classes="archer,wizard" attackMod="16" cost="46800" sellType="weapon" >
+		<modifier type="magic" value="1" />
+		<modifier type="human" attribute="atk" value="2" />
+		<modifier type="set" value="9" />
+	</itemType>
+	<itemType name="Black Robes" id="238" tile="299" desc="Pitch black robes" destroy="true" equip="true" level="72" slot="body" classes="warrior" defenceMod="11" cost="96500" sellType="weapon" >
+		<modifier type="set" value="10" />
+		<modifier type="human" attribute="atk" value="3" />
+		<modifier type="tick" attribute="rage" value="1" />
+	</itemType>
+	<itemType name="Skull Mask" id="239" tile="300" desc="A human skull fashioned into a helmet" use="false" destroy="true" equip="true" level="68" slot="head" classes="warrior,archer" defenceMod="11" cost="31000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="human" attribute="def" value="3" />
+		<modifier type="set" value="10" />
+		<modifier type="tick" attribute="hp" value="-2" />
+	</itemType>
+	<itemType name="Scythe" id="240" tile="301" desc="A long bladed magic melee weapon" destroy="true" equip="true" level="76" slot="hands" classes="warrior" attackMod="22" defenceMod="2" cost="127500" save="true" sellType="weapon" >
+		<modifier type="tick" attribute="rage" value="3" />
+		<modifier type="set" value="10" />
+		<modifier type="tick" attribute="hp" value="-2" />
+	</itemType>
+	<itemType name="Bone Gloves" id="241" tile="302" desc="Gloves made of slices of bone" destroy="true" equip="true" level="71" slot="gloves" classes="warrior" defenceMod="4" cost="63500" sellType="weapon" >
+		<modifier type="human" attribute="atk" value="3" />
+		<modifier type="human" attribute="def" value="3" />
+		<modifier type="set" value="10" />
+		<modifier type="tick" attribute="rage" value="1" />
+	</itemType>
+	<itemType name="Blood Ring" id="242" tile="303" desc="A ring with a glowing red gem" destroy="true" equip="true" level="78" slot="ring" cost="31500" sellType="magic" >
+		<modifier type="human" attribute="atk" value="2" />
+		<modifier type="human" attribute="def" value="2" />
+		<modifier type="set" value="10" />
+		<modifier type="tick" attribute="rage" value="2" />
+	</itemType>
+	<itemType name="Hatchet" id="243" tile="280" desc="A small axe" use="false" destroy="true" equip="true" level="2" slot="hands" ranged="false" classes="warrior" attackMod="1" defenceMod="0" cost="600" sellType="weapon" />
+	<itemType name="Axe" id="244" tile="281" desc="Double headed axe" use="false" destroy="true" equip="true" level="5" slot="hands" ranged="false" classes="warrior" attackMod="2" defenceMod="0" cost="600" sellType="weapon" />
+	<itemType name="Hammer" id="245" tile="277" desc="A well crafted hammer" use="false" destroy="true" equip="true" level="5" slot="hands" ranged="false" classes="archer,warrior" attackMod="1" defenceMod="0" cost="600" sellType="weapon" />
+	<itemType name="Spire Dagger" id="246" tile="283" desc="A thin point " use="false" destroy="true" equip="true" level="3" slot="hands" ranged="false" attackMod="1" defenceMod="0" cost="600" sellType="weapon" />
+	<itemType name="Short Bow" id="247" tile="90" desc="A powerful short bow" use="false" destroy="true" equip="true" level="4" slot="ranged" ranged="true" classes="archer" attackMod="2" projectile="96" cost="300" failChance="5" sellType="weapon" />
+	<itemType name="Flail" id="248" tile="279" desc="A heavy ball attached to a chain" use="false" destroy="true" equip="true" level="2" slot="hands" ranged="false" classes="warrior,archer" attackMod="1" defenceMod="0" cost="600" sellType="weapon" />
+	<itemType name="Spiked Flail" id="249" tile="278" desc="A spiked ball attached to a chain" use="false" destroy="true" equip="true" level="5" slot="hands" ranged="false" classes="warrior" attackMod="2" defenceMod="0" cost="1200" sellType="weapon" />
+	<itemType name="Beholder Staff" id="250" tile="275" desc="An bloody eye on a stick" use="false" destroy="true" equip="true" level="3" slot="hands" ranged="false" classes="wizard" attackMod="1" cost="600" sellType="weapon" />
+	<itemType name="Cogs" id="251" tile="305" desc="Some metal cogs" destroy="true" level="0" cost="200" save="true" stacks="true" sellType="inn" />
+	<itemType name="Spiders Silk" id="252" tile="306" desc="Some fine silk from a spider" destroy="true" level="0" cost="200" save="true" stacks="true" sellType="inn" />
+	<itemType name="Venom" id="253" tile="307" desc="Poison from a evil creature" destroy="true" level="0" cost="200" save="true" stacks="true" sellType="inn" />
+	<itemType name="Gold Plate" id="254" tile="308" desc="A piece of gold plating" destroy="true" level="0" cost="40000" save="true" stacks="true" sellType="inn" />
+	<itemType name="Horse Hair" id="261" tile="309" desc="Some thick brown hair" destroy="true" level="0" cost="25000" save="true" stacks="true" sellType="inn" />
+	<itemType name="Bone" id="255" tile="310" desc="A large solid bone" destroy="true" level="0" cost="200" save="true" stacks="true" sellType="inn" />
+	<itemType name="Leather" id="256" tile="311" desc="A piece of leather" destroy="true" level="0" cost="200" save="true" stacks="true" sellType="inn" />
+	<itemType name="Weaken" id="257" tile="312" desc="Reduce an opponents attack" use="false" destroy="true" equip="true" level="8" slot="spell" ranged="true" classes="wizard" charge="30" attackMod="3" defenceMod="0" projectile="68" cost="3000" stacks="true" failChance="20" sellType="magic" />
+	<itemType name="Drain" id="258" tile="313" desc="Drain a magic users charge" use="false" destroy="true" equip="true" level="21" slot="spell" ranged="true" classes="wizard" charge="35" projectile="68" cost="6000" save="true" stacks="true" failChance="10" sellType="magic" />
+	<itemType name="Focus" id="259" tile="314" desc="Magically increase Zen through focus" use="true" destroy="true" equip="false" level="65" classes="wizard" charge="70" attackMod="0" defenceMod="0" projectile="70" cost="48000" save="true" stacks="true" failChance="5" sellType="magic" />
+	<itemType name="Anger" id="260" tile="315" desc="Magically increase rage" use="true" destroy="true" equip="false" level="68" classes="wizard" charge="85" attackMod="0" defenceMod="0" projectile="70" cost="68000" save="true" stacks="true" failChance="5" sellType="magic" />
+	<itemType name="Cure" id="262" tile="316" desc="Cure a poisoned player" use="true" destroy="true" equip="false" level="22" classes="wizard" charge="20" attackMod="0" defenceMod="0" projectile="70" cost="12000" save="true" stacks="true" failChance="5" sellType="magic" />
+	<itemType name="Pale Green Potion" id="263" tile="317" desc="A vial of pale green liquid (cure poison)" use="true" destroy="true" equip="false" level="0" ranged="false" cost="525" stacks="true" sellType="magic" />
+	<itemType name="Orb of Healing" id="264" tile="318" desc="A orb of great healing, convert gold to HP" use="true" destroy="true" equip="false" level="100" ranged="false" cost="12000" stacks="true" sellType="magic" />
+	<itemType name="Trimmed Cloak" id="265" tile="368" desc="A trimmed cloak" destroy="true" equip="true" level="2" slot="cloak" defenceMod="1" cost="2550" sellType="weapon" >
+		<modifier type="undead" attribute="atk" value="1" />
+	</itemType>
+	<itemType name="Cloak of Shadows" id="266" tile="352" desc="A veil like gray cloak" destroy="true" equip="true" level="18" slot="cloak" attackMod="0" defenceMod="3" cost="43500" save="true" sellType="weapon" >
+		<modifier type="magic" value="1" />
+		<modifier type="undead" attribute="def" value="1" />
+	</itemType>
+	<itemType name="Tiger Cloak" id="267" tile="336" desc="A striped cloak" destroy="true" equip="true" level="61" slot="cloak" attackMod="0" defenceMod="4" cost="73500" save="true" sellType="weapon" >
+		<modifier type="human" attribute="def" value="2" />
+		<modifier type="crawler" attribute="def" value="2" />
+	</itemType>
+	<itemType name="Majestic Cloak" id="268" tile="320" desc="A gold trimmed velvet cloak" destroy="true" equip="true" level="81" slot="cloak" classes="wizard" attackMod="0" defenceMod="4" cost="83500" save="true" sellType="weapon" >
+		<modifier type="magic" value="3" />
+		<modifier type="vermin" attribute="def" value="4" />
+	</itemType>
+	<itemType name="Prong Tome" id="269" tile="369" desc="The writings of Prong." use="false" destroy="true" equip="true" level="15" slot="shield" classes="wizard" attackMod="3" defenceMod="3" cost="32000" save="true" stacks="false" sellType="magic" >
+		<modifier type="magic" value="1" />
+	</itemType>
+	<itemType name="Mustard Tome" id="270" tile="353" desc="A stinky but poweful tome of knowledge" use="false" destroy="true" equip="true" level="32" slot="shield" classes="wizard,archer" attackMod="4" defenceMod="5" cost="45000" save="true" stacks="false" sellType="magic" >
+		<modifier type="undead" attribute="def" value="1" />
+		<modifier type="human" attribute="atk" value="1" />
+		<modifier type="tick" attribute="charge" value="1" />
+	</itemType>
+	<itemType name="Book of Chevron" id="271" tile="337" desc="The musings of chevron " use="false" destroy="true" equip="true" level="51" slot="shield" classes="wizard" attackMod="5" defenceMod="7" cost="55000" save="true" stacks="false" sellType="magic" >
+		<modifier type="undead" attribute="atk" value="2" />
+		<modifier type="human" attribute="atk" value="2" />
+		<modifier type="tick" attribute="charge" value="3" />
+	</itemType>
+	<itemType name="Book of Majesty" id="272" tile="321" desc="The knowledge of kings" use="false" destroy="true" equip="true" level="72" slot="shield" classes="wizard" attackMod="7" defenceMod="8" cost="65000" save="true" stacks="false" sellType="magic" >
+		<modifier type="undead" attribute="atk" value="3" />
+		<modifier type="human" attribute="atk" value="3" />
+		<modifier type="tick" attribute="charge" value="4" />
+	</itemType>
+	<itemType name="Sandals of Hoff" id="273" tile="370" desc="Magic sandals" use="false" destroy="true" equip="true" level="11" slot="feet" ranged="false" defenceMod="1" cost="3000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="orc" attribute="atk" value="1" />
+	</itemType>
+	<itemType name="Lined Boots" id="274" tile="354" desc="Fur lined boots" use="false" destroy="true" equip="true" level="29" slot="feet" ranged="false" attackMod="1" defenceMod="1" cost="8000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Shadow Boots" id="275" tile="338" desc="Grey shimmering boots" use="false" destroy="true" equip="true" level="45" slot="feet" ranged="false" classes="archer,warrior" attackMod="2" defenceMod="3" cost="48000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Golden Fused Boots" id="276" tile="322" desc="Magical golden boots" use="false" destroy="true" equip="true" level="81" slot="feet" ranged="false" classes="archer,warrior" attackMod="2" defenceMod="8" cost="28000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="undead" attribute="def" value="3" />
+	</itemType>
+	<itemType name="Head Dress" id="277" tile="371" desc="A feathery head dress" destroy="true" equip="true" level="8" slot="head" defenceMod="2" cost="3400" sellType="weapon" />
+	<itemType name="Lined Cap" id="278" tile="355" desc="A lined leather spiked cap" use="false" destroy="true" equip="true" level="27" slot="head" attackMod="2" defenceMod="7" cost="7000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Conical Helmet" id="279" tile="339" desc="A rounded helmet" use="false" destroy="true" equip="true" level="51" slot="head" classes="warrior" defenceMod="10" cost="11000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="human" attribute="def" value="1" />
+	</itemType>
+	<itemType name="Valk Guard" id="280" tile="323" desc="A helmet with cheek guards" use="false" destroy="true" equip="true" level="82" slot="head" classes="warrior,archer" defenceMod="15" cost="51000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="human" attribute="def" value="3" />
+		<modifier type="tick" attribute="hp" value="1" />
+	</itemType>
+	<itemType name="Reinforced Shield" id="281" tile="372" desc="A wooden shield with iron strips" use="false" destroy="true" equip="true" level="9" slot="shield" ranged="false" defenceMod="3" cost="3400" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Long Shield" id="282" tile="356" desc="A spikey shield" use="false" destroy="true" equip="true" level="35" slot="shield" ranged="false" classes="warrior" defenceMod="10" cost="36000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Swamp Shield" id="283" tile="340" desc="A stinking shield with a strange aura" use="false" destroy="true" equip="true" level="51" slot="shield" ranged="false" classes="warrior,archer" attackMod="1" defenceMod="11" cost="72000" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Griffin Shield" id="284" tile="324" desc="A gold enlaid shield" use="false" destroy="true" equip="true" level="79" slot="shield" ranged="false" classes="warrior" attackMod="2" defenceMod="23" cost="76000" save="true" stacks="false" sellType="weapon" >
+		<modifier type="undead" attribute="def" value="4" />
+		<modifier type="vermin" attribute="def" value="3" />
+		<modifier type="crawler" attribute="def" value="3" />
+	</itemType>
+	<itemType name="Tattered Robes" id="285" tile="373" desc="Ancient magician robes" destroy="true" equip="true" level="14" slot="body" classes="wizard" defenceMod="2" cost="10500" sellType="weapon" >
+		<modifier type="magic" value="2" />
+	</itemType>
+	<itemType name="Cowled Robes" id="286" tile="357" desc="Deep grey robes with evil cowl" destroy="true" equip="true" level="30" slot="body" classes="wizard" defenceMod="4" cost="53500" sellType="weapon" >
+		<modifier type="magic" value="1" />
+	</itemType>
+	<itemType name="Magicians Tunic" id="287" tile="341" desc="A posh robe" destroy="true" equip="true" level="69" slot="body" classes="wizard" defenceMod="8" cost="83500" sellType="weapon" >
+		<modifier type="magic" value="3" />
+		<modifier type="orc" attribute="atk" value="1" />
+	</itemType>
+	<itemType name="Epic Robes" id="288" tile="325" desc="Gold emblazened robes" destroy="true" equip="true" level="85" slot="body" classes="wizard" defenceMod="12" cost="96500" sellType="weapon" >
+		<modifier type="magic" value="6" />
+	</itemType>
+	<itemType name="Reinforced Armor" id="289" tile="374" desc="Leather armor with metal plates built in" destroy="true" equip="true" level="9" slot="body" classes="warrior" defenceMod="4" cost="11500" sellType="weapon" />
+	<itemType name="Juganaught Plate" id="290" tile="358" desc="Fat thick plate mail" destroy="true" equip="true" level="48" slot="body" classes="warrior" attackMod="1" defenceMod="12" cost="67500" sellType="weapon" >
+		<modifier type="undead" attribute="def" value="2" />
+	</itemType>
+	<itemType name="Golden Plate" id="291" tile="342" desc="Shiney golden armor" destroy="true" equip="true" level="75" slot="body" classes="warrior,archer" defenceMod="15" cost="87500" sellType="weapon" >
+		<modifier type="crawler" attribute="def" value="3" />
+		<modifier type="undead" attribute="def" value="3" />
+	</itemType>
+	<itemType name="Majestic Plate" id="292" tile="326" desc="Emblazend Armor" destroy="true" equip="true" level="101" slot="body" classes="warrior" defenceMod="17" cost="97500" sellType="weapon" >
+		<modifier type="magic" value="3" />
+	</itemType>
+	<itemType name="Swamp Gloves" id="293" tile="375" desc="Gloves of reed and swamp gunk" destroy="true" equip="true" level="22" slot="gloves" classes="warrior,archer" defenceMod="4" cost="14500" sellType="weapon" >
+		<modifier type="vermin" attribute="def" value="2" />
+	</itemType>
+	<itemType name="Obsiadian Gloves" id="294" tile="359" desc="Dark stone like gloves" destroy="true" equip="true" level="47" slot="gloves" classes="warrior" defenceMod="6" cost="53500" sellType="weapon" />
+	<itemType name="Clawed Gloves" id="295" tile="343" desc="Gloves of the Wolverine" destroy="true" equip="true" level="65" slot="gloves" classes="warrior,archer" attackMod="1" defenceMod="6" cost="63500" sellType="weapon" />
+	<itemType name="Majestic Gloves" id="296" tile="327" desc="Might gloves of ancient warriors" destroy="true" equip="true" level="102" slot="gloves" classes="warrior" defenceMod="7" cost="113500" sellType="weapon" >
+		<modifier type="tick" attribute="rage" value="3" />
+	</itemType>
+	<itemType name="Curved Sword" id="297" tile="360" desc="A curved blade" destroy="true" equip="true" level="45" slot="hands" classes="warrior" attackMod="12" defenceMod="1" cost="87500" save="true" sellType="weapon" />
+	<itemType name="Blade of Ages" id="298" tile="376" desc="A glowed winged blade" destroy="true" equip="true" level="95" slot="hands" classes="warrior" attackMod="24" defenceMod="3" cost="127500" save="true" sellType="weapon" >
+		<modifier type="tick" attribute="rage" value="2" />
+	</itemType>
+	<itemType name="Flinger" id="299" tile="377" desc="A tribal arrow thrower" use="false" destroy="true" equip="true" level="16" slot="ranged" ranged="true" classes="archer" attackMod="7" defenceMod="0" projectile="96" cost="22600" save="true" stacks="false" failChance="20" sellType="weapon" />
+	<itemType name="Dual Crossbow" id="300" tile="361" desc="A double poweful crossbow" use="false" destroy="true" equip="true" level="96" slot="ranged" ranged="true" classes="archer" attackMod="30" defenceMod="0" projectile="96" cost="93600" save="true" stacks="false" failChance="8" sellType="weapon" >
+		<modifier type="vermin" attribute="atk" value="3" />
+		<modifier type="tick" attribute="zen" value="2" />
+	</itemType>
+	<itemType name="Red Stone Sceptre" id="301" tile="378" desc="A sceptre with the magical power of red stone" use="false" destroy="true" equip="true" level="50" slot="hands" ranged="false" classes="wizard" attackMod="11" defenceMod="2" cost="92000" save="true" stacks="false" sellType="magic" >
+		<modifier type="tick" attribute="charge" value="2" />
+		<modifier type="vermin" attribute="atk" value="2" />
+	</itemType>
+	<itemType name="Zidian Wand" id="302" tile="362" desc="A bright stone wand" use="false" destroy="true" equip="true" level="82" slot="hands" ranged="false" classes="wizard" attackMod="15" defenceMod="2" cost="102800" sellType="magic" >
+		<modifier type="tick" attribute="charge" value="2" />
+		<modifier type="magic" value="1" />
+	</itemType>
+	<itemType name="Diamond Knife" id="303" tile="363" desc="A fine knife reflecting light at opponents" use="false" destroy="true" equip="true" level="40" slot="hands" ranged="false" classes="archer" attackMod="10" defenceMod="1" cost="47800" sellType="weapon" />
+	<itemType name="Chaos Spear" id="304" tile="379" desc="A magical evil spear" destroy="true" equip="true" level="76" slot="hands" classes="archer" attackMod="21" defenceMod="5" cost="111500" save="true" sellType="weapon" >
+		<modifier type="vermin" attribute="atk" value="5" />
+		<modifier type="tick" attribute="zen" value="3" />
+		<modifier type="human" attribute="atk" value="5" />
+	</itemType>
+	<itemType name="Club" id="305" tile="380" desc="A heavy club" use="false" destroy="true" equip="true" level="11" slot="hands" ranged="false" classes="warrior,archer" attackMod="3" defenceMod="0" cost="2100" save="true" stacks="false" sellType="weapon" />
+	<itemType name="Spiked Club" id="306" tile="364" desc="A club with steel spikes" use="false" destroy="true" equip="true" level="24" slot="hands" ranged="false" classes="archer,warrior" attackMod="7" defenceMod="0" cost="19800" sellType="weapon" />
+	<itemType name="Troll Club" id="307" tile="348" desc="A crudely fashioned stone club" destroy="true" equip="true" level="58" slot="hands" classes="archer,warrior" attackMod="13" defenceMod="2" cost="97500" save="true" sellType="weapon" >
+		<modifier type="human" attribute="atk" value="2" />
+		<modifier type="tick" attribute="rage" value="2" />
+	</itemType>
+	<itemType name="Magma Club" id="308" tile="332" desc="A club made of magma from the gates of hell" destroy="true" equip="true" level="110" slot="hands" classes="warrior" attackMod="25" defenceMod="2" cost="51500" save="true" sellType="weapon" >
+		<modifier type="tick" attribute="rage" value="3" />
+		<modifier type="tick" attribute="hp" value="-3" />
+		<modifier type="orc" attribute="atk" value="5" />
+		<modifier type="undead" attribute="def" value="6" />
+	</itemType>
+	<itemType name="Dragon Egg" id="309" tile="381" desc="A shiney dragon egg" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Birthday Cake" id="310" tile="382" desc="A tasty birthday cake" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Portrait" id="311" tile="383" desc="Portrait of Complaina Betty" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Bucket of Milk" id="312" tile="367" desc="A bucket of rich cows milk" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Doll" id="313" tile="366" desc="A child's doll" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Lantern" id="314" tile="365" desc="A bright oil latern" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Compass" id="315" tile="351" desc="An old fashioned compass" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Blood of Elders" id="316" tile="350" desc="Red Wine from Halaia" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Mandrake Root" id="317" tile="349" desc="A drak brown mandrake root" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Fire Beast Wing" id="318" tile="347" desc="The wing of a fire beast" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Eye of Frog" id="319" tile="346" desc="The eye of a poisonous frog" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Mintoaur Horn" id="320" tile="345" desc="Horn of the mighty Minotaur" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Beholder Tentacle" id="321" tile="344" desc="A bloody tenatacle" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Crystal Ball" id="322" tile="331" desc="Babbeh's crystal ball" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Medusa Hair" id="323" tile="330" desc="A snake from the crown of medusa" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Giant Stinger" id="324" tile="329" desc="The vicious stinger from the Giant Scorpion" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Genie Lamp" id="325" tile="328" desc="A golden oil lamp" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Wisp Jar" id="326" tile="333" desc="A jar of golden wisps" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Medicines" id="327" tile="334" desc="A rack of precious medicines" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Sack of Seed" id="328" tile="335" desc="A sack of animal feed" destroy="false" level="0" cost="0" save="true" stacks="true" />
+	<itemType name="Lava Rod" id="329" tile="319" desc="A fishing rod" use="true" destroy="true" level="25" cost="5000" save="true" stacks="true" />
+	<itemType name="Fire Fish" id="330" tile="385" desc="A red fish (+30 rage)" use="true" destroy="true" equip="false" level="0" ranged="false" cost="740" stacks="true" sellType="inn" >
+		<action attribute="rage" delta="30" />
+	</itemType>
+	<itemType name="Lava Fish" id="331" tile="384" desc="A bright yellow fish (+30 zen)" use="true" destroy="true" equip="false" level="0" ranged="false" cost="740" stacks="true" sellType="inn" >
+		<action attribute="zen" delta="30" />
+	</itemType>
+</types>

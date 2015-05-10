@@ -1,0 +1,57 @@
+<quest id="a0" location="sthel" title="Behold!" level="15"
+	summary="Kill a Beholder and return with its tentacle">
+	<start>
+		<showDialog name="K'atel" portrait="151"
+			text="Our priestess has need a beholder tentacle for a potion.">
+			<option name="Ok">
+				<showDialog name="K'atel" portrait="151"
+					text="Would you retrieve one from the dungeon for me?">
+					<option name="Ok">
+						<startQuest id="a0" />
+					</option>
+					<option name="No way">
+					</option>
+				</showDialog>
+			</option>
+		</showDialog>
+	</start>
+
+	<cancel>
+		<takeItem name="Beholder Tentacle" count="5" />
+	</cancel>
+
+	<event type="kill" param="Beholder">
+		<if attribute="count-Beholder Tentacle" compare="1" operation="lt">
+			<getItem name="Beholder Tentacle" />
+			<if attribute="count-Beholder Tentacle" compare="0" operation="gt">
+				<showDialog name="K'atel" portrait="151"
+					text="Ah, you have it, now return to me!">
+					<option name="Right away!">
+					</option>
+				</showDialog>
+			</if>
+		</if>
+	</event>
+
+	<event type="quest" param="sthel">
+		<if attribute="count-Beholder Tentacle" compare="1" operation="lt">
+			<showDialog name="K'atel" portrait="151" text="It is not a good idea to keep the priestess waiting.">
+				<option name="I'll get it">
+				</option>
+			</showDialog>
+		</if>
+		<if attribute="count-Beholder Tentacle" compare="0" operation="gt">
+			<getExp value="1000" />
+			<takeItem name="Beholder Tentacle" count="5" />
+			<getItem name="Sandals of Hoff" />
+			<getItem name="Gold" count="1000" />
+			<showDialog name="K'atel" portrait="151"
+				text="Well done adventurer! Here, take your reward!">
+				<option name="Thanks">
+				</option>
+			</showDialog>
+			<completeQuest />
+		</if>
+	</event>
+</quest>
+	

@@ -1,0 +1,57 @@
+<quest id="a2" location="nord1" title="The Mighty Horn" level="30"
+	summary="Slay the Minotaur and return the horn to Nordolk">
+	<start>
+		<showDialog name="Eski" portrait="169"
+			text="My son is ill. We need Minotaur horn ground down to save him!">
+			<option name="Ok">
+				<showDialog name="Eski" portrait="169"
+					text="Will you slay the beast and fetch it's horn from Dondheim dungeon?">
+					<option name="Ok">
+						<startQuest id="a2" />
+					</option>
+					<option name="No way">
+					</option>
+				</showDialog>
+			</option>
+		</showDialog>
+	</start>
+
+	<cancel>
+		<takeItem name="Mintoaur Horn" count="5" />
+	</cancel>
+
+	<event type="kill" param="Minotaur">
+		<if attribute="count-Mintoaur Horn" compare="1" operation="lt">
+			<getItem name="Mintoaur Horn" />
+			<if attribute="count-Mintoaur Horn" compare="0" operation="gt">
+				<showDialog name="Eski" portrait="169"
+					text="Thank the gods hero! Now return the horn before my son dies!">
+					<option name="Right away!">
+					</option>
+				</showDialog>
+			</if>
+		</if>
+	</event>
+
+	<event type="quest" param="nord1">
+		<if attribute="count-Mintoaur Horn" compare="1" operation="lt">
+			<showDialog name="Eski" portrait="169" text="My son is dieing, please help!">
+				<option name="I'll get it">
+				</option>
+			</showDialog>
+		</if>
+		<if attribute="count-Mintoaur Horn" compare="0" operation="gt">
+			<getExp value="4000" />
+			<takeItem name="Mintoaur Horn" count="5" />
+			<getItem name="Lined Boots" />
+			<getItem name="Gold" count="8000" />
+			<showDialog name="Eski" portrait="169"
+				text="You have done me a great service this day. Please take these.">
+				<option name="Thanks">
+				</option>
+			</showDialog>
+			<completeQuest />
+		</if>
+	</event>
+</quest>
+	

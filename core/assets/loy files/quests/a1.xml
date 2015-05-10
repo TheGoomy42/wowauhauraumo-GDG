@@ -1,0 +1,57 @@
+<quest id="a1" location="heim" title="3 wishes" level="27"
+	summary="Kill the Genie and retrieve his lamp">
+	<start>
+		<showDialog name="Odin" portrait="156"
+			text="A magic lamp was stolen by a genie in the dungeons far north of here">
+			<option name="Ok">
+				<showDialog name="Odin" portrait="156"
+					text="It is sacred to us and we need it returned, will you retrieve it?">
+					<option name="Ok">
+						<startQuest id="a1" />
+					</option>
+					<option name="No way">
+					</option>
+				</showDialog>
+			</option>
+		</showDialog>
+	</start>
+
+	<cancel>
+		<takeItem name="Genie Lamp" count="5" />
+	</cancel>
+
+	<event type="kill" param="Genie">
+		<if attribute="count-Genie Lamp" compare="1" operation="lt">
+			<getItem name="Genie Lamp" />
+			<if attribute="count-Genie Lamp" compare="0" operation="gt">
+				<showDialog name="Odin" portrait="156"
+					text="You have the lamp, now bring it to Dondheim!">
+					<option name="Right away!">
+					</option>
+				</showDialog>
+			</if>
+		</if>
+	</event>
+
+	<event type="quest" param="heim">
+		<if attribute="count-Genie Lamp" compare="1" operation="lt">
+			<showDialog name="Odin" portrait="156" text="The lamp must be returned!">
+				<option name="I'll get it">
+				</option>
+			</showDialog>
+		</if>
+		<if attribute="count-Genie Lamp" compare="0" operation="gt">
+			<getExp value="2223" />
+			<takeItem name="Genie Lamp" count="5" />
+			<getItem name="Lined Cap" />
+			<getItem name="Gold" count="3000" />
+			<showDialog name="Odin" portrait="156"
+				text="You will be remembed here forever hero! Take this as a reward!">
+				<option name="Thanks">
+				</option>
+			</showDialog>
+			<completeQuest />
+		</if>
+	</event>
+</quest>
+	

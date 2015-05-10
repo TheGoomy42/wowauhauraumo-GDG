@@ -1,0 +1,24 @@
+<finds>
+	<find name="Gold Crown" weight="100" type="both"/>
+	
+	<find name="Gold Fish" weight="200" type="fish"/>
+	<find name="Ring of Health" weight="100" type="fish"/>
+	<find name="Merlins Cap" weight="200" type="fish"/>
+	<find name="Trimmed Cloak" weight="50" type="fish"/>
+	<find name="Stone Eye" weight="2" type="fish"/>
+	<find name="Goif Bow" weight="10" type="fish"/>
+	<find name="Fish Bone" weight="200" type="fish"/>
+	
+	<find name="Diamond" weight="1000" type="dig"/>
+	<find name="Cabbage" weight="1000" type="dig"/>
+	<find name="Totem" weight="300" type="both"/>
+	<find name="Club" weight="100" type="both"/>
+	<find name="Viking Helm" weight="200" type="dig"/>
+	<find name="Bandit Shiv" weight="200" type="dig"/>
+	<find name="Mystic Orb" weight="2" type="dig"/>
+	<find name="Gilt Shield" weight="10" type="dig"/>
+	
+	<find name="Totem" weight="300" type="container"/>
+	<find name="Gem" weight="300" type="container"/>
+	<find name="Hatchet" weight="100" type="container"/>
+</finds>

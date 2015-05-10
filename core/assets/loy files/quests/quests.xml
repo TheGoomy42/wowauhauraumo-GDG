@@ -1,0 +1,41 @@
+<quests>
+	<questRef name="quests/q1.xml"/>
+	<questRef name="quests/q2.xml"/>
+	<questRef name="quests/q3.xml"/>
+	<questRef name="quests/q4.xml"/>
+	<questRef name="quests/q5.xml"/>
+	<questRef name="quests/q6.xml"/>
+	<questRef name="quests/q7.xml"/>
+	<questRef name="quests/q8.xml"/>
+	<questRef name="quests/q9.xml"/>
+	<questRef name="quests/q10.xml"/>
+	<questRef name="quests/q11.xml"/>
+	
+	<questRef name="quests/a0.xml"/>
+	<questRef name="quests/a1.xml"/>
+	<questRef name="quests/a2.xml"/>
+	<questRef name="quests/a3.xml"/>
+	<questRef name="quests/a4.xml"/>
+	<questRef name="quests/a5.xml"/>
+	<questRef name="quests/a6.xml"/>
+	<questRef name="quests/a7.xml"/>
+	
+	<questRef name="quests/a8.xml"/>
+	<questRef name="quests/a9.xml"/>
+	<questRef name="quests/a10.xml"/>
+	<questRef name="quests/a11.xml"/>
+	<questRef name="quests/a12.xml"/>
+	<questRef name="quests/a13.xml"/>
+	<questRef name="quests/a14.xml"/>
+	
+	<questRef name="quests/a15.xml"/>
+	<questRef name="quests/a16.xml"/>
+	<questRef name="quests/a17.xml"/>
+	<questRef name="quests/a18.xml"/>
+	<questRef name="quests/a19.xml"/>
+	
+	<questRef name="quests/a20.xml"/>
+	<questRef name="quests/a21.xml"/>
+	<questRef name="quests/a23.xml"/>
+	
+</quests>

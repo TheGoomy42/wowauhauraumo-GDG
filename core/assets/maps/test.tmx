@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="maptiles" tilewidth="32" tileheight="32">
+  <image source="../maptiles.png" width="512" height="512"/>
+ </tileset>
+ <layer name="walkable" width="30" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt0jEKwCAMBdDc/1hueoNCDtNFIUiUIsmPhQx/qEOesb8QUclkMkfhIBPpNmFy/0a5jwhqZ7kv0uULXGS3bnERZpRradaPc6x7POZos7QOWbpyFm/OLd95NXN1H8++zK53T7U39TJ3/9gzNciN2lfrFcKcfbT5x7wB27ZS
+  </data>
+ </layer>
+ <layer name="blocked" width="30" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzlljsOACEIRD22x7fdYhPnJ4Y4iR3yMDrgGLWaxTyHO8G1269w3NrQvVWq5n25N6ScV7nLXR41zrkvxzMu283XqT8lmN08qfoj7SWkBtdDTG1uz2C4J/Qyt3Ie/72ThDecHArLFeMvJAaddyg3IZabEspN18T8y2+ow4xfzyBCkQ==
+  </data>
+ </layer>
+</map>

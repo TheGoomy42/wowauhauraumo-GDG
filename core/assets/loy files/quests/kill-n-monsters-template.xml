@@ -1,0 +1,45 @@
+<quest id="%ID%" location="%LOCATION%" title="%TITLE%" level="%LEVEL%"
+	summary="%SUMMARY%">
+	<property name="%MONSTER%s Killed" type="number" index="0" />
+
+	<start>
+		<showDialog name="%ELDER%" portrait="%ELDER_PORTRAIT%"
+			text="%REQUEST_TEXT%">
+			<option name="Oh yes?">
+				<showDialog name="%ELDER%" portrait="%ELDER_PORTRAIT%"
+					text="%ACCEPT_TEXT%">
+					<option name="Sure">
+						<startQuest id="%ID%" />
+					</option>
+					<option name="Nay!">
+					</option>
+				</showDialog>
+			</option>
+		</showDialog>
+	</start>
+
+	<event type="kill" param="%MONSTER%">
+		<increment index="0" />
+	</event>
+
+	<event type="quest" param="%LOCATION%">
+		<if attribute="session-%ID%-0" compare="%COUNT%" operation="lt">
+			<showDialog name="%ELDER%" portrait="%ELDER_PORTRAIT%"
+				text="%WAITING_TEXT%">
+				<option name="Yes Sir!">
+				</option>
+			</showDialog>
+		</if>
+		<if attribute="session-%ID%-0" compare="%COUNT_MINUS_ONE%" operation="gt">
+			<getItem name="Gold" count="%REWARD_GOLD%" />
+			<getItem name="%REWARD_ITEM%"/>
+			<getExp value="%REWARD_EXP%" />
+			<showDialog name="%ELDER%" portrait="%ELDER_PORTRAIT%"
+				text="%COMPLETE_TEXT%">
+				<option name="Thanks">
+				</option>
+			</showDialog>
+			<completeQuest />
+		</if>
+	</event>
+</quest>

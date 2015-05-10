@@ -1,0 +1,57 @@
+<quest id="a3" location="aria" title="Snakes Alive" level="34"
+	summary="Slay Medusa">
+	<start>
+		<showDialog name="Elder" portrait="147"
+			text="We are trying to produce a mighty cure potion in town today.">
+			<option name="Ok">
+				<showDialog name="Elder" portrait="147"
+					text="We require the venom of Medusa's snakes, can you get it?">
+					<option name="Ok">
+						<startQuest id="a3" />
+					</option>
+					<option name="No way">
+					</option>
+				</showDialog>
+			</option>
+		</showDialog>
+	</start>
+
+	<cancel>
+		<takeItem name="Medusa Hair" count="5" />
+	</cancel>
+
+	<event type="kill" param="Medusa">
+		<if attribute="count-Medusa Hair" compare="1" operation="lt">
+			<getItem name="Medusa Hair" />
+			<if attribute="count-Medusa Hair" compare="0" operation="gt">
+				<showDialog name="Elder" portrait="147"
+					text="Oh well done my lord. Bring it to us here in Aria">
+					<option name="Right away!">
+					</option>
+				</showDialog>
+			</if>
+		</if>
+	</event>
+
+	<event type="quest" param="aria">
+		<if attribute="count-Medusa Hair" compare="1" operation="lt">
+			<showDialog name="Elder" portrait="147" text="Our potion can not continue without you help!">
+				<option name="I'll get it">
+				</option>
+			</showDialog>
+		</if>
+		<if attribute="count-Medusa Hair" compare="0" operation="gt">
+			<getExp value="4000" />
+			<takeItem name="Medusa Hair" count="5" />
+			<getItem name="Cowled Robes" />
+			<getItem name="Gold" count="8000" />
+			<showDialog name="Elder" portrait="147"
+				text="The town will celebrate your name! Here is your reward!">
+				<option name="Thanks">
+				</option>
+			</showDialog>
+			<completeQuest />
+		</if>
+	</event>
+</quest>
+	
