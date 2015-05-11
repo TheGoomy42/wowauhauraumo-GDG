@@ -1,7 +1,7 @@
 package com.wowauhauraumo.dungeon.states;
 
 import static com.wowauhauraumo.dungeon.managers.B2DVars.BIT_EMPTY;
-import static com.wowauhauraumo.dungeon.managers.B2DVars.BIT_PLAYER;
+import static com.wowauhauraumo.dungeon.managers.B2DVars.BIT_ENTITY;
 import static com.wowauhauraumo.dungeon.managers.B2DVars.BIT_WALL;
 import static com.wowauhauraumo.dungeon.managers.B2DVars.PPM;
 
@@ -21,6 +21,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.wowauhauraumo.dungeon.entities.Player;
+import com.wowauhauraumo.dungeon.entities.enemy.EvilWizard;
 import com.wowauhauraumo.dungeon.main.Game;
 import com.wowauhauraumo.dungeon.managers.GameContactListener;
 import com.wowauhauraumo.dungeon.managers.GameKeys;
@@ -37,6 +38,8 @@ public class Play extends GameState {
 	private Player player;
 	private float moveSpeed = 2f;
 	
+	private EvilWizard enemy;
+	
 	private TiledMap tileMap;
 	private OrthogonalTiledMapRenderer tmr;
 	private float tileSize;
@@ -52,6 +55,7 @@ public class Play extends GameState {
 		logger = new FPSLogger();
 		
 		createPlayer();
+		createEnemy();
 		createTiles();
 		
 		// box2d camera
@@ -73,11 +77,29 @@ public class Play extends GameState {
 		// create main fixture
 		FixtureDef fdef = new FixtureDef();
 		fdef.shape = shape;
-		fdef.filter.categoryBits = BIT_PLAYER;
+		fdef.filter.categoryBits = BIT_ENTITY;
 		fdef.filter.maskBits = BIT_WALL;
 		body.createFixture(fdef).setUserData("player");
 		
 		player = new Player(body);
+	}
+	
+	private void createEnemy() {
+		// bodydef
+		BodyDef bdef = new BodyDef();
+		bdef.position.set(120 / PPM, 100 / PPM);
+		bdef.type = BodyType.DynamicBody;
+		Body body = world.createBody(bdef);
+		
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox(16 / PPM, 16 / PPM);
+		FixtureDef fdef = new FixtureDef();
+		fdef.shape = shape;
+		fdef.filter.categoryBits = BIT_ENTITY;
+		fdef.filter.maskBits = BIT_WALL;
+		body.createFixture(fdef).setUserData("enemy");
+		
+		enemy = new EvilWizard(body);
 	}
 	
 	private void createTiles() {
@@ -119,7 +141,7 @@ public class Play extends GameState {
 				fdef.friction = 0;
 				fdef.shape = cs;
 				fdef.filter.categoryBits = bits;
-				fdef.filter.maskBits = BIT_PLAYER;
+				fdef.filter.maskBits = BIT_ENTITY;
 				fdef.isSensor = false;
 				
 				world.createBody(bdef).createFixture(fdef);
@@ -153,6 +175,7 @@ public class Play extends GameState {
 		handleInput();
 		
 		player.update(delta);
+		enemy.update(delta, player);
 		world.step(delta, 6, 2);
 		
 		logger.log();
@@ -184,8 +207,11 @@ public class Play extends GameState {
 		cam.position.set(pos, 0);
 		cam.update();
 		
-		// draw player
+		// draw enemy
+		enemy.render(sb);
 		sb.setProjectionMatrix(cam.combined);
+		
+		// draw player last (on top)
 		player.render(sb);
 		
 		// draw box2d debug world

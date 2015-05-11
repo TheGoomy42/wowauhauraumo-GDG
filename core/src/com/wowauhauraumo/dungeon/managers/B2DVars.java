@@ -7,7 +7,7 @@ public class B2DVars {
 	
 	// category bits; remember it's a single bit (power of two)
 	public static final short BIT_EMPTY = 1;
-	public static final short BIT_PLAYER = 2;
+	public static final short BIT_ENTITY = 2;
 	public static final short BIT_WALL = 4;
 	
 }
