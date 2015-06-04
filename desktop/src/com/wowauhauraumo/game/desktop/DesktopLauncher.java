@@ -11,6 +11,7 @@ public class DesktopLauncher {
 		config.width = 700;
 		config.height = 560;
 		config.title = "Generic Dungeon Game";
+		config.resizable = false;
 		
 		new LwjglApplication(new Game(), config);
 	}

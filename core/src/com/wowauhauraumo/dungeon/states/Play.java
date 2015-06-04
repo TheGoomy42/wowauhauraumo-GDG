@@ -5,7 +5,6 @@ import static com.wowauhauraumo.dungeon.managers.B2DVars.BIT_ENTITY;
 import static com.wowauhauraumo.dungeon.managers.B2DVars.BIT_WALL;
 import static com.wowauhauraumo.dungeon.managers.B2DVars.PPM;
 
-import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -16,46 +15,50 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.wowauhauraumo.dungeon.entities.Player;
-import com.wowauhauraumo.dungeon.entities.enemy.EvilWizard;
 import com.wowauhauraumo.dungeon.main.Game;
 import com.wowauhauraumo.dungeon.managers.GameContactListener;
 import com.wowauhauraumo.dungeon.managers.GameKeys;
 import com.wowauhauraumo.dungeon.managers.GameStateManager;
+import com.wowauhauraumo.util.pathfinding.Mover;
+import com.wowauhauraumo.util.pathfinding.TileBasedMap;
 
-public class Play extends GameState {
+public class Play extends GameState implements TileBasedMap {
 
 	// box2d stuff
-	private FPSLogger logger;
+	//private FPSLogger logger;
 	private World world;
-	//private Box2DDebugRenderer renderer;
+	@SuppressWarnings("unused")
+	private Box2DDebugRenderer renderer;
 	private OrthographicCamera b2dcam;
 	
 	private Player player;
-	private float moveSpeed = 2f;
-	
-	private EvilWizard enemy;
+	private float moveSpeed = 0.79f;
+	private boolean[] playerColliding = new boolean[4];
 	
 	private TiledMap tileMap;
 	private OrthogonalTiledMapRenderer tmr;
 	private float tileSize;
 	private final float mapscale = 1f;
+	private int mapWidth;
+	private int mapHeight;
+	private boolean[][] visited;
 	
 	public Play(GameStateManager gsm) {
 		super(gsm);
 		
 		// create box2d world etc.
 		world = new World(new Vector2(0, 0), true);
-		world.setContactListener(new GameContactListener());
-		//renderer = new Box2DDebugRenderer();
-		logger = new FPSLogger();
+		world.setContactListener(new GameContactListener(this));
+		renderer = new Box2DDebugRenderer();
+		//logger = new FPSLogger();
 		
 		createPlayer();
-		createEnemy();
 		createTiles();
 		
 		// box2d camera
@@ -72,7 +75,7 @@ public class Play extends GameState {
 		
 		// create shape
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(16 / PPM, 16 / PPM);
+		shape.setAsBox(6 / PPM, 6 / PPM);
 		
 		// create main fixture
 		FixtureDef fdef = new FixtureDef();
@@ -81,39 +84,55 @@ public class Play extends GameState {
 		fdef.filter.maskBits = BIT_WALL;
 		body.createFixture(fdef).setUserData("player");
 		
-		player = new Player(body);
-	}
-	
-	private void createEnemy() {
-		// bodydef
-		BodyDef bdef = new BodyDef();
-		bdef.position.set(120 / PPM, 100 / PPM);
-		bdef.type = BodyType.DynamicBody;
-		Body body = world.createBody(bdef);
-		
-		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(16 / PPM, 16 / PPM);
-		FixtureDef fdef = new FixtureDef();
+		// create top sensor
+		shape.setAsBox(5f / PPM, 2 / PPM, new Vector2(0, 7 / PPM), 0);
 		fdef.shape = shape;
 		fdef.filter.categoryBits = BIT_ENTITY;
 		fdef.filter.maskBits = BIT_WALL;
-		body.createFixture(fdef).setUserData("enemy");
+		fdef.isSensor = true;
+		body.createFixture(fdef).setUserData("playerTop");
 		
-		enemy = new EvilWizard(body);
+		// create bottom sensor
+		shape.setAsBox(5f / PPM, 2 / PPM, new Vector2(0, -7 / PPM), 0);
+		fdef.shape = shape;
+		fdef.filter.categoryBits = BIT_ENTITY;
+		fdef.filter.maskBits = BIT_WALL;
+		fdef.isSensor = true;
+		body.createFixture(fdef).setUserData("playerBot");
+		
+		// create left sensor
+		shape.setAsBox(2 / PPM, 5f / PPM, new Vector2(-7 / PPM, 0), 0);
+		fdef.shape = shape;
+		fdef.filter.categoryBits = BIT_ENTITY;
+		fdef.filter.maskBits = BIT_WALL;
+		fdef.isSensor = true;
+		body.createFixture(fdef).setUserData("playerL");
+		
+		// create right sensor
+		shape.setAsBox(2 / PPM, 5f / PPM, new Vector2(7 / PPM, 0), 0);
+		fdef.shape = shape;
+		fdef.filter.categoryBits = BIT_ENTITY;
+		fdef.filter.maskBits = BIT_WALL;
+		fdef.isSensor = true;
+		body.createFixture(fdef).setUserData("playerR");
+		
+		player = new Player(body);
 	}
 	
 	private void createTiles() {
-		tileMap = new TmxMapLoader().load("maps/test.tmx");
+		tileMap = new TmxMapLoader().load("maps/town.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap, mapscale);
 		tileSize = (Integer) tileMap.getProperties().get("tilewidth");
 		
 		TiledMapTileLayer layer;
 		
-		layer = (TiledMapTileLayer) tileMap.getLayers().get("blocked");
+		layer = (TiledMapTileLayer) tileMap.getLayers().get("wall");
 		createLayer(layer, BIT_WALL);
-		layer = (TiledMapTileLayer) tileMap.getLayers().get("walkable");
+		layer = (TiledMapTileLayer) tileMap.getLayers().get("floor");
 		createLayer(layer, BIT_EMPTY);
 		
+		mapWidth = (int) ((Integer) tileMap.getProperties().get("width") * mapscale);
+		mapHeight = (int) ((Integer) tileMap.getProperties().get("height") * mapscale);
 	}
 	
 	private void createLayer(TiledMapTileLayer layer, short bits) {
@@ -149,23 +168,24 @@ public class Play extends GameState {
 		}
 	}
 	
+	public void setPlayerCollding(int i, boolean b) {
+		playerColliding[i] = b;
+	}
+	
 	public void handleInput() {
 		
 		Vector2 movement = new Vector2(0,0);
 		
-		// vertical movement
 		if(GameKeys.isDown(GameKeys.UP)) {
 			movement.add(0, moveSpeed);
 		} else if(GameKeys.isDown(GameKeys.DOWN)) {
 			movement.add(0, -moveSpeed);
-		}
-		// horizontal movement
-		if(GameKeys.isDown(GameKeys.RIGHT)) {
+		} else if(GameKeys.isDown(GameKeys.RIGHT)) {
 			movement.add(moveSpeed, 0);
-			player.setLeft(false);
+			player.setRight(true);
 		} else if(GameKeys.isDown(GameKeys.LEFT)) {
-			player.setLeft(true);
 			movement.add(-moveSpeed, 0);
+			player.setRight(false);
 		}
 		player.getBody().setLinearVelocity(movement);
 	}
@@ -174,11 +194,10 @@ public class Play extends GameState {
 		
 		handleInput();
 		
-		player.update(delta);
-		enemy.update(delta, player);
+		player.update(delta, playerColliding);
 		world.step(delta, 6, 2);
 		
-		logger.log();
+		//logger.log();
 	}
 	
 	public void render() {
@@ -191,27 +210,26 @@ public class Play extends GameState {
 		// need to check if the camera is off the screen
 		Vector2 pos = new Vector2(Game.width / 2, Game.height / 2);
 		if(player.getPosition().x * PPM - Game.width / 2 > 0) {
-			if(player.getPosition().x * PPM + Game.width / 2 < (Integer) tileMap.getProperties().get("width") * tileSize) {
+			if(player.getPosition().x * PPM + Game.width / 2 < mapWidth * tileSize) {
 				pos.x = player.getPosition().x * PPM;
 			} else {
-				pos.x = (Integer) tileMap.getProperties().get("width") * tileSize - Game.width / 2;
+				pos.x = mapWidth * tileSize - Game.width / 2;
 			}
 		}
 		if(player.getPosition().y * PPM - Game.height / 2 > 0) {
-			if(player.getPosition().y * PPM + Game.height / 2 < (Integer) tileMap.getProperties().get("height") * tileSize) {
+			if(player.getPosition().y * PPM + Game.height / 2 < mapHeight * tileSize) {
 				pos.y = player.getPosition().y * PPM;
 			} else {
-				pos.y = (Integer) tileMap.getProperties().get("height") * tileSize - Game.height / 2;
+				pos.y = mapHeight * tileSize - Game.height / 2;
 			}
 		}
 		cam.position.set(pos, 0);
+		b2dcam.position.set(pos.x / PPM, pos.y / PPM, 0);
+		b2dcam.update();
 		cam.update();
 		
-		// draw enemy
-		enemy.render(sb);
-		sb.setProjectionMatrix(cam.combined);
-		
 		// draw player last (on top)
+		sb.setProjectionMatrix(cam.combined);
 		player.render(sb);
 		
 		// draw box2d debug world
@@ -220,6 +238,34 @@ public class Play extends GameState {
 	
 	public void dispose() {
 		world.dispose();
+	}
+
+	@Override
+	public int getWidthInTiles() {
+		return (Integer) tileMap.getProperties().get("width");
+	}
+
+	@Override
+	public int getHeightInTiles() {
+		return (Integer) tileMap.getProperties().get("height");
+	}
+
+	@Override
+	public boolean blocked(Mover mover, int x, int y) {
+		TiledMapTileLayer layer = (TiledMapTileLayer) (tileMap.getLayers().get("blocked"));
+		Cell cell = layer.getCell(x, y);
+		if(cell == null) return false;
+		return true;
+	}
+
+	@Override
+	public float getCost(Mover mover, int sx, int sy, int tx, int ty) {
+		return 1;
+	}
+
+	@Override
+	public void pathFinderVisited(int x, int y) {
+		visited[x][y] = true;
 	}
 	
 }

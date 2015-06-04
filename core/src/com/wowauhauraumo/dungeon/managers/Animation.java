@@ -26,6 +26,13 @@ public class Animation {
 		timesPlayed = 0;
 	}
 	
+	public void switchFrames(TextureRegion[] frames) {
+		if(this.frames != frames) {
+			this.frames = frames;
+			currentFrame = 0;
+		}
+	}
+	
 	public void update(float delta) {
 		if(delay <= 0) {
 			return;

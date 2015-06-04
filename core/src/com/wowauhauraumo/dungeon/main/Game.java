@@ -32,13 +32,13 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void create () {
 		// get width and height
-		width = Gdx.graphics.getWidth();
-		height = Gdx.graphics.getHeight();
+		width = Gdx.graphics.getWidth() / 2;
+		height = Gdx.graphics.getHeight() / 2;
 		
 		res = new Content();
 		
 		// load images
-		res.loadTexture("chars.png", "chars");
+		res.loadTexture("warrior.png", "warrior");
 		
 		Gdx.input.setInputProcessor(new InputProcessor());
 		
