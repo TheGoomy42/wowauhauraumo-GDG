@@ -7,19 +7,20 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.wowauhauraumo.dungeon.managers.Animation;
+import com.wowauhauraumo.util.pathfinding.Mover;
 
-public class B2DSprite {
+public class B2DSprite implements Mover {
 	
 	protected Body body;
 	protected Animation animation;
 	protected float width;
 	protected float height;
 	protected TextureRegion[] sprites;
-	protected boolean left;
+	protected boolean right;
 	
 	public B2DSprite(Body body) {
 		this.body = body;
-		left = false;
+		right = false;
 	}
 	
 	public void setAnimation(TextureRegion[] reg, float delay) {
@@ -41,12 +42,15 @@ public class B2DSprite {
 	public Body getBody() { return body; }
 	public Vector2 getPosition() { return body.getPosition(); } 
 	
-	public void setLeft(boolean left) {
-		if(this.left != left) {
+	public float getWidth() { return width; }
+	public float getHeight() { return height; }
+	
+	public void setRight(boolean right) {
+		if(this.right != right) {
 			for(TextureRegion i : sprites) {
 				i.flip(true, false);
 			}
-			this.left = left;
+			this.right = right;
 		}
 	}
 	

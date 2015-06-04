@@ -57,6 +57,12 @@ public class AStarPathFinder {
 						continue;
 					}
 					
+					if(!allowDiagMovement) {
+						if(x != 0 && y != 0) {
+							continue;
+						}
+					}
+					
 					int xp = x + current.x;
 					int yp = x + current.x;
 					

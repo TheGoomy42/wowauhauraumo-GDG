@@ -5,12 +5,12 @@
  </tileset>
  <layer name="walkable" width="30" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt0jEKwCAMBdDc/1hueoNCDtNFIUiUIsmPhQx/qEOesb8QUclkMkfhIBPpNmFy/0a5jwhqZ7kv0uULXGS3bnERZpRradaPc6x7POZos7QOWbpyFm/OLd95NXN1H8++zK53T7U39TJ3/9gzNciN2lfrFcKcfbT5x7wB27ZS
+   eJzt0aENADAMA8HsP1tRsIcpKegEb0UOeHyyrKrStm2xHdj6I03HRtpM2JjgundSpowm6U2sXy6XtDvIdex0/0runNwFPXwCzA==
   </data>
  </layer>
  <layer name="blocked" width="30" height="30">
   <data encoding="base64" compression="zlib">
-   eJzlljsOACEIRD22x7fdYhPnJ4Y4iR3yMDrgGLWaxTyHO8G1269w3NrQvVWq5n25N6ScV7nLXR41zrkvxzMu283XqT8lmN08qfoj7SWkBtdDTG1uz2C4J/Qyt3Ie/72ThDecHArLFeMvJAaddyg3IZabEspN18T8y2+ow4xfzyBCkQ==
+   eJztlEsKACAIBbv/FbtMW3kUaf5avIGoRTgq5RiE9DFhdTgr3CdXplvGxnMW1X2VXrnf7kTkZakzsvcvTo9XW2fkG7M4cY90e/Oz+iy1etF4s2ZGh3PnrZpXGHf3V7LnZddsRj8h5E8WgqNWaA==
   </data>
  </layer>
 </map>
