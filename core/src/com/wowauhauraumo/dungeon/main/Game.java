@@ -37,8 +37,7 @@ public class Game extends ApplicationAdapter {
 		
 		res = new Content();
 		
-		// load images
-		res.loadTexture("warrior.png", "warrior");
+		loadTextures();
 		
 		Gdx.input.setInputProcessor(new InputProcessor());
 		
@@ -49,6 +48,11 @@ public class Game extends ApplicationAdapter {
 		hudcam.setToOrtho(false, width, height);
 		
 		gsm = new GameStateManager(this);
+	}
+	
+	private void loadTextures() {
+		// load images
+		res.loadTexture("sprites/warrior.png", "warrior");
 	}
 
 	@Override

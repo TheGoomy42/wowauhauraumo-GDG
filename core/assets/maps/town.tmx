@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" nextobjectid="1">
- <tileset firstgid="1" name="terrain" tilewidth="16" tileheight="16">
-  <image source="../terrain_town.png" width="200" height="100"/>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" nextobjectid="9">
+ <tileset firstgid="1" name="terrain_town" tilewidth="16" tileheight="16">
+  <image source="../tilesets/terrain_town.png" width="200" height="100"/>
  </tileset>
  <layer name="floor" width="40" height="30">
   <data encoding="base64" compression="zlib">
@@ -15,7 +15,17 @@
  </layer>
  <layer name="wall" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJztlt0KwCAIRrtbvf8Lj10MQtR+/LSgDsRgZJ1k01LqowAHGqSbh6unn9Ux6rzWtX4e48hgRxqflbk90HiLH3c+qx/12M0Pye5+H6f5Ib8/Ll6qFxStxnj6USS/Vp496h+3xqgfus+11qr7Qf3U6rBHf7P4Rd8RuP95pZ+0T49fhJfmx9WM+l1U7iS/kfkeOZvdL9JrZt8VbjPs7Ha5XM7mBa7ZCjE=
+   eJztltEKwCAIRXtb/f8Pjz0MIswsrybUgRiM0lNsWkoyCnCgQbpZuFr6aR299quN9fMoRwY7tuszM1dCu17jR+1P69d6RPNDEt3v4zQ/5PcnWd/z5WpMBL/ROVvUPyrGrB+6z41i1f2gfnJ12KK/afy87wjU/7zTr5dH4ufhxflRNaN+53V2Pb+Z+RZntprP02sl7w63FSK7XS6Xs3kBaDIKFQ==
   </data>
  </layer>
+ <objectgroup name="exits">
+  <object id="7" name="border" x="152" y="8">
+   <properties>
+    <property name="overworldX" value="100"/>
+    <property name="overworldY" value="100"/>
+   </properties>
+   <polyline points="0,0 -100,1 -98,408 466,409 465,0 319,1"/>
+  </object>
+  <object id="8" name="spawn" x="304" y="368" width="16" height="16"/>
+ </objectgroup>
 </map>
