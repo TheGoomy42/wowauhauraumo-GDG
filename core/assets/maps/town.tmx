@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" nextobjectid="9">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" nextobjectid="11">
  <tileset firstgid="1" name="terrain_town" tilewidth="16" tileheight="16">
   <image source="../tilesets/terrain_town.png" width="200" height="100"/>
  </tileset>
@@ -21,11 +21,19 @@
  <objectgroup name="exits">
   <object id="7" name="border" x="152" y="8">
    <properties>
-    <property name="overworldX" value="100"/>
-    <property name="overworldY" value="100"/>
+    <property name="endLoc" value="0"/>
+    <property name="endSpawnId" value="0"/>
    </properties>
    <polyline points="0,0 -100,1 -98,408 466,409 465,0 319,1"/>
   </object>
-  <object id="8" name="spawn" x="304" y="368" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="entrances"/>
+ <objectgroup name="spawns">
+  <object id="10" type="spawn" x="311.5" y="359.5" width="1" height="1">
+   <properties>
+    <property name="spawnId" value="0"/>
+   </properties>
+   <ellipse/>
+  </object>
  </objectgroup>
 </map>

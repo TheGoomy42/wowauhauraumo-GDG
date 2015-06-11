@@ -8,6 +8,7 @@ import static com.wowauhauraumo.dungeon.managers.B2DVars.PPM;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.ChainShape;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
@@ -30,35 +32,61 @@ public class Map {
 	private final int mapscale = 1;
 	private int mapWidth;
 	private int mapHeight;
+//	private int map;
 	private World world;
 	private TiledMap tileMap;
 	private Array<Body> tiles;
 	private Array<Exit> exits;
+	private Array<Opening> openings;
+//	private Spawn[] spawns;
 	
 	public Map() {
 		tiles = new Array<Body>(false, 100);
 		exits = new Array<Exit>(false, 5);
+		openings = new Array<Opening>(false, 5);
 	}
 	
-	public void createMap(int map, World world) {
-		this.world = world;
-		for(Body tile : tiles) {
-			this.world.destroyBody(tile);
-		}
-		for(Exit exit : exits) {
-			exit.dispose();
-		}
+	private void loadMap(int map) {
 		switch(map) {
 		case Maps.TOWN:
 			tileMap = new TmxMapLoader().load("maps/town.tmx");
 			break;
 		case Maps.OVERWORLD:
 			tileMap = new TmxMapLoader().load("maps/overworld.tmx");
+			break;
 		default:
 			new TmxMapLoader().load("maps/town.tmx");
 			break;
 		}
+	}
+	
+	public void createMap(int map, World world) {
+		this.world = world;
+		
+		loadMap(map);
+		
+		for(Body tile : tiles) {
+			this.world.destroyBody(tile);
+		}
+		for(Exit exit : exits) {
+			exit.dispose();
+		}
+		for(Opening o : openings) {
+			o.dispose();
+		}
 		createTiles();
+	}
+	
+	public Vector2 getSpawnCoords(int map, int spawnId) {
+		loadMap(map);
+		MapObjects objects = tileMap.getLayers().get("spawns").getObjects();
+		for(MapObject s : objects) {
+			if(Integer.parseInt((String) s.getProperties().get("spawnId")) == spawnId) {
+				return new Vector2((Float) s.getProperties().get("x"), (Float) s.getProperties().get("y"));
+			}
+		}
+		
+		return null;
 	}
 	
 	private void createTiles() {
@@ -73,6 +101,10 @@ public class Map {
 		createLayer(layer, BIT_EMPTY);
 		MapObjects objects = tileMap.getLayers().get("exits").getObjects();
 		createExit(objects);
+		objects = tileMap.getLayers().get("entrances").getObjects();
+		createEntrance(objects);
+//		objects = tileMap.getLayers().get("spawns").getObjects();
+//		createSpawn(objects);
 		
 		mapWidth = (int) ((Integer) tileMap.getProperties().get("width") * mapscale);
 		mapHeight = (int) ((Integer) tileMap.getProperties().get("height") * mapscale);
@@ -113,7 +145,6 @@ public class Map {
 	}
 	
 	private void createExit(MapObjects objects) {
-		
 		for(MapObject object : objects) {
 			if(object instanceof PolylineMapObject) {
 				float[] vertices = ((PolylineMapObject) object).getPolyline().getTransformedVertices();
@@ -127,13 +158,49 @@ public class Map {
 
 		        ChainShape chain = new ChainShape(); 
 		        chain.createChain(worldVertices);
-
+		        
+		        
 		        exits.add(new Exit(chain, world, 
-		        		new Vector2(Integer.parseInt((String) object.getProperties().get("overworldX")), 
-		        				Integer.parseInt((String) object.getProperties().get("overworldY")))));
+		        		Integer.parseInt((String) object.getProperties().get("endSpawnId")), 
+		        		Integer.parseInt((String) object.getProperties().get("endLoc"))));
 			}
 		}
 	}
+	
+	private void createEntrance(MapObjects objects) {
+		for(MapObject object : objects) {
+			if(object instanceof EllipseMapObject) {
+				Vector2 loc = new Vector2(((EllipseMapObject) object).getEllipse().x / PPM * mapscale, 
+						((EllipseMapObject) object).getEllipse().y / PPM * mapscale);
+				float radius = ((EllipseMapObject) object).getEllipse().width / PPM * mapscale;
+				
+				CircleShape circle = new CircleShape();
+				circle.setPosition(loc);
+				circle.setRadius(radius);
+				
+				openings.add(new Opening(circle, world, 0, 0));
+			}
+		}
+	}
+	
+//	private void createSpawn(MapObjects objects) {
+//		spawns = new Spawn[objects.getCount()];
+//		for(MapObject object : objects) {
+//			if(object instanceof EllipseMapObject) {
+//				Vector2 loc = new Vector2(((EllipseMapObject) object).getEllipse().x / PPM * mapscale, 
+//						((EllipseMapObject) object).getEllipse().y / PPM * mapscale);
+//				float radius = ((EllipseMapObject) object).getEllipse().width / PPM * mapscale;
+//				
+//				CircleShape circle = new CircleShape();
+//				circle.setPosition(loc);
+//				circle.setRadius(radius);
+//				
+//				int id = Integer.parseInt((String) object.getProperties().get("spawnId"));
+//				
+//				spawns[id] = new Spawn(circle, world, id);
+//			}
+//		}
+//	}
 	
 	public void render(OrthographicCamera cam) {
 		tmr.setView(cam);

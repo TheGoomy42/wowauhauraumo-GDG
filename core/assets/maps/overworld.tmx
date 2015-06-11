@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" nextobjectid="6">
  <tileset firstgid="1" name="overworld" tilewidth="16" tileheight="16">
   <image source="../tilesets/overworld.png" width="256" height="256"/>
  </tileset>
  <layer name="floor" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJztw0ENAAAMA6Grf9OzsQckrJqqqqqqPn0QtASx
+   eJztzrENAAAIA6Dq/0f7gbOJDOxUkgIAAICn+sAB2A0UXASy
   </data>
  </layer>
  <layer name="wall" width="40" height="30">
@@ -13,9 +13,22 @@
    eJztk0sOgCAQQ4l4/zO7YUGI0/kDGpp0pZ0+GC3laEddzVlzvfO5vLVnzFk5Uc7TQWW1jFQGzec6PFk0R9Oh+SYisyv5NLnMDsuuovar7ZK+P/v+ZpjSaq7Dl8MlZcw8h0ZcfiWb5wy7sEUxZuuvfGMW6W6ewYjylGqzlTFin+h57byKr4DnPZ911xH/goTPu2uKVZqT8nnu0iot38iJHMX3xsjxSRylL/I9pV8E0g==
   </data>
  </layer>
- <layer name="exits" width="40" height="30">
-  <data encoding="base64" compression="zlib">
-   eJztwTEBAAAAwqD1T20ND6AAAAAA4NcAEsAAAQ==
-  </data>
- </layer>
+ <objectgroup name="spawns">
+  <object id="1" type="spawn" x="103.5" y="391.5" width="1" height="1">
+   <properties>
+    <property name="spawnId" value="0"/>
+   </properties>
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="entrances" visible="0">
+  <object id="5" type="entrance" x="103.5" y="391.5" width="1" height="1">
+   <properties>
+    <property name="endLoc" value="1"/>
+    <property name="endSpawnId" value="0"/>
+   </properties>
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="exits"/>
 </map>
