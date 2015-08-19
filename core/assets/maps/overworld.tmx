@@ -1,34 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" nextobjectid="6">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="22" tilewidth="16" tileheight="16" nextobjectid="5">
  <tileset firstgid="1" name="overworld" tilewidth="16" tileheight="16">
   <image source="../tilesets/overworld.png" width="256" height="256"/>
  </tileset>
- <layer name="floor" width="40" height="30">
+ <layer name="floor" width="30" height="22">
   <data encoding="base64" compression="zlib">
-   eJztzrENAAAIA6Dq/0f7gbOJDOxUkgIAAICn+sAB2A0UXASy
+   eJztw0ENAAAMA6Grf9PzsDckrJqqqj4fW1sClQ==
   </data>
  </layer>
- <layer name="wall" width="40" height="30">
+ <layer name="floor" width="30" height="22">
   <data encoding="base64" compression="zlib">
-   eJztk0sOgCAQQ4l4/zO7YUGI0/kDGpp0pZ0+GC3laEddzVlzvfO5vLVnzFk5Uc7TQWW1jFQGzec6PFk0R9Oh+SYisyv5NLnMDsuuovar7ZK+P/v+ZpjSaq7Dl8MlZcw8h0ZcfiWb5wy7sEUxZuuvfGMW6W6ewYjylGqzlTFin+h57byKr4DnPZ911xH/goTPu2uKVZqT8nnu0iot38iJHMX3xsjxSRylL/I9pV8E0g==
+   eJxjYBgFo2AUjGSgONAOoBEQHGgHjIJRMApGwQgCADbfADM=
+  </data>
+ </layer>
+ <layer name="wall" width="30" height="22">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgF9AbMQMyCA7PR0F5hIBbBgcVG7R0wezmBmAsJc9PJXkk0vjSZ9ioDsQoOrEZDe0kFmmh8bTrZSy+AXq7QsixBBujxjy3OR8EoGAXDHwAA9QUGIA==
   </data>
  </layer>
  <objectgroup name="spawns">
-  <object id="1" type="spawn" x="103.5" y="391.5" width="1" height="1">
+  <object id="1" name="SPAWN FROM TOWN" type="spawn" x="176" y="160" width="1" height="1">
    <properties>
     <property name="spawnId" value="0"/>
    </properties>
    <ellipse/>
   </object>
  </objectgroup>
- <objectgroup name="entrances" visible="0">
-  <object id="5" type="entrance" x="103.5" y="391.5" width="1" height="1">
+ <objectgroup name="portals">
+  <object id="4" name="ENTRANCE TO TOWN" x="183.5" y="167.5" width="1" height="1">
    <properties>
-    <property name="endLoc" value="1"/>
-    <property name="endSpawnId" value="0"/>
+    <property name="entranceTo" value="TOWN"/>
+    <property name="entranceToSpawnId" value="0"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="2" name="ENTRANCE TO DUNGEON" x="279.5" y="135.5" width="1" height="1">
+   <properties>
+    <property name="entranceTo" value="NULL"/>
+    <property name="entranceToSpawnId" value="0"/>
    </properties>
    <ellipse/>
   </object>
  </objectgroup>
- <objectgroup name="exits"/>
 </map>
