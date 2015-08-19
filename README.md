@@ -20,7 +20,7 @@ This is in the form of a gradle project, for more information of how to incopora
 
 #### Version History
 (based of some variation of [semantic versioning](http://semver.org/))
-* **v0.2.0 - [CURRENT]** 
+* **v0.2.0 [CURRENT]** 
   * Added maps (currently just 2) and portals to travel between them.
 * **v0.1.0** 
   * Initial release. Includes movement and collision on a single map.
