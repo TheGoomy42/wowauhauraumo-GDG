@@ -18,21 +18,22 @@
    eJztltEKwCAIRXtb/f8Pjz0MIswsrybUgRiM0lNsWkoyCnCgQbpZuFr6aR299quN9fMoRwY7tuszM1dCu17jR+1P69d6RPNDEt3v4zQ/5PcnWd/z5WpMBL/ROVvUPyrGrB+6z41i1f2gfnJ12KK/afy87wjU/7zTr5dH4ufhxflRNaN+53V2Pb+Z+RZntprP02sl7w63FSK7XS6Xs3kBaDIKFQ==
   </data>
  </layer>
+ <objectgroup name="exits">
+  <object id="7" name="border" x="152" y="8">
+   <properties>
+    <property name="endLoc" value="0"/>
+    <property name="endSpawnId" value="0"/>
+   </properties>
+   <polyline points="0,0 -100,1 -98,408 466,409 465,0 319,1"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="entrances"/>
  <objectgroup name="spawns">
-  <object id="10" name="SPAWN FROM OVERWORLD" type="spawn" x="311.5" y="359.5" width="1" height="1">
+  <object id="10" type="spawn" x="311.5" y="359.5" width="1" height="1">
    <properties>
     <property name="spawnId" value="0"/>
    </properties>
    <ellipse/>
-  </object>
- </objectgroup>
- <objectgroup name="portals">
-  <object id="7" name="border" x="146.364" y="7.81818">
-   <properties>
-    <property name="entranceTo" value="OVERWORLD"/>
-    <property name="entranceToSpawnId" value="0"/>
-   </properties>
-   <polyline points="-2.75,7.75 -98.5,8 -98,408 430,408.25 429.75,8 366.75,8"/>
   </object>
  </objectgroup>
 </map>

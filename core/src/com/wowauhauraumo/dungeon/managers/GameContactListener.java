@@ -5,7 +5,8 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.wowauhauraumo.dungeon.maps.Map.Portal;
+import com.wowauhauraumo.dungeon.maps.Exit;
+import com.wowauhauraumo.dungeon.maps.Opening;
 import com.wowauhauraumo.dungeon.states.Play;
 
 public class GameContactListener implements ContactListener {
@@ -36,10 +37,16 @@ public class GameContactListener implements ContactListener {
 			play.setPlayerCollding(3, true);
 		}
 		
-		if(fa.getUserData() instanceof Portal && fb.getUserData() == "player") {
-			play.playerTeleport((Portal) fa.getUserData());
-		} else if(fb.getUserData() instanceof Portal && fa.getUserData() == "player") {
-			play.playerTeleport((Portal) fb.getUserData());
+		if(fa.getUserData() instanceof Exit && fb.getUserData() == "player") {
+			play.playerEx((Exit) fa.getUserData());
+		} else if(fb.getUserData() instanceof Exit && fa.getUserData() == "player") {
+			play.playerEx((Exit) fb.getUserData());
+		}
+		
+		if(fa.getUserData() instanceof Opening && fb.getUserData() == "player") {
+			play.playerE((Opening) fa.getUserData());
+		} else if(fb.getUserData() instanceof Opening && fa.getUserData() == "player") {
+			play.playerE((Opening) fb.getUserData());
 		}
 	}
 

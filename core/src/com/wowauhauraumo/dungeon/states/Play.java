@@ -19,16 +19,17 @@ import com.wowauhauraumo.dungeon.main.Game;
 import com.wowauhauraumo.dungeon.managers.GameContactListener;
 import com.wowauhauraumo.dungeon.managers.GameKeys;
 import com.wowauhauraumo.dungeon.managers.GameStateManager;
+import com.wowauhauraumo.dungeon.maps.Exit;
 import com.wowauhauraumo.dungeon.maps.Map;
-import com.wowauhauraumo.dungeon.maps.Map.MapTypes;
-import com.wowauhauraumo.dungeon.maps.Map.Portal;
+import com.wowauhauraumo.dungeon.maps.Map.Maps;
+import com.wowauhauraumo.dungeon.maps.Opening;
 
 public class Play extends GameState {
 
 	// box2d stuff
 	//private FPSLogger logger;
 	private World world;
-	@SuppressWarnings("unused")
+//	@SuppressWarnings("unused")
 	private Box2DDebugRenderer renderer;
 	private OrthographicCamera b2dcam;
 	
@@ -37,11 +38,13 @@ public class Play extends GameState {
 	private boolean[] playerColliding = new boolean[4];
 	private Map map;
 	
-	private boolean shouldTeleport;
+	private boolean newLevelE;
+	private boolean newLevelEx;
 	private Vector2 newSpawn;
-	private MapTypes newMap;
+	private int newMap;
 	
-	private Portal portal;
+	private Opening t_opening;
+	private Exit t_exit;
 	
 	public Play(GameStateManager gsm) {
 		super(gsm);
@@ -53,7 +56,7 @@ public class Play extends GameState {
 		
 		createPlayer();
 		map = new Map();
-		map.createMap(MapTypes.TOWN, world);
+		map.createMap(Maps.TOWN, world);
 		
 		// box2d camera
 		b2dcam = new OrthographicCamera();
@@ -117,9 +120,24 @@ public class Play extends GameState {
 		playerColliding[i] = b;
 	}
 	
-	public void playerTeleport(Portal portal) {
-		this.portal = portal;
-		shouldTeleport = true;
+	public void playerE(Opening opening) {
+		t_opening = opening;
+		newLevelE = true;
+	}
+	
+	public void playerEx(Exit exit) {
+		t_exit = exit;
+		newLevelEx = true;
+	}
+	
+	private void playerEnter() {
+		newSpawn = map.getSpawnCoords(t_opening.getEntranceTo(), t_opening.getSpawnId());
+		newMap = t_opening.getEntranceTo();
+	}
+	
+	private void playerExit() {
+		newSpawn = map.getSpawnCoords(t_exit.getExitTo(), t_exit.getSpawnId());
+		newMap = t_exit.getExitTo();
 	}
 	
 	private void nextMap() {
@@ -159,13 +177,19 @@ public class Play extends GameState {
 		player.update(delta, playerColliding);
 		world.step(delta, 6, 2);
 		
-		if(shouldTeleport) {
-			newSpawn = map.getSpawnCoords(portal.getEndMap(), portal.getSpawnId());
-			newMap = portal.getEndMap();
+		if(newLevelE) {
+			playerEnter();
 			nextMap();
 			player.getBody().setLinearVelocity(0, 0);
-			player.getBody().setTransform((newSpawn.x  + player.getWidth() / 2) / PPM, (newSpawn.y + player.getHeight() / 2) / PPM, 0);
-			shouldTeleport = false;
+			player.getBody().setTransform(newSpawn.y / PPM, newSpawn.x / PPM, player.getBody().getAngle());
+			newLevelE = false;
+		}
+		if(newLevelEx) {
+			playerExit();
+			nextMap();
+			player.getBody().setLinearVelocity(0, 0);
+			player.getBody().setTransform(newSpawn.y / PPM, newSpawn.x / PPM, player.getBody().getAngle());
+			newLevelEx = false;
 		}
 	}
 	
@@ -203,7 +227,7 @@ public class Play extends GameState {
 		player.render(sb);
 		
 		// draw box2d debug world
-//		renderer.render(world, b2dcam.combined);
+		renderer.render(world, b2dcam.combined);
 	}
 	
 	public void dispose() {
