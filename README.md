@@ -19,7 +19,7 @@ This is in the form of a gradle project, for more information of how to incopora
   * Add the ability to encounter and fight enemies in this dungeon
 
 #### Version History
-(based of some variation of [semantic versioning](http://semver.org/))
+(based off of some variation of [semantic versioning](http://semver.org/))
 * **v0.2.0 [CURRENT]** 
   * Added maps (currently just 2) and portals to travel between them.
 * **v0.1.0** 
