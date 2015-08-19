@@ -36,8 +36,6 @@ public class Player extends B2DSprite {
 	
 	public void update(float delta, boolean[] collisions) {
 		Vector2 vector = getBody().getLinearVelocity();
-		
-		moving = (vector.x != 0 || vector.y != 0);
 		if(moving) {
 			if(vector.y > 0) {
 				animation.switchFrames(upSprites);
@@ -52,7 +50,11 @@ public class Player extends B2DSprite {
 				animation.switchFrames(sideSprites);
 				if(!collisions[3]) super.update(delta);
 			}
+		} else {
+			animation.setCurrentFrame(0);
 		}
 	}
+	
+	public void setMoving(boolean b) { moving = b; }
 	
 }

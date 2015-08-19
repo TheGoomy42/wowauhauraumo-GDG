@@ -5,14 +5,15 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.wowauhauraumo.dungeon.maps.Map.Portal;
 import com.wowauhauraumo.dungeon.states.Play;
 
 public class GameContactListener implements ContactListener {
 	
-	Play state;
+	private Play play;
 	
 	public GameContactListener(Play state) {
-		this.state = state;
+		this.play = state;
 	}
 
 	// called when two fixtures start to collide
@@ -21,23 +22,24 @@ public class GameContactListener implements ContactListener {
 		Fixture fa = contact.getFixtureA();
 		Fixture fb = contact.getFixtureB();
 		
-//		if(fa.getUserData() != "player" && fb.getUserData() != "player") {
-//			System.out.println("------------START--------------");
-//			System.out.println("fa: " + fa.getUserData());
-//			System.out.println("fb: " + fb.getUserData());
-//		}
-		
+		// stop player animations
 		if((fa.getUserData() == "playerTop" && !fb.isSensor()) || (fb.getUserData() == "playerTop" && !fa.isSensor())) {
-			state.setPlayerCollding(0, true);
+			play.setPlayerCollding(0, true);
 		} 
 		if((fa.getUserData() == "playerBot" && !fb.isSensor()) || (fb.getUserData() == "playerBot" && !fa.isSensor())) {
-			state.setPlayerCollding(1, true);
+			play.setPlayerCollding(1, true);
 		} 
 		if((fa.getUserData() == "playerL" && !fb.isSensor()) || (fb.getUserData() == "playerL" && !fa.isSensor())) {
-			state.setPlayerCollding(2, true);
+			play.setPlayerCollding(2, true);
 		} 
 		if((fa.getUserData() == "playerR" && !fb.isSensor()) || (fb.getUserData() == "playerR" && !fa.isSensor())) {
-			state.setPlayerCollding(3, true);
+			play.setPlayerCollding(3, true);
+		}
+		
+		if(fa.getUserData() instanceof Portal && fb.getUserData() == "player") {
+			play.playerTeleport((Portal) fa.getUserData());
+		} else if(fb.getUserData() instanceof Portal && fa.getUserData() == "player") {
+			play.playerTeleport((Portal) fb.getUserData());
 		}
 	}
 
@@ -47,20 +49,15 @@ public class GameContactListener implements ContactListener {
 		Fixture fa = contact.getFixtureA();
 		Fixture fb = contact.getFixtureB();
 		
-//		if(fa.getUserData() != "player" && fb.getUserData() != "player") {
-//			System.out.println("------------END--------------");
-//			System.out.println("fa: " + fa.getUserData());
-//			System.out.println("fb: " + fb.getUserData());
-//		}
-		
+		// restart player animations
 		if((fa.getUserData() == "playerTop" && !fb.isSensor()) || (fb.getUserData() == "playerTop" && !fa.isSensor())) {
-			state.setPlayerCollding(0, false);
+			play.setPlayerCollding(0, false);
 		} else if((fa.getUserData() == "playerBot" && !fb.isSensor()) || (fb.getUserData() == "playerBot" && !fa.isSensor())) {
-			state.setPlayerCollding(1, false);
+			play.setPlayerCollding(1, false);
 		} else if((fa.getUserData() == "playerL" && !fb.isSensor()) || (fb.getUserData() == "playerL" && !fa.isSensor())) {
-			state.setPlayerCollding(2, false);
+			play.setPlayerCollding(2, false);
 		} else if((fa.getUserData() == "playerR" && !fb.isSensor()) || (fb.getUserData() == "playerR" && !fa.isSensor())) {
-			state.setPlayerCollding(3, false);
+			play.setPlayerCollding(3, false);
 		}
 	}
 

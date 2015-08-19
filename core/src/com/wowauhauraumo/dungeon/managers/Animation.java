@@ -56,4 +56,6 @@ public class Animation {
 	public TextureRegion getFrame() { return frames[currentFrame]; }
 	
 	public int getTimesPlayed() { return timesPlayed; }
+	
+	public void setCurrentFrame(int i) { if(i <= frames.length) currentFrame = i; }
 }
