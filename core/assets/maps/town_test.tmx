@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="5" height="5" tilewidth="16" tileheight="16" nextobjectid="14">
+ <tileset firstgid="1" name="terrain_town" tilewidth="16" tileheight="16">
+  <image source="../tilesets/terrain_town.png" width="200" height="100"/>
+ </tileset>
+ <layer name="floor" width="5" height="5">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYKQxBgAFeAAa
+  </data>
+ </layer>
+ <layer name="floor" width="5" height="5">
+  <data encoding="base64" compression="zlib">
+   eJxjYKA9AAAAZAAB
+  </data>
+ </layer>
+ <layer name="wall" width="5" height="5">
+  <data encoding="base64" compression="zlib">
+   eJxjYKA9AAAAZAAB
+  </data>
+ </layer>
+ <objectgroup name="portals">
+  <object id="12" x="70" y="72.25" width="1" height="1">
+   <properties>
+    <property name="entranceTo" value="OVERWORLD"/>
+    <property name="entranceToSpawnId" value="0"/>
+   </properties>
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="spawns">
+  <object id="11" name="SPAWN FROM OVERWORLD" x="24.5" y="24.75" width="1" height="1">
+   <properties>
+    <property name="spawnId" value="0"/>
+   </properties>
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>
