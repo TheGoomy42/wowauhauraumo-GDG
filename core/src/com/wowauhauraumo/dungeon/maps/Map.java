@@ -65,7 +65,7 @@ public class Map {
 		currentPortals = new Array<Portal>();
 	}
 	
-	private void loadMap(MapTypes map) {
+	private void loadMap(Areas map) {
 		switch(map) {
 		case TOWN:
 			tileMap = new TmxMapLoader().load("maps/town.tmx");
@@ -82,7 +82,7 @@ public class Map {
 		}
 	}
 	
-	public void createMap(MapTypes map, World world) {
+	public void createMap(Areas map, World world) {
 		this.world = world;
 		
 		loadMap(map);
@@ -102,7 +102,7 @@ public class Map {
 	}
 	
 	//TODO make this method run when the map is loaded
-	public Vector2 getSpawnCoords(MapTypes map, int spawnId) {
+	public Vector2 getSpawnCoords(Areas map, int spawnId) {
 		loadMap(map);
 		MapObjects objects = tileMap.getLayers().get("spawns").getObjects();
 		for(MapObject s : objects) {
@@ -201,7 +201,7 @@ public class Map {
 			if(shape != null){
 				Portal p = portals.obtain();
 				p.createBody(shape);
-				p.setMap(MapTypes.valueOf((String) object.getProperties().get("entranceTo")));
+				p.setMap(Areas.valueOf((String) object.getProperties().get("entranceTo")));
 				p.setSpawnId(Integer.parseInt((String) object.getProperties().get("entranceToSpawnId")));
 				currentPortals.add(p);
 			}
@@ -220,7 +220,7 @@ public class Map {
 	public int getHeight() { return mapHeight; }
 	public int getTileSize() { return tileSize; }
 	
-	public enum MapTypes {
+	public enum Areas {
 		NULL, OVERWORLD, TOWN
 	}
 	
@@ -267,7 +267,7 @@ public class Map {
 	public class Portal implements Poolable {
 		private Body body;
 		private int endSpawnId;
-		private MapTypes map;
+		private Areas map;
 		
 //		public Portal(Shape shape, MapTypes map, int endSpawnId) {
 //			this.endSpawnId = endSpawnId;
@@ -292,16 +292,16 @@ public class Map {
 		@Override
 		public void reset() {
 			endSpawnId = 0;
-			map = MapTypes.NULL;
+			map = Areas.NULL;
 			if(body != null && world.getBodyCount() > 0)
 				world.destroyBody(body);
 		}
 		
 		public void setSpawnId(int id) { endSpawnId = id; }
-		public void setMap(MapTypes m) { map = m; } 
+		public void setMap(Areas m) { map = m; } 
 		
 		public int getSpawnId() { return endSpawnId; }
-		public MapTypes getEndMap() { return map; }
+		public Areas getEndMap() { return map; }
 		public Body getBody() { return body; }
 	}
 	

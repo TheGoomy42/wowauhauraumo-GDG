@@ -37,9 +37,9 @@ public class GameContactListener implements ContactListener {
 		}
 		
 		if(fa.getUserData() instanceof Portal && fb.getUserData() == "player") {
-			play.playerTeleport((Portal) fa.getUserData());
+			play.playerTravel((Portal) fa.getUserData());
 		} else if(fb.getUserData() instanceof Portal && fa.getUserData() == "player") {
-			play.playerTeleport((Portal) fb.getUserData());
+			play.playerTravel((Portal) fb.getUserData());
 		}
 	}
 

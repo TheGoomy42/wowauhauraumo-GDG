@@ -20,46 +20,65 @@ import com.wowauhauraumo.dungeon.managers.GameContactListener;
 import com.wowauhauraumo.dungeon.managers.GameKeys;
 import com.wowauhauraumo.dungeon.managers.GameStateManager;
 import com.wowauhauraumo.dungeon.maps.Map;
-import com.wowauhauraumo.dungeon.maps.Map.MapTypes;
+import com.wowauhauraumo.dungeon.maps.Map.Areas;
 import com.wowauhauraumo.dungeon.maps.Map.Portal;
 
+/**
+ * The main class for the game. Contains basically everything. Currently in the form of a game state.
+ * 
+ * @author TheGoomy42
+ */
 public class Play extends GameState {
 
-	// box2d stuff
-	//private FPSLogger logger;
+	// box2d physics world
 	private World world;
-	@SuppressWarnings("unused")
-	private Box2DDebugRenderer renderer;
+	
+	@SuppressWarnings("unused")          // (not always used, this to stop annoying warning)
+	private Box2DDebugRenderer renderer; // renderer for debugging - shows all box2d objects on cam
 	private OrthographicCamera b2dcam;
 	
+	// logs the current fps
+	//private FPSLogger logger; 
+	
 	private Player player;
-	private float moveSpeed = 0.79f;
+	private float moveSpeed = 0.79f; //TODO this should be changed slightly in the overworld map
+	// one boolean for each side of the player
 	private boolean[] playerColliding = new boolean[4];
+	
+	// map stuff
 	private Map map;
+	private boolean shouldTravel; // whether the player should travel to a new map next tick
+	private Vector2 newSpawn;     // coords of where the player should be sent
+	private Portal portal;        // the portal object that the player is travelling through
+	private Areas newMap;         // The identifier of the new area
 	
-	private boolean shouldTeleport;
-	private Vector2 newSpawn;
-	private MapTypes newMap;
-	
-	private Portal portal;
-	
+	/**
+	 * Constructor. Creates Box2D physics world, player and map
+	 * @param gsm Reference to the GameStateManager
+	 */
 	public Play(GameStateManager gsm) {
 		super(gsm);
 		
 		// create box2d world etc.
 		world = new World(new Vector2(0, 0), true);
 		world.setContactListener(new GameContactListener(this));
-		renderer = new Box2DDebugRenderer();
 		
 		createPlayer();
-		map = new Map();
-		map.createMap(MapTypes.TOWN, world);
 		
-		// box2d camera
+		map = new Map();
+		map.createMap(Areas.TOWN, world);
+		
+		// box2d debug renderer
+		renderer = new Box2DDebugRenderer();
 		b2dcam = new OrthographicCamera();
 		b2dcam.setToOrtho(false, Game.width / PPM, Game.height / PPM);
 	}
 	
+	/**
+	 * Temporary method to create the player body and fixtures, before passing it into a 
+	 * new player class instance.
+	 * TODO move this to the player class
+	 */
 	private void createPlayer() {
 		// create bodydef
 		BodyDef bdef = new BodyDef();
@@ -110,39 +129,51 @@ public class Play extends GameState {
 		fdef.isSensor = true;
 		body.createFixture(fdef).setUserData("playerR");
 		
+		// pass this through to a new Player instance
 		player = new Player(body);
 	}
 	
+	/**
+	 * Set the playerColliding boolean to tell game logic if the player is colliding with
+	 * a solid object and should stop moving in that direction.
+	 * 
+	 * @param i an integer representing which side of the player is colliding
+	 * @param b true if that side is colliding
+	 */
 	public void setPlayerCollding(int i, boolean b) {
 		playerColliding[i] = b;
 	}
 	
-	public void playerTeleport(Portal portal) {
-		this.portal = portal;
-		shouldTeleport = true;
-	}
-	
-	private void nextMap() {
-		map.createMap(newMap, world);
+	/**
+	 * Tells the game logic that the player should travel next tick
+	 * 
+	 * @param p the portal the player has just entered
+	 */
+	public void playerTravel(Portal p) {
+		portal = p;
+		shouldTravel = true;
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////
 	
+	/**
+	 * Check if any keys are pressed
+	 */
 	public void handleInput() {
 		
 		Vector2 movement = new Vector2(0,0);
 		
-		if(GameKeys.isDown(GameKeys.UP)) {
+		if(GameKeys.isDown(GameKeys.Keys.UP)) {
 			movement.add(0, moveSpeed);
 			player.setMoving(true);
-		} else if(GameKeys.isDown(GameKeys.DOWN)) {
+		} else if(GameKeys.isDown(GameKeys.Keys.DOWN)) {
 			movement.add(0, -moveSpeed);
 			player.setMoving(true);
-		} else if(GameKeys.isDown(GameKeys.RIGHT)) {
+		} else if(GameKeys.isDown(GameKeys.Keys.RIGHT)) {
 			movement.add(moveSpeed, 0);
 			player.setRight(true);
 			player.setMoving(true);
-		} else if(GameKeys.isDown(GameKeys.LEFT)) {
+		} else if(GameKeys.isDown(GameKeys.Keys.LEFT)) {
 			movement.add(-moveSpeed, 0);
 			player.setRight(false);
 			player.setMoving(true);
@@ -159,13 +190,13 @@ public class Play extends GameState {
 		player.update(delta, playerColliding);
 		world.step(delta, 6, 2);
 		
-		if(shouldTeleport) {
+		if(shouldTravel) {
 			newSpawn = map.getSpawnCoords(portal.getEndMap(), portal.getSpawnId());
 			newMap = portal.getEndMap();
-			nextMap();
+			map.createMap(newMap, world);
 			player.getBody().setLinearVelocity(0, 0);
 			player.getBody().setTransform((newSpawn.x  + player.getWidth() / 2) / PPM, (newSpawn.y + player.getHeight() / 2) / PPM, 0);
-			shouldTeleport = false;
+			shouldTravel = false;
 		}
 	}
 	
