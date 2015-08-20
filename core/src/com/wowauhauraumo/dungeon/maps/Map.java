@@ -4,6 +4,7 @@ import static com.wowauhauraumo.dungeon.managers.B2DVars.BIT_ENTITY;
 import static com.wowauhauraumo.dungeon.managers.B2DVars.BIT_EXIT;
 import static com.wowauhauraumo.dungeon.managers.B2DVars.BIT_WALL;
 import static com.wowauhauraumo.dungeon.managers.B2DVars.PPM;
+import static com.esotericsoftware.minlog.Log.*;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapObject;
@@ -28,80 +29,92 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
-/*
+/**
+ * This class creates and stores the current map the player is on.
+ * It loads in the tilemap and turns that into world bodies.
+ * It also creates 'Portal' and 'Spawn' objects from data in the .tmx file (see below).
+ * It uses LibGDX pools to contain these.
+ * Tilemaps are made in Tiled:
+ * http://www.mapeditor.org/
+ * 
  * TO CLEAR UP SOME TERMINOLOGY:
  * 
  * portal - a way to travel from one map to another
  * spawn - a location where the player should be sent upon arriving in a map
+ * 
+ * @author TheGoomy42
  */
-
-//TODO add a logger library to record what is happening
-
 public class Map {
 	
+	// the width and height, in pixels, of a tile
 	private int tileSize;
+	// the object that renders the map to the screen
 	private OrthogonalTiledMapRenderer tmr;
+	// used to scale the tilemap to be bigger smaller
+	// currently not used (changing this might bug everything out)
 	private final int mapscale = 1;
+	// the dimensions of the map
 	private int mapWidth;
 	private int mapHeight;
+	// a reference to the Box2D world
 	private World world;
+	// the tilemap
 	private TiledMap tileMap;
 	
+	// a pool to store the tiles
 	private TilePool tiles;
-	private Array<Tile> currentTiles;
-	
+	private Array<Tile> currentTiles;     // used to manage the pool
+	// a pool to store the portals
 	private PortalPool portals;
-	private Array<Portal> currentPortals;
+	private Array<Portal> currentPortals; // used to manage the pool
+	
+//  originally used simple arrays for this
 //	private Array<Exit> exits;
 //	private Array<Opening> openings;
 //	private Array<Portal> portals;
 	
 	public Map() {
+		info("Initialising map...");
 		tiles = new TilePool();
 		currentTiles = new Array<Tile>(true, 100);
-//		exits = new Array<Exit>(false, 5);
-//		openings = new Array<Opening>(false, 5);
 		portals = new PortalPool();
 		currentPortals = new Array<Portal>();
+		// original dodgy code
+//		exits = new Array<Exit>(false, 5);
+//		openings = new Array<Opening>(false, 5);
 	}
 	
-	private void loadMap(Areas map) {
-		switch(map) {
-		case TOWN:
-			tileMap = new TmxMapLoader().load("maps/town.tmx");
-			break;
-		case OVERWORLD:
-			tileMap = new TmxMapLoader().load("maps/overworld.tmx");
-			break;
-		case NULL:
-			// log
-			break;
-		default:
-			tileMap = new TmxMapLoader().load("maps/town.tmx");
-			break;
-		}
-	}
-	
+	/**
+	 * This public function is used to switch the currently loaded map, e.g. when the player enters a portal.
+	 * 
+	 * @param map the ID of the map to load
+	 * @param world a reference to the Box2D world
+	 */
 	public void createMap(Areas map, World world) {
 		this.world = world;
 		
+		// load in the tilemap
 		loadMap(map);
 		
+		// free up all of the objects in the pools
+		portals.freeAll(currentPortals);
+		currentPortals.clear();
+		tiles.freeAll(currentTiles);
+		currentTiles.clear();
+		
+		
+		createTiles();
+		
+//		more remnants of the old system
+//		for(Body t : tiles) {
+//			if(t.getUserData() == "tile") if(world.getBodyCount() > 0) this.world.destroyBody(t);
+//		}
 //		for(Portal p : portals) {
 //			System.out.println("portal loop body count: " + world.getBodyCount());
 //			if(p.getBody().getUserData() instanceof Portal) if(world.getBodyCount() > 0) p.dispose();
 //		}
-		portals.freeAll(currentPortals);
-		currentPortals.clear();
-//		for(Body t : tiles) {
-//			if(t.getUserData() == "tile") if(world.getBodyCount() > 0) this.world.destroyBody(t);
-//		}
-		tiles.freeAll(currentTiles);
-		currentTiles.clear();
-		createTiles();
 	}
 	
-	//TODO make this method run when the map is loaded
 	public Vector2 getSpawnCoords(Areas map, int spawnId) {
 		loadMap(map);
 		MapObjects objects = tileMap.getLayers().get("spawns").getObjects();
@@ -115,34 +128,71 @@ public class Map {
 		return null;
 	}
 	
+	/**
+	 * Loads in the tilemap .tmx file.
+	 * 
+	 * @param map the ID of the map to load
+	 */
+	private void loadMap(Areas map) {
+		switch(map) {
+		case TOWN:
+			tileMap = new TmxMapLoader().load("maps/town.tmx");
+			break;
+		case OVERWORLD:
+			tileMap = new TmxMapLoader().load("maps/overworld.tmx");
+			break;
+		case NULL:
+			error("Trying to load a null map!");
+			break;
+		default:
+			tileMap = new TmxMapLoader().load("maps/town.tmx");
+			break;
+		}
+	}
+	
+	/**
+	 * Create the Tile and Portal instances using the loaded tilemap.
+	 */
 	private void createTiles() {
 		tmr = new OrthogonalTiledMapRenderer(tileMap, mapscale);
 		tileSize = (Integer) tileMap.getProperties().get("tilewidth");
 		
 		TiledMapTileLayer layer;
 		
+		// get the wall layer and create Box2D bodies that collide with the player
 		layer = (TiledMapTileLayer) tileMap.getLayers().get("wall");
 		createLayer(layer, BIT_WALL);
+//		just realised that there is no point in creating a ton of
+//		bodies that don't collide with anything
 //		layer = (TiledMapTileLayer) tileMap.getLayers().get("floor");
 //		createLayer(layer, BIT_EMPTY);
+		// get the portal layer and create their objects
 		MapObjects objects = tileMap.getLayers().get("portals").getObjects();
 		createPortals(objects);
 		
+		// get the dimensions of the tilemap
 		mapWidth = (int) ((Integer) tileMap.getProperties().get("width") * mapscale);
 		mapHeight = (int) ((Integer) tileMap.getProperties().get("height") * mapscale);
 	}
 	
+	/**
+	 * Creates Tiles using a pool.
+	 * 
+	 * @param layer The layer to create bodies for
+	 * @param bits Collision bits
+	 */
 	private void createLayer(TiledMapTileLayer layer, short bits) {
+		// Bodies are made of ChainShapes because apparently normal rectangles have trouble
 		ChainShape cs;
 		
+		// loop through the entire layer
 		for(int row = 0; row < layer.getHeight(); row++) {
 			for(int col = 0; col < layer.getWidth(); col++) {
 				Cell cell = layer.getCell(col, row);
 				
+				// only create a body if there is a tile present
 				if(cell == null) continue;
 				if(cell.getTile() == null) continue;
-//				bdef.type = BodyType.StaticBody;
-//				bdef.position.set((col + 0.5f) * tileSize / PPM * mapscale, (row + 0.5f) * tileSize / PPM * mapscale);
 				
 				// not a normal box because that has problems with dragging along
 				Vector2[] v = new Vector2[5];
@@ -154,29 +204,23 @@ public class Map {
 				cs = new ChainShape();
 				cs.createChain(v);
 				
+				// add this tile to the pool
 				Tile t = tiles.obtain();
 				t.createBody(cs, row, col, bits);
 				currentTiles.add(t);
-				
-//				fdef.friction = 0;
-//				fdef.shape = cs;
-//				fdef.filter.categoryBits = bits;
-//				fdef.filter.maskBits = BIT_ENTITY;
-//				fdef.isSensor = false;
-//				
-//				Body body = world.createBody(bdef);
-//				body.createFixture(fdef);
-//				body.setUserData("tile");
-//				tiles.add(body);
 			}
 		}
 	}
-	
 
-	
+	/**
+	 * Creates portals using a pool.
+	 * 
+	 * @param objects The collection of portal objects
+	 */
 	private void createPortals(MapObjects objects) {
 		for(MapObject object : objects) {
-			Shape shape = null;
+			// the maps use both Polylines and Ellipses as portals
+			Shape shape = null; // we can create a body with any kind of shape
 			if(object instanceof PolylineMapObject) {
 				float[] vertices = ((PolylineMapObject) object).getPolyline().getTransformedVertices();
 		        Vector2[] worldVertices = new Vector2[vertices.length / 2];
@@ -198,19 +242,26 @@ public class Map {
 				((CircleShape) shape).setPosition(loc);
 				((CircleShape) shape).setRadius(radius);
 			}
-			if(shape != null){
+			// if we actually created a shape
+			// (this should only fail if a map contains portals that aren't the above shapes)
+			if(shape != null) {
+				// get a portal from the pool
 				Portal p = portals.obtain();
+				// set portal properties
 				p.createBody(shape);
 				p.setMap(Areas.valueOf((String) object.getProperties().get("entranceTo")));
 				p.setSpawnId(Integer.parseInt((String) object.getProperties().get("entranceToSpawnId")));
+				// add to the active portal array
 				currentPortals.add(p);
-			}
-//				portals.add(new Portal(shape,
-//						   MapTypes.valueOf((String) object.getProperties().get("entranceTo")), 
-//						   Integer.parseInt((String) object.getProperties().get("entranceToSpawnId"))));
+			} else error("Tried to create a portal with an unrecognised shape!");
 		}
 	}
 	
+	/**
+	 * Render the tilemap
+	 * 
+	 * @param cam The camera to use to render
+	 */
 	public void render(OrthographicCamera cam) {
 		tmr.setView(cam);
 		tmr.render();
@@ -220,10 +271,20 @@ public class Map {
 	public int getHeight() { return mapHeight; }
 	public int getTileSize() { return tileSize; }
 	
+	/**
+	 * Contains all of the map identifiers.
+	 * 
+	 * @author TheGoomy42
+	 */
 	public enum Areas {
 		NULL, OVERWORLD, TOWN
 	}
 	
+	/**
+	 * This pool is used to store all of the tiles.
+	 * 
+	 * @author TheGoomy42
+	 */
 	private class TilePool extends Pool<Tile> {
 		@Override
 		protected Tile newObject() {
@@ -231,6 +292,11 @@ public class Map {
 		}
 	}
 	
+	/**
+	 * The tile class. Basically a Poolable container for the Box2D body
+	 * 
+	 * @author TheGoomy42
+	 */
 	private class Tile implements Poolable {
 		private Body body;
 		
@@ -253,10 +319,16 @@ public class Map {
 
 		@Override
 		public void reset() {
+			// destroy it's body
 			if(body != null && world.getBodyCount() > 0) world.destroyBody(body);
 		}
 	}
 	
+	/**
+	 * This pool is used to store all of the portals.
+	 * 
+	 * @author TheGoomy42
+	 */
 	private class PortalPool extends Pool<Portal> {
 		@Override
 		protected Portal newObject() {
@@ -264,15 +336,15 @@ public class Map {
 		}
 	}
 	
+	/**
+	 * The portal class. Poolable object that contains properties for every portal.
+	 * 
+	 * @author TheGoomy42
+	 */
 	public class Portal implements Poolable {
 		private Body body;
 		private int endSpawnId;
 		private Areas map;
-		
-//		public Portal(Shape shape, MapTypes map, int endSpawnId) {
-//			this.endSpawnId = endSpawnId;
-//			this.map = map;
-//		}
 		
 		public void createBody(Shape shape) {
 			BodyDef bdef = new BodyDef();
@@ -291,6 +363,7 @@ public class Map {
 		
 		@Override
 		public void reset() {
+			// reset all properties and destroy the body
 			endSpawnId = 0;
 			map = Areas.NULL;
 			if(body != null && world.getBodyCount() > 0)
@@ -304,49 +377,4 @@ public class Map {
 		public Areas getEndMap() { return map; }
 		public Body getBody() { return body; }
 	}
-	
-//	OLD CRAPPY SYSTEM
-//	private void createExit(MapObjects objects) {
-//		for(MapObject object : objects) {
-//			if(object instanceof PolylineMapObject) {
-//				float[] vertices = ((PolylineMapObject) object).getPolyline().getTransformedVertices();
-//		        Vector2[] worldVertices = new Vector2[vertices.length / 2];
-//
-//		        for (int i = 0; i < vertices.length / 2; ++i) {
-//		            worldVertices[i] = new Vector2();
-//		            worldVertices[i].x = vertices[i * 2] / PPM * mapscale;
-//		            worldVertices[i].y = vertices[i * 2 + 1] / PPM * mapscale;
-//		        }
-//
-//		        ChainShape chain = new ChainShape(); 
-//		        chain.createChain(worldVertices);
-//		        
-//		        
-//		        exits.add(new Exit(chain, world, 
-//		        		MapTypes.valueOf((String) object.getProperties().get("endLoc")), 
-//		        		Integer.parseInt((String) object.getProperties().get("endSpawnId"))));
-//			}
-//		}
-//	}
-//	
-//	private void createEntrance(MapObjects objects) {
-//		for(MapObject object : objects) {
-//			if(object instanceof EllipseMapObject) {
-//				Vector2 loc = new Vector2(((EllipseMapObject) object).getEllipse().x / PPM * mapscale, 
-//						((EllipseMapObject) object).getEllipse().y / PPM * mapscale);
-//				float radius = ((EllipseMapObject) object).getEllipse().width / PPM * mapscale;
-//				
-//				CircleShape circle = new CircleShape();
-//				circle.setPosition(loc);
-//				circle.setRadius(radius);
-//				
-//				System.out.println(object.getProperties().get("entranceTo"));
-//				
-//				openings.add(new Opening(circle, world, 
-//						   MapTypes.valueOf((String) object.getProperties().get("entranceTo")), 
-//						   Integer.parseInt((String) object.getProperties().get("entranceToSpawnId"))));
-//			}
-//		}
-//	}
-	
 }

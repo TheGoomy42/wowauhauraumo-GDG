@@ -1,24 +1,18 @@
 package com.wowauhauraumo.dungeon.states;
 
-import static com.wowauhauraumo.dungeon.managers.B2DVars.BIT_ENTITY;
-import static com.wowauhauraumo.dungeon.managers.B2DVars.BIT_EXIT;
-import static com.wowauhauraumo.dungeon.managers.B2DVars.BIT_WALL;
 import static com.wowauhauraumo.dungeon.managers.B2DVars.PPM;
+import static com.esotericsoftware.minlog.Log.*;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.wowauhauraumo.dungeon.entities.Player;
 import com.wowauhauraumo.dungeon.main.Game;
 import com.wowauhauraumo.dungeon.managers.GameContactListener;
 import com.wowauhauraumo.dungeon.managers.GameKeys;
-import com.wowauhauraumo.dungeon.managers.GameStateManager;
 import com.wowauhauraumo.dungeon.maps.Map;
 import com.wowauhauraumo.dungeon.maps.Map.Areas;
 import com.wowauhauraumo.dungeon.maps.Map.Portal;
@@ -28,8 +22,14 @@ import com.wowauhauraumo.dungeon.maps.Map.Portal;
  * 
  * @author TheGoomy42
  */
-public class Play extends GameState {
+public class PlayScreen implements Screen {
 
+	//private Game game;
+	
+	private SpriteBatch sb;
+	private OrthographicCamera cam;
+	//private OrthographicCamera hudcam;
+	
 	// box2d physics world
 	private World world;
 	
@@ -41,7 +41,9 @@ public class Play extends GameState {
 	//private FPSLogger logger; 
 	
 	private Player player;
-	private float moveSpeed = 0.79f; //TODO this should be changed slightly in the overworld map
+	private final float moveSpeedOverworld = 0.5f;
+	private final float moveSpeedNormal = 0.79f;
+	private float moveSpeed = moveSpeedNormal;
 	// one boolean for each side of the player
 	private boolean[] playerColliding = new boolean[4];
 	
@@ -56,14 +58,17 @@ public class Play extends GameState {
 	 * Constructor. Creates Box2D physics world, player and map
 	 * @param gsm Reference to the GameStateManager
 	 */
-	public Play(GameStateManager gsm) {
-		super(gsm);
+	public PlayScreen(Game game) {
+		//this.game = game;
+		sb = game.getSpriteBatch();
+		cam = game.getCamera();
+		//hudcam = game.getHUDCamera();
 		
 		// create box2d world etc.
 		world = new World(new Vector2(0, 0), true);
 		world.setContactListener(new GameContactListener(this));
 		
-		createPlayer();
+		player = new Player(world);
 		
 		map = new Map();
 		map.createMap(Areas.TOWN, world);
@@ -72,65 +77,6 @@ public class Play extends GameState {
 		renderer = new Box2DDebugRenderer();
 		b2dcam = new OrthographicCamera();
 		b2dcam.setToOrtho(false, Game.width / PPM, Game.height / PPM);
-	}
-	
-	/**
-	 * Temporary method to create the player body and fixtures, before passing it into a 
-	 * new player class instance.
-	 * TODO move this to the player class
-	 */
-	private void createPlayer() {
-		// create bodydef
-		BodyDef bdef = new BodyDef();
-		bdef.position.set(100 / PPM, 110 / PPM);
-		bdef.type = BodyType.DynamicBody;
-		Body body = world.createBody(bdef);
-		
-		// create shape
-		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(6 / PPM, 6 / PPM);
-		
-		// create main fixture
-		FixtureDef fdef = new FixtureDef();
-		fdef.shape = shape;
-		fdef.filter.categoryBits = BIT_ENTITY;
-		fdef.filter.maskBits = BIT_WALL | BIT_EXIT;
-		body.createFixture(fdef).setUserData("player");
-		
-		// create top sensor
-		shape.setAsBox(5f / PPM, 2 / PPM, new Vector2(0, 7 / PPM), 0);
-		fdef.shape = shape;
-		fdef.filter.categoryBits = BIT_ENTITY;
-		fdef.filter.maskBits = BIT_WALL;
-		fdef.isSensor = true;
-		body.createFixture(fdef).setUserData("playerTop");
-		
-		// create bottom sensor
-		shape.setAsBox(5f / PPM, 2 / PPM, new Vector2(0, -7 / PPM), 0);
-		fdef.shape = shape;
-		fdef.filter.categoryBits = BIT_ENTITY;
-		fdef.filter.maskBits = BIT_WALL;
-		fdef.isSensor = true;
-		body.createFixture(fdef).setUserData("playerBot");
-		
-		// create left sensor
-		shape.setAsBox(2 / PPM, 5f / PPM, new Vector2(-7 / PPM, 0), 0);
-		fdef.shape = shape;
-		fdef.filter.categoryBits = BIT_ENTITY;
-		fdef.filter.maskBits = BIT_WALL;
-		fdef.isSensor = true;
-		body.createFixture(fdef).setUserData("playerL");
-		
-		// create right sensor
-		shape.setAsBox(2 / PPM, 5f / PPM, new Vector2(7 / PPM, 0), 0);
-		fdef.shape = shape;
-		fdef.filter.categoryBits = BIT_ENTITY;
-		fdef.filter.maskBits = BIT_WALL;
-		fdef.isSensor = true;
-		body.createFixture(fdef).setUserData("playerR");
-		
-		// pass this through to a new Player instance
-		player = new Player(body);
 	}
 	
 	/**
@@ -150,8 +96,13 @@ public class Play extends GameState {
 	 * @param p the portal the player has just entered
 	 */
 	public void playerTravel(Portal p) {
-		portal = p;
-		shouldTravel = true;
+		info("Player wants to teleport next tick!");
+		if(p != null) {
+			portal = p;
+			shouldTravel = true;
+		} else {
+			error("Portal is null! Cancelling player teleport...");
+		}
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////
@@ -183,19 +134,40 @@ public class Play extends GameState {
 		player.getBody().setLinearVelocity(movement);
 	}
 	
+	/**
+	 * Update method contains game logic and basically everything that doesn't involve drawing
+	 * graphics to the screen. Called in the overwritten render(float delta) method.
+	 * 
+	 * @param delta
+	 */
 	public void update(float delta) {
 		
+		// get user input
 		handleInput();
 		
+		// update the player and world
 		player.update(delta, playerColliding);
 		world.step(delta, 6, 2);
 		
+		// if the player wants to go through a portal
 		if(shouldTravel) {
-			newSpawn = map.getSpawnCoords(portal.getEndMap(), portal.getSpawnId());
+			// this is the id of the map the player wants to go to
 			newMap = portal.getEndMap();
+			info("Player teleporting to map with id " + newMap.toString() + " spawn id " + portal.getSpawnId());
+			newSpawn = map.getSpawnCoords(newMap, portal.getSpawnId());
+			// creates the new map, discarding the old one
 			map.createMap(newMap, world);
+			// stop the player moving
 			player.getBody().setLinearVelocity(0, 0);
+			// move the player to the correct spawn in the new map
 			player.getBody().setTransform((newSpawn.x  + player.getWidth() / 2) / PPM, (newSpawn.y + player.getHeight() / 2) / PPM, 0);
+			info("Player successfully teleported to map " + newMap.toString());
+			// make the player slower in the overworld
+			if(newMap == Areas.OVERWORLD)
+				moveSpeed = moveSpeedOverworld;
+			else
+				moveSpeed = moveSpeedNormal;
+			// don't run this again
 			shouldTravel = false;
 		}
 	}
@@ -204,24 +176,32 @@ public class Play extends GameState {
 		
 		// set camera to follow player
 		// need to check if the camera is off the screen
+		// get the width and height of the map
 		int w = map.getWidth() * map.getTileSize();
 		int h = map.getHeight() * map.getTileSize();
+		// the player's position
+		Vector2 playerPos = player.getPosition();
+		// a Vector2 containing the new position of the camera
 		Vector2 pos = new Vector2(Game.width / 2, Game.height / 2);
-		if(player.getPosition().x * PPM - Game.width / 2 > 0) {
-			if(player.getPosition().x * PPM + Game.width / 2 < w) {
-				pos.x = player.getPosition().x * PPM;
+		// no clue how this works
+		if(playerPos.x * PPM - Game.width / 2 > 0) {
+			if(playerPos.x * PPM + Game.width / 2 < w) {
+				pos.x = playerPos.x * PPM;
 			} else {
 				pos.x = w - Game.width / 2;
 			}
 		}
-		if(player.getPosition().y * PPM - Game.height / 2 > 0) {
-			if(player.getPosition().y * PPM + Game.height / 2 < h) {
-				pos.y = player.getPosition().y * PPM;
+		if(playerPos.y * PPM - Game.height / 2 > 0) {
+			if(playerPos.y * PPM + Game.height / 2 < h) {
+				pos.y = playerPos.y * PPM;
 			} else {
 				pos.y = h - Game.height / 2;
 			}
 		}
+		// set the camera's position to this Vector2
 		cam.position.set((int) pos.x, (int) pos.y, 0);
+		
+		// update the cameras
 		b2dcam.position.set(pos.x / PPM, pos.y / PPM, 0);
 		b2dcam.update();
 		cam.update();
@@ -237,6 +217,31 @@ public class Play extends GameState {
 //		renderer.render(world, b2dcam.combined);
 	}
 	
+	// The following methods are for the Game/Screen process and should be
+	// done at some point
+
+	@Override
+	public void render(float delta) {
+		update(delta);
+		render();
+	}
+
+	@Override
+	public void show() {  }
+
+	@Override
+	public void resize(int width, int height) {  }
+
+	@Override
+	public void pause() {  }
+
+	@Override
+	public void resume() {  }
+
+	@Override
+	public void hide() {  }
+	
+	@Override
 	public void dispose() {
 		world.dispose();
 	}

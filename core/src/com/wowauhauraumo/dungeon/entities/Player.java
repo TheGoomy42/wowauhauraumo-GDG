@@ -1,9 +1,19 @@
 package com.wowauhauraumo.dungeon.entities;
 
+import static com.wowauhauraumo.dungeon.managers.B2DVars.BIT_ENTITY;
+import static com.wowauhauraumo.dungeon.managers.B2DVars.BIT_EXIT;
+import static com.wowauhauraumo.dungeon.managers.B2DVars.BIT_WALL;
+import static com.wowauhauraumo.dungeon.managers.B2DVars.PPM;
+import static com.esotericsoftware.minlog.Log.*;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 import com.wowauhauraumo.dungeon.main.Game;
 
 public class Player extends B2DSprite {
@@ -14,8 +24,10 @@ public class Player extends B2DSprite {
 	
 	private boolean moving;
 
-	public Player(Body body) {
-		super(body);
+	public Player(World world) {
+		super();
+		createPlayer(world);
+		
 		
 		Texture tex = Game.res.getTexture("warrior");
 		sprites = TextureRegion.split(tex, 16, 16)[0];
@@ -32,6 +44,60 @@ public class Player extends B2DSprite {
 		moving = false;
 		
 		setAnimation(sideSprites, 1/4f);
+	}
+	
+	
+	
+	private void createPlayer(World world) {
+		info("Creating player body...");
+		// create bodydef
+		BodyDef bdef = new BodyDef();
+		bdef.position.set(100 / PPM, 110 / PPM);
+		bdef.type = BodyType.DynamicBody;
+		body = world.createBody(bdef);
+		
+		// create shape
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox(6 / PPM, 6 / PPM);
+		
+		// create main fixture
+		FixtureDef fdef = new FixtureDef();
+		fdef.shape = shape;
+		fdef.filter.categoryBits = BIT_ENTITY;
+		fdef.filter.maskBits = BIT_WALL | BIT_EXIT;
+		body.createFixture(fdef).setUserData("player");
+		
+		// create top sensor
+		shape.setAsBox(5f / PPM, 2 / PPM, new Vector2(0, 7 / PPM), 0);
+		fdef.shape = shape;
+		fdef.filter.categoryBits = BIT_ENTITY;
+		fdef.filter.maskBits = BIT_WALL;
+		fdef.isSensor = true;
+		body.createFixture(fdef).setUserData("playerTop");
+		
+		// create bottom sensor
+		shape.setAsBox(5f / PPM, 2 / PPM, new Vector2(0, -7 / PPM), 0);
+		fdef.shape = shape;
+		fdef.filter.categoryBits = BIT_ENTITY;
+		fdef.filter.maskBits = BIT_WALL;
+		fdef.isSensor = true;
+		body.createFixture(fdef).setUserData("playerBot");
+		
+		// create left sensor
+		shape.setAsBox(2 / PPM, 5f / PPM, new Vector2(-7 / PPM, 0), 0);
+		fdef.shape = shape;
+		fdef.filter.categoryBits = BIT_ENTITY;
+		fdef.filter.maskBits = BIT_WALL;
+		fdef.isSensor = true;
+		body.createFixture(fdef).setUserData("playerL");
+		
+		// create right sensor
+		shape.setAsBox(2 / PPM, 5f / PPM, new Vector2(7 / PPM, 0), 0);
+		fdef.shape = shape;
+		fdef.filter.categoryBits = BIT_ENTITY;
+		fdef.filter.maskBits = BIT_WALL;
+		fdef.isSensor = true;
+		body.createFixture(fdef).setUserData("playerR");
 	}
 	
 	public void update(float delta, boolean[] collisions) {

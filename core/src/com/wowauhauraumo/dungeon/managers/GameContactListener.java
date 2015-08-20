@@ -6,13 +6,13 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.wowauhauraumo.dungeon.maps.Map.Portal;
-import com.wowauhauraumo.dungeon.states.Play;
+import com.wowauhauraumo.dungeon.states.PlayScreen;
 
 public class GameContactListener implements ContactListener {
 	
-	private Play play;
+	private PlayScreen play;
 	
-	public GameContactListener(Play state) {
+	public GameContactListener(PlayScreen state) {
 		this.play = state;
 	}
 

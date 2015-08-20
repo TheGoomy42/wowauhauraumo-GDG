@@ -1,21 +1,24 @@
 package com.wowauhauraumo.dungeon.main;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import static com.esotericsoftware.minlog.Log.*;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.wowauhauraumo.dungeon.managers.Content;
 import com.wowauhauraumo.dungeon.managers.GameKeys;
-import com.wowauhauraumo.dungeon.managers.GameStateManager;
 import com.wowauhauraumo.dungeon.managers.InputProcessor;
+import com.wowauhauraumo.dungeon.states.PlayScreen;
 
 /**
  * This class controls the entire game and overrides LIbGDX's create() and render() methods.
+ * NOTE: The use of LibGDX Screen has not yet been fully implemented. There are no main menu or inventory
+ * screens as of yet.
  * 
  * @author TheGoomy42
  */
-public class Game extends ApplicationAdapter {
+public class Game extends com.badlogic.gdx.Game {
 	
 	// the dimensions in pixels of the display surface
 	public static int width, height;
@@ -26,9 +29,6 @@ public class Game extends ApplicationAdapter {
 	private OrthographicCamera cam;
 	// camera for the HUD
 	private OrthographicCamera hudcam;
-	
-	// GameStateManager instance
-	private GameStateManager gsm;
 	
 	// store for all game textures
 	public static Content res;
@@ -49,28 +49,40 @@ public class Game extends ApplicationAdapter {
 		height = Gdx.graphics.getHeight() / 2;
 		
 		// load in textures
+		debug("Loading in textures");
 		res = new Content();
 		loadTextures();
+		debug("Textures loaded");
 		
 		// start receiving input
 		Gdx.input.setInputProcessor(new InputProcessor());
+		debug("Input processor created");
 		
 		// initialise objects
 		sb = new SpriteBatch();
 		cam = new OrthographicCamera();
 		cam.setToOrtho(false, width, height);
+		debug("Main camera initialised");
 		hudcam = new OrthographicCamera();
 		hudcam.setToOrtho(false, width, height);
+		debug("HUD camera initialised");
 		
 		// initialise GameStateManager
-		gsm = new GameStateManager(this);
+		// gsm = new GameStateManager(this);
+		
+		setScreen(new PlayScreen(this));
+		debug("Screen set to play screen");
+		
+		info("Game created");
 	}
 	
 	/**
 	 * Load in animation sprites
 	 */
 	private void loadTextures() {
+		debug("Loading sprites/warrior.png");
 		res.loadTexture("sprites/warrior.png", "warrior");
+		debug("Success!");
 	}
 
 	@Override
@@ -84,8 +96,9 @@ public class Game extends ApplicationAdapter {
 			// update input
 			GameKeys.update();
 			// run update and render from GameStateManager
-			gsm.update(STEP);
-			gsm.render();
+//			gsm.update(STEP);
+//			gsm.render();
+			super.render();
 			// reset timer
 			accum -= STEP;
 		}

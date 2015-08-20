@@ -1,5 +1,7 @@
 package com.wowauhauraumo.game.desktop;
 
+import static com.esotericsoftware.minlog.Log.*;
+
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.wowauhauraumo.dungeon.main.Game;
@@ -15,6 +17,7 @@ public class DesktopLauncher {
 	 * @param arg
 	 */
 	public static void main (String[] arg) {
+		DEBUG();
 		// Configures the window's properties
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		
@@ -25,5 +28,6 @@ public class DesktopLauncher {
 		
 		// creates the application with an instance of the Game class
 		new LwjglApplication(new Game(), config);
+		info("Application launched");
 	}
 }

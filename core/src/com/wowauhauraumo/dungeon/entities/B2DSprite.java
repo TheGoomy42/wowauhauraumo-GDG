@@ -22,6 +22,8 @@ public class B2DSprite{
 		right = false;
 	}
 	
+	public B2DSprite() { right = false; }
+	
 	public void setAnimation(TextureRegion[] reg, float delay) {
 		animation = new Animation(reg, delay);
 		width = reg[0].getRegionWidth();
