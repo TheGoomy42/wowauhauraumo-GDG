@@ -10,6 +10,8 @@ LibGDX.
 This is in the form of a gradle project, for more information of how to incoporate a LibGDX project 
 [see here](https://github.com/libgdx/libgdx/wiki/Setting-up-your-Development-Environment-%28Eclipse%2C-Intellij-IDEA%2C-NetBeans%29)
 
+Looking for built jars? Go to the /build/ folder for all of them.
+
 #### Current Tasks
 * **v0.3.0**
   * Document existing code
@@ -20,7 +22,11 @@ This is in the form of a gradle project, for more information of how to incopora
 
 #### Version History
 (based off of some variation of [semantic versioning](http://semver.org/))
-* **v0.2.0 [CURRENT]** 
+* **v0.3.0 [CURRENT] [WIP]** 
+  * Added some documentation to guide those who want to contribute. [WIP]
+  * The player now walks slightly slower in the overworld.
+  * Added logging using [EsotericSoftware's Minlog](https://github.com/EsotericSoftware/minlog)
+* **v0.2.0** 
   * Added maps (currently just 2) and portals to travel between them.
 * **v0.1.0** 
   * Initial release. Includes movement and collision on a single map.
