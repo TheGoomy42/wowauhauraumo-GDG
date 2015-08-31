@@ -13,16 +13,21 @@ This is in the form of a gradle project, for more information of how to incopora
 Looking for built jars? Go to the /build/ folder for all of them.
 
 #### Current Tasks
-* **v0.3.0**
-  * Document existing code
-  * Find and implement a logger library
 * **v0.4.0**
+  * Continue to document existing code
   * Add a dungeon
   * Add the ability to encounter and fight enemies in this dungeon
+    * Add FF1-style battle mechanism
+    * Add multiple floors using two-way and one-way portals
+  * Import more tiles into the tilesets to use
+  * Import enemy sprites
+  * Add encounters in the overworld
 
 #### Version History
 (based off of some variation of [semantic versioning](http://semver.org/))
-* **v0.3.0 [CURRENT] [WIP]** 
+* **v0.4.0 [CURRENT] [WIP]**
+  * Nothing yet! see above for planned additions.
+* **v0.3.0** 
   * Added some documentation to guide those who want to contribute. [WIP]
   * The player now walks slightly slower in the overworld.
   * Added logging using [EsotericSoftware's Minlog](https://github.com/EsotericSoftware/minlog)
