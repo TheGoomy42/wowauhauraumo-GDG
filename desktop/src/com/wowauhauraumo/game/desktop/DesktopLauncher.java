@@ -17,6 +17,7 @@ public class DesktopLauncher {
 	 * @param arg
 	 */
 	public static void main (String[] arg) {
+		// set logging level
 		DEBUG();
 		// Configures the window's properties
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
