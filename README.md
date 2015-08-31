@@ -26,6 +26,8 @@ Looking for built jars? Go to the /build/ folder for all of them.
   * Added some documentation to guide those who want to contribute. [WIP]
   * The player now walks slightly slower in the overworld.
   * Added logging using [EsotericSoftware's Minlog](https://github.com/EsotericSoftware/minlog)
+  * Portals are now the universal teleporting mechanism. No spawns, exits or whatever. They also work, which is a plus.
+    * Portals become 'inactive' you tp to them, until you stop colliding with it.
 * **v0.2.0** 
   * Added maps (currently just 2) and portals to travel between them.
 * **v0.1.0** 
