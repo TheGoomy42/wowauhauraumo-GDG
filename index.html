@@ -52,19 +52,21 @@ LibGDX.</p>
 
 <ul>
 <li>
-<strong>v0.3.0</strong>
-
-<ul>
-<li>Document existing code</li>
-<li>Find and implement a logger library</li>
-</ul>
-</li>
-<li>
 <strong>v0.4.0</strong>
 
 <ul>
+<li>Continue to document existing code</li>
 <li>Add a dungeon</li>
-<li>Add the ability to encounter and fight enemies in this dungeon</li>
+<li>Add the ability to encounter and fight enemies in this dungeon
+
+<ul>
+<li>Add FF1-style battle mechanism</li>
+<li>Add multiple floors using two-way and one-way portals</li>
+</ul>
+</li>
+<li>Import more tiles into the tilesets to use</li>
+<li>Import enemy sprites</li>
+<li>Add encounters in the overworld</li>
 </ul>
 </li>
 </ul>
@@ -76,12 +78,25 @@ LibGDX.</p>
 
 <ul>
 <li>
-<strong>v0.3.0 [CURRENT] [WIP]</strong> 
+<strong>v0.4.0 [CURRENT] [WIP]</strong>
+
+<ul>
+<li>Nothing yet! see above for planned additions.</li>
+</ul>
+</li>
+<li>
+<strong>v0.3.0</strong> 
 
 <ul>
 <li>Added some documentation to guide those who want to contribute. [WIP]</li>
 <li>The player now walks slightly slower in the overworld.</li>
 <li>Added logging using <a href="https://github.com/EsotericSoftware/minlog">EsotericSoftware's Minlog</a>
+</li>
+<li>Portals are now the universal teleporting mechanism. No spawns, exits or whatever. They also work, which is a plus.
+
+<ul>
+<li>Portals become 'inactive' you tp to them, until you stop colliding with it.</li>
+</ul>
 </li>
 </ul>
 </li>
