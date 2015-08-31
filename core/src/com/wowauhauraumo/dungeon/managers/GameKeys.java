@@ -1,5 +1,10 @@
 package com.wowauhauraumo.dungeon.managers;
 
+/**
+ * A class containing static methods that control what keys are pressed.
+ * 
+ * @author TheGoomy42
+ */
 public class GameKeys {
 	
 	// keys that were down last tick
@@ -15,7 +20,9 @@ public class GameKeys {
 //	public static final int SPACE = 4;
 	
 	/**
-	 * Enum to store the different keys used in the game
+	 * Enum to store the different keys used in the game.
+	 * 
+	 * @author TheGoomy42
 	 */
 	public enum Keys {
 		UP(0), DOWN(1), LEFT(2), RIGHT(3), SPACE(4);
@@ -41,6 +48,15 @@ public class GameKeys {
 		// sets pkeys to keys
 		for(int i = 0; i < Keys.size; i++) {
 			pkeys[i] = keys[i];
+		}
+	}
+	
+	/**
+	 * Set all keys to not pressed.
+	 */
+	public static void resetKeys() {
+		for(int i = 0; i < keys.length; i++) {
+			keys[i] = false;
 		}
 	}
 	

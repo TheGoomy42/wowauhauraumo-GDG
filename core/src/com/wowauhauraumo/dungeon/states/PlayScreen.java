@@ -151,13 +151,6 @@ public class PlayScreen implements Screen {
 	 */
 	public void update(float delta) {
 		
-		// get user input
-		handleInput();
-		
-		// update the player and world
-		player.update(delta, playerColliding);
-		world.step(delta, 6, 2);
-		
 		// if the player wants to go through a portal
 		if(shouldTravel) {
 			// this is the id of the map the player wants to go to
@@ -177,9 +170,21 @@ public class PlayScreen implements Screen {
 				moveSpeed = moveSpeedOverworld;
 			else
 				moveSpeed = moveSpeedNormal;
+			// cancel all movement and input
+			GameKeys.resetKeys();
+			player.getBody().setLinearVelocity(0, 0);
+			player.setMoving(false);
 			// don't run this again
 			shouldTravel = false;
+			return;
 		}
+		
+		// get user input
+		handleInput();
+		
+		// update the player and world
+		player.update(delta, playerColliding);
+		world.step(delta, 6, 2);
 	}
 	
 	public void render() {
