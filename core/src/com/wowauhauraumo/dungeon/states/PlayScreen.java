@@ -51,7 +51,7 @@ public class PlayScreen implements Screen {
 	private Map map;
 	private boolean shouldTravel; // whether the player should travel to a new map next tick
 	private Vector2 newSpawn;     // coords of where the player should be sent
-	private Portal portal;        // the portal object that the player is travelling through
+	private Portal entranceToPortal;        // the portal object that the player is travelling through
 	private Areas newMap;         // The identifier of the new area
 	
 	/**
@@ -96,13 +96,22 @@ public class PlayScreen implements Screen {
 	 * @param p the portal the player has just entered
 	 */
 	public void playerTravel(Portal p) {
-		info("Player wants to teleport next tick!");
+		debug("Player has entered a portal.");
 		if(p != null) {
-			portal = p;
-			shouldTravel = true;
+			if(p.isActive()) {
+				entranceToPortal = p;
+				shouldTravel = true;
+			} else {
+				debug("Portal is inactive.");
+			}
 		} else {
 			error("Portal is null! Cancelling player teleport...");
 		}
+	}
+	
+	public void reactivatePortal(Portal p) {
+		info("Reactivating portal...");
+		p.setActive(true);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////
@@ -152,15 +161,16 @@ public class PlayScreen implements Screen {
 		// if the player wants to go through a portal
 		if(shouldTravel) {
 			// this is the id of the map the player wants to go to
-			newMap = portal.getEndMap();
-			info("Player teleporting to map with id " + newMap.toString() + " spawn id " + portal.getSpawnId());
-			newSpawn = map.getSpawnCoords(newMap, portal.getSpawnId());
+			newMap = entranceToPortal.getEntranceToMap();
+			info("Player teleporting to map " + newMap.toString() + " spawn " + entranceToPortal.getEntranceToId());
 			// creates the new map, discarding the old one
 			map.createMap(newMap, world);
+			// gets the location of the spawn
+			newSpawn = map.getPortal(entranceToPortal.getEntranceToId()).getBody().getPosition();
 			// stop the player moving
 			player.getBody().setLinearVelocity(0, 0);
 			// move the player to the correct spawn in the new map
-			player.getBody().setTransform((newSpawn.x  + player.getWidth() / 2) / PPM, (newSpawn.y + player.getHeight() / 2) / PPM, 0);
+			player.getBody().setTransform(newSpawn.x, newSpawn.y, 0);
 			info("Player successfully teleported to map " + newMap.toString());
 			// make the player slower in the overworld
 			if(newMap == Areas.OVERWORLD)
@@ -214,7 +224,7 @@ public class PlayScreen implements Screen {
 		player.render(sb);
 		
 		// draw box2d debug world
-//		renderer.render(world, b2dcam.combined);
+		//renderer.render(world, b2dcam.combined);
 	}
 	
 	// The following methods are for the Game/Screen process and should be

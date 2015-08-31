@@ -59,6 +59,12 @@ public class GameContactListener implements ContactListener {
 		} else if((fa.getUserData() == "playerR" && !fb.isSensor()) || (fb.getUserData() == "playerR" && !fa.isSensor())) {
 			play.setPlayerCollding(3, false);
 		}
+		
+		if(fa.getUserData() instanceof Portal && fb.getUserData() == "player") {
+			play.reactivatePortal((Portal) fa.getUserData());
+		} else if(fb.getUserData() instanceof Portal && fa.getUserData() == "player") {
+			play.reactivatePortal((Portal) fb.getUserData());
+		}
 	}
 
 	// collision detection

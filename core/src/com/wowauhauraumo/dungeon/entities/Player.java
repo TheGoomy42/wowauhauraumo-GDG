@@ -49,7 +49,7 @@ public class Player extends B2DSprite {
 	
 	
 	private void createPlayer(World world) {
-		info("Creating player body...");
+		debug("Creating player body...");
 		// create bodydef
 		BodyDef bdef = new BodyDef();
 		bdef.position.set(100 / PPM, 110 / PPM);

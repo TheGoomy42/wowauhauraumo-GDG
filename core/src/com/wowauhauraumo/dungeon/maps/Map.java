@@ -74,9 +74,9 @@ public class Map {
 //	private Array<Portal> portals;
 	
 	public Map() {
-		info("Initialising map...");
+		debug("Initialising map...");
 		tiles = new TilePool();
-		currentTiles = new Array<Tile>(true, 100);
+		currentTiles = new Array<Tile>();
 		portals = new PortalPool();
 		currentPortals = new Array<Portal>();
 		// original dodgy code
@@ -115,17 +115,20 @@ public class Map {
 //		}
 	}
 	
-	public Vector2 getSpawnCoords(Areas map, int spawnId) {
-		loadMap(map);
-		MapObjects objects = tileMap.getLayers().get("spawns").getObjects();
-		for(MapObject s : objects) {
-			if(Integer.parseInt((String) s.getProperties().get("spawnId")) == spawnId) {
-				Vector2 v = new Vector2((Float) s.getProperties().get("x"), (Float) s.getProperties().get("y"));
-				return v;
+	//     - get's a portal from the current map, deactivates it and returns a reference to it
+	public Portal getPortal(int id) {
+		// loop through the loaded portals for the provided id
+		for(Portal pp : currentPortals) {
+			if(pp.getId() == id) {
+				// turn the portal off
+				pp.setActive(false);
+				return pp;
 			}
 		}
 		
+		error("No portal found with that id!");
 		return null;
+		
 	}
 	
 	/**
@@ -221,6 +224,7 @@ public class Map {
 		for(MapObject object : objects) {
 			// the maps use both Polylines and Ellipses as portals
 			Shape shape = null; // we can create a body with any kind of shape
+			float x = 0, y = 0;
 			if(object instanceof PolylineMapObject) {
 				float[] vertices = ((PolylineMapObject) object).getPolyline().getTransformedVertices();
 		        Vector2[] worldVertices = new Vector2[vertices.length / 2];
@@ -233,13 +237,13 @@ public class Map {
 
 		        shape = new ChainShape();
 		        ((ChainShape) shape).createChain(worldVertices);
+		        // chain shape portals don't currently need positions as they are one way
 			} else if(object instanceof EllipseMapObject) {
-				Vector2 loc = new Vector2(((EllipseMapObject) object).getEllipse().x / PPM * mapscale, 
-						((EllipseMapObject) object).getEllipse().y / PPM * mapscale);
 				float radius = ((EllipseMapObject) object).getEllipse().width / PPM * mapscale;
 				
 				shape = new CircleShape();
-				((CircleShape) shape).setPosition(loc);
+				x = ((EllipseMapObject) object).getEllipse().x / PPM * mapscale;
+				y = ((EllipseMapObject) object).getEllipse().y / PPM * mapscale;
 				((CircleShape) shape).setRadius(radius);
 			}
 			// if we actually created a shape
@@ -248,9 +252,11 @@ public class Map {
 				// get a portal from the pool
 				Portal p = portals.obtain();
 				// set portal properties
-				p.createBody(shape);
-				p.setMap(Areas.valueOf((String) object.getProperties().get("entranceTo")));
-				p.setSpawnId(Integer.parseInt((String) object.getProperties().get("entranceToSpawnId")));
+				p.createBody(shape, x, y);
+				p.setEntranceToMap(Areas.valueOf((String) object.getProperties().get("entranceTo")));
+				p.setEntranceToId(Integer.parseInt((String) object.getProperties().get("entranceToSpawnId")));
+				p.setId(Integer.parseInt((String) object.getProperties().get("id")));
+				p.setOneWay(OneWayType.valueOf((String) object.getProperties().get("oneWay")));
 				// add to the active portal array
 				currentPortals.add(p);
 			} else error("Tried to create a portal with an unrecognised shape!");
@@ -343,10 +349,15 @@ public class Map {
 	 */
 	public class Portal implements Poolable {
 		private Body body;
-		private int endSpawnId;
+		private int entranceToId;
+		private int id;
 		private Areas map;
+		private OneWayType oneWay;
+		private boolean active;
 		
-		public void createBody(Shape shape) {
+		public void createBody(Shape shape, float x, float y) {
+			active = true;
+			
 			BodyDef bdef = new BodyDef();
 			FixtureDef fdef = new FixtureDef();
 			
@@ -359,22 +370,59 @@ public class Map {
 	        fdef.isSensor = true;
 			
 			body.createFixture(fdef).setUserData(this);
+			body.setTransform(x, y, 0);
 		}
 		
 		@Override
 		public void reset() {
 			// reset all properties and destroy the body
-			endSpawnId = 0;
+			entranceToId = 0;
+			id = 0;
 			map = Areas.NULL;
+			active = true;
+			oneWay = OneWayType.TWO_WAY;
 			if(body != null && world.getBodyCount() > 0)
 				world.destroyBody(body);
 		}
 		
-		public void setSpawnId(int id) { endSpawnId = id; }
-		public void setMap(Areas m) { map = m; } 
+		public void setEntranceToId(int id) { entranceToId = id; }
+		public void setId(int id) { this.id = id; }
+		public void setEntranceToMap(Areas m) { map = m; }
+		public void setActive(boolean b) { active = b; }
+		public void setOneWay(OneWayType e) { oneWay = e; }
 		
-		public int getSpawnId() { return endSpawnId; }
-		public Areas getEndMap() { return map; }
+		public boolean isActive() {
+			// cater for one way portals
+			switch(oneWay) {
+			case ALWAYS_ON:
+				return true;
+			case ALWAYS_OFF:
+				return false;
+			case TWO_WAY:
+			default:
+				return active;
+			}
+		}
+		public OneWayType oneWayType() { return oneWay; }
+		public int getEntranceToId() { return entranceToId; }
+		public int getId() { return id; }
+		public Areas getEntranceToMap() { return map; }
 		public Body getBody() { return body; }
+		
 	}
+	private enum OneWayType {
+		ALWAYS_ON, ALWAYS_OFF, TWO_WAY
+	}
+	
+//	/**
+//	 * A one-way portal that you can not enter, effectively a spawn.
+//	 * 
+//	 * @author TheGoomy42
+//	 */
+//	public class TrapPortal extends Portal {
+//		@Override
+//		public void setActive(boolean b) { debug("Trying to set TrapPortal's active variable. Doing nothing..."); }
+//		@Override
+//		public boolean isActive() { return false; }
+//	}
 }
