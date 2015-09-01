@@ -12,6 +12,8 @@ This is in the form of a gradle project, for more information of how to incopora
 
 Looking for built jars? Go to the /build/ folder for all of them.
 
+The dev branch is for radical new additions that may be buggy or incomplete. Currently working on random encounters (battles).
+
 #### Current Tasks
 * **v0.4.0**
   * Continue to document existing code
