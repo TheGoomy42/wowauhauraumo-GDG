@@ -6,13 +6,13 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.wowauhauraumo.dungeon.maps.Map.Portal;
-import com.wowauhauraumo.dungeon.states.Play;
+import com.wowauhauraumo.dungeon.states.PlayScreen;
 
 public class GameContactListener implements ContactListener {
 	
-	private Play play;
+	private PlayScreen play;
 	
-	public GameContactListener(Play state) {
+	public GameContactListener(PlayScreen state) {
 		this.play = state;
 	}
 
@@ -37,9 +37,9 @@ public class GameContactListener implements ContactListener {
 		}
 		
 		if(fa.getUserData() instanceof Portal && fb.getUserData() == "player") {
-			play.playerTeleport((Portal) fa.getUserData());
+			play.playerTravel((Portal) fa.getUserData());
 		} else if(fb.getUserData() instanceof Portal && fa.getUserData() == "player") {
-			play.playerTeleport((Portal) fb.getUserData());
+			play.playerTravel((Portal) fb.getUserData());
 		}
 	}
 
@@ -58,6 +58,12 @@ public class GameContactListener implements ContactListener {
 			play.setPlayerCollding(2, false);
 		} else if((fa.getUserData() == "playerR" && !fb.isSensor()) || (fb.getUserData() == "playerR" && !fa.isSensor())) {
 			play.setPlayerCollding(3, false);
+		}
+		
+		if(fa.getUserData() instanceof Portal && fb.getUserData() == "player") {
+			play.reactivatePortal((Portal) fa.getUserData());
+		} else if(fb.getUserData() instanceof Portal && fa.getUserData() == "player") {
+			play.reactivatePortal((Portal) fb.getUserData());
 		}
 	}
 

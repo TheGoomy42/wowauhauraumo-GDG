@@ -6,6 +6,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+/**
+ * Manager class containing entity textures
+ * 
+ * @author TheGoomy42
+ */
 public class Content {
 	
 	private HashMap<String, Texture> textures;
