@@ -51,7 +51,7 @@ public class PlayScreen implements Screen {
 	private Map map;
 	private boolean shouldTravel; // whether the player should travel to a new map next tick
 	private Vector2 newSpawn;     // coords of where the player should be sent
-	private Portal entranceToPortal;        // the portal object that the player is travelling through
+	private Portal fromPortal;        // the portal object that the player is travelling through
 	private Areas newMap;         // The identifier of the new area
 	
 	/**
@@ -99,7 +99,7 @@ public class PlayScreen implements Screen {
 		debug("Player has entered a portal.");
 		if(p != null) {
 			if(p.isActive()) {
-				entranceToPortal = p;
+				fromPortal = p;
 				shouldTravel = true;
 			} else {
 				debug("Portal is inactive.");
@@ -154,12 +154,13 @@ public class PlayScreen implements Screen {
 		// if the player wants to go through a portal
 		if(shouldTravel) {
 			// this is the id of the map the player wants to go to
-			newMap = entranceToPortal.getEntranceToMap();
-			info("Player teleporting to map " + newMap.toString() + " spawn " + entranceToPortal.getEntranceToId());
+			newMap = fromPortal.getEntranceToMap();
+			int id = fromPortal.getEntranceToId();
+			info("Player teleporting to map " + newMap.toString() + " spawn " + id);
 			// creates the new map, discarding the old one
 			map.createMap(newMap, world);
 			// gets the location of the spawn
-			newSpawn = map.getPortal(entranceToPortal.getEntranceToId()).getBody().getPosition();
+			newSpawn = map.getPortal(id).getBody().getPosition();
 			// stop the player moving
 			player.getBody().setLinearVelocity(0, 0);
 			// move the player to the correct spawn in the new map

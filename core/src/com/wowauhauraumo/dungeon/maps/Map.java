@@ -35,12 +35,12 @@ import com.badlogic.gdx.utils.Pool.Poolable;
  * It also creates 'Portal' and 'Spawn' objects from data in the .tmx file (see below).
  * It uses LibGDX pools to contain these.
  * Tilemaps are made in Tiled:
- * http://www.mapeditor.org/
+ * http://www.mapeditor.org/<br><br>
  * 
- * TO CLEAR UP SOME TERMINOLOGY:
+ * TO CLEAR UP SOME TERMINOLOGY:<br>
  * 
- * portal - a way to travel from one map to another
- * spawn - a location where the player should be sent upon arriving in a map
+ * portal - a way to travel from one map to another<br>
+ * spawn - a location where the player should be sent upon arriving in a map<br>
  * 
  * @author TheGoomy42
  */
@@ -61,6 +61,8 @@ public class Map {
 	// the tilemap
 	private TiledMap tileMap;
 	
+	private TmxMapLoader loader;
+	
 	// a pool to store the tiles
 	private TilePool tiles;
 	private Array<Tile> currentTiles;     // used to manage the pool
@@ -79,6 +81,7 @@ public class Map {
 		currentTiles = new Array<Tile>();
 		portals = new PortalPool();
 		currentPortals = new Array<Portal>();
+		loader = new TmxMapLoader();
 		// original dodgy code
 //		exits = new Array<Exit>(false, 5);
 //		openings = new Array<Opening>(false, 5);
@@ -139,16 +142,18 @@ public class Map {
 	private void loadMap(Areas map) {
 		switch(map) {
 		case TOWN:
-			tileMap = new TmxMapLoader().load("maps/town.tmx");
+			tileMap = loader.load("maps/town.tmx");
 			break;
 		case OVERWORLD:
-			tileMap = new TmxMapLoader().load("maps/overworld.tmx");
+			tileMap = loader.load("maps/overworld.tmx");
 			break;
+		case DUNGEON_LEVEL_ONE:
+			tileMap = loader.load("maps/dungeon.tmx");
 		case NULL:
 			error("Trying to load a null map!");
 			break;
 		default:
-			tileMap = new TmxMapLoader().load("maps/town.tmx");
+			error("Trying to load unrecognised map!");
 			break;
 		}
 	}
@@ -239,11 +244,11 @@ public class Map {
 		        ((ChainShape) shape).createChain(worldVertices);
 		        // chain shape portals don't currently need positions as they are one way
 			} else if(object instanceof EllipseMapObject) {
-				float radius = ((EllipseMapObject) object).getEllipse().width / PPM * mapscale;
+				float radius = (((EllipseMapObject) object).getEllipse().width / 2) / PPM * mapscale;
 				
 				shape = new CircleShape();
-				x = ((EllipseMapObject) object).getEllipse().x / PPM * mapscale;
-				y = ((EllipseMapObject) object).getEllipse().y / PPM * mapscale;
+				x = ((EllipseMapObject) object).getEllipse().x / PPM * mapscale + radius;
+				y = ((EllipseMapObject) object).getEllipse().y / PPM * mapscale + radius;
 				((CircleShape) shape).setRadius(radius);
 			}
 			// if we actually created a shape
@@ -283,7 +288,7 @@ public class Map {
 	 * @author TheGoomy42
 	 */
 	public enum Areas {
-		NULL, OVERWORLD, TOWN
+		NULL, OVERWORLD, TOWN, DUNGEON_LEVEL_ONE, DUNGEON_LEVEL_TWO
 	}
 	
 	/**

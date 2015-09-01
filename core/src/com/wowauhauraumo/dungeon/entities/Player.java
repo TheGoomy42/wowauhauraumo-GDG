@@ -58,7 +58,7 @@ public class Player extends B2DSprite {
 		
 		// create shape
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(6 / PPM, 6 / PPM);
+		shape.setAsBox(7 / PPM, 7 / PPM);
 		
 		// create main fixture
 		FixtureDef fdef = new FixtureDef();
@@ -68,7 +68,7 @@ public class Player extends B2DSprite {
 		body.createFixture(fdef).setUserData("player");
 		
 		// create top sensor
-		shape.setAsBox(5f / PPM, 2 / PPM, new Vector2(0, 7 / PPM), 0);
+		shape.setAsBox(8 / PPM, 2 / PPM, new Vector2(0, 7 / PPM), 0);
 		fdef.shape = shape;
 		fdef.filter.categoryBits = BIT_ENTITY;
 		fdef.filter.maskBits = BIT_WALL;
@@ -76,7 +76,7 @@ public class Player extends B2DSprite {
 		body.createFixture(fdef).setUserData("playerTop");
 		
 		// create bottom sensor
-		shape.setAsBox(5f / PPM, 2 / PPM, new Vector2(0, -7 / PPM), 0);
+		shape.setAsBox(8 / PPM, 2 / PPM, new Vector2(0, -7 / PPM), 0);
 		fdef.shape = shape;
 		fdef.filter.categoryBits = BIT_ENTITY;
 		fdef.filter.maskBits = BIT_WALL;
@@ -84,7 +84,7 @@ public class Player extends B2DSprite {
 		body.createFixture(fdef).setUserData("playerBot");
 		
 		// create left sensor
-		shape.setAsBox(2 / PPM, 5f / PPM, new Vector2(-7 / PPM, 0), 0);
+		shape.setAsBox(2 / PPM, 8 / PPM, new Vector2(-7 / PPM, 0), 0);
 		fdef.shape = shape;
 		fdef.filter.categoryBits = BIT_ENTITY;
 		fdef.filter.maskBits = BIT_WALL;
@@ -92,7 +92,7 @@ public class Player extends B2DSprite {
 		body.createFixture(fdef).setUserData("playerL");
 		
 		// create right sensor
-		shape.setAsBox(2 / PPM, 5f / PPM, new Vector2(7 / PPM, 0), 0);
+		shape.setAsBox(2 / PPM, 8 / PPM, new Vector2(7 / PPM, 0), 0);
 		fdef.shape = shape;
 		fdef.filter.categoryBits = BIT_ENTITY;
 		fdef.filter.maskBits = BIT_WALL;
