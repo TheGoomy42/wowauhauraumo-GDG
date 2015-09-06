@@ -13,7 +13,12 @@ This is in the form of a gradle project, for more information of how to incopora
 Looking for built jars? Go to the /build/ folder for all of them.
 
 #### Current Tasks
-* **v0.4.0**
+* **v0.4.0** The main menu update
+  * Add a splash screen
+  * Add a main menu screen and GUI
+    * Add a 'new game' button
+      * Includes screen where you can select your characters FF1-style
+* **v0.5.0**
   * Continue to document existing code
   * Add a dungeon
   * Add the ability to encounter and fight enemies in this dungeon
