@@ -30,17 +30,16 @@ import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
 /**
- * This class creates and stores the current map the player is on.
- * It loads in the tilemap and turns that into world bodies.
- * It also creates 'Portal' and 'Spawn' objects from data in the .tmx file (see below).
- * It uses LibGDX pools to contain these.
- * Tilemaps are made in Tiled:
+ * This class creates and stores the current map the player is on.<br>
+ * It loads in the tilemap and turns that into world bodies.<br>
+ * It also creates 'Portal' and 'Spawn' objects from data in the .tmx file (see below).<br>
+ * It uses LibGDX pools to contain these.<br>
+ * Tilemaps are made in Tiled:<br>
  * http://www.mapeditor.org/<br><br>
  * 
  * TO CLEAR UP SOME TERMINOLOGY:<br>
  * 
- * portal - a way to travel from one map to another<br>
- * spawn - a location where the player should be sent upon arriving in a map<br>
+ * portal - a kind of wormhole used to travel from one map to another<br>
  * 
  * @author TheGoomy42
  */
@@ -62,6 +61,8 @@ public class Map {
 	private TiledMap tileMap;
 	
 	private TmxMapLoader loader;
+	
+	private Areas currentMap;
 	
 	// a pool to store the tiles
 	private TilePool tiles;
@@ -97,6 +98,7 @@ public class Map {
 		this.world = world;
 		
 		// load in the tilemap
+		currentMap = map;
 		loadMap(map);
 		
 		// free up all of the objects in the pools
@@ -281,6 +283,7 @@ public class Map {
 	public int getWidth() { return mapWidth; }
 	public int getHeight() { return mapHeight; }
 	public int getTileSize() { return tileSize; }
+	public Areas getCurrentMap() { return currentMap; }
 	
 	/**
 	 * Contains all of the map identifiers.
@@ -288,7 +291,17 @@ public class Map {
 	 * @author TheGoomy42
 	 */
 	public enum Areas {
-		NULL, OVERWORLD, TOWN, DUNGEON_LEVEL_ONE, DUNGEON_LEVEL_TWO
+		NULL, OVERWORLD(false), TOWN(true), DUNGEON_LEVEL_ONE(false), DUNGEON_LEVEL_TWO(false);
+		
+		public final boolean friendly;
+		
+		private Areas() {
+			friendly = true;
+		}
+		
+		private Areas(boolean f) {
+			friendly = f;
+		}
 	}
 	
 	/**

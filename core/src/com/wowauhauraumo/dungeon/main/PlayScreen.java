@@ -1,18 +1,23 @@
-package com.wowauhauraumo.dungeon.states;
+package com.wowauhauraumo.dungeon.main;
 
+import static com.esotericsoftware.minlog.Log.debug;
+import static com.esotericsoftware.minlog.Log.error;
+import static com.esotericsoftware.minlog.Log.info;
 import static com.wowauhauraumo.dungeon.managers.B2DVars.PPM;
-import static com.esotericsoftware.minlog.Log.*;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.wowauhauraumo.dungeon.entities.PartyMember;
+import com.wowauhauraumo.dungeon.entities.PartyMember.Job;
 import com.wowauhauraumo.dungeon.entities.Player;
-import com.wowauhauraumo.dungeon.main.Game;
 import com.wowauhauraumo.dungeon.managers.GameContactListener;
 import com.wowauhauraumo.dungeon.managers.GameKeys;
+import com.wowauhauraumo.dungeon.managers.InputProcessor;
 import com.wowauhauraumo.dungeon.maps.Map;
 import com.wowauhauraumo.dungeon.maps.Map.Areas;
 import com.wowauhauraumo.dungeon.maps.Map.Portal;
@@ -24,7 +29,7 @@ import com.wowauhauraumo.dungeon.maps.Map.Portal;
  */
 public class PlayScreen implements Screen {
 
-	//private Game game;
+	private Game game;
 	
 	private SpriteBatch sb;
 	private OrthographicCamera cam;
@@ -54,12 +59,18 @@ public class PlayScreen implements Screen {
 	private Portal fromPortal;        // the portal object that the player is travelling through
 	private Areas newMap;         // The identifier of the new area
 	
+	// encounter stuff
+	private int battleStep;				// the number of steps the player has taken in a hostile world
+	private int maxBattleStep = 50;	// the next time the player will encounter an enemy
+	
+	private PartyMember[] party;
+	
 	/**
 	 * Constructor. Creates Box2D physics world, player and map
 	 * @param gsm Reference to the GameStateManager
 	 */
 	public PlayScreen(Game game) {
-		//this.game = game;
+		this.game = game;
 		sb = game.getSpriteBatch();
 		cam = game.getCamera();
 		//hudcam = game.getHUDCamera();
@@ -77,6 +88,14 @@ public class PlayScreen implements Screen {
 		renderer = new Box2DDebugRenderer();
 		b2dcam = new OrthographicCamera();
 		b2dcam.setToOrtho(false, Game.width / PPM, Game.height / PPM);
+		
+		//TODO party members should be created when a new game is created
+		party = new PartyMember[4];
+		party[0] = new PartyMember("WARR", 15, Job.WARRIOR);
+		party[1] = new PartyMember("WMAG", 10, Job.WMAGE);
+		party[2] = new PartyMember("BMAG", 10, Job.BMAGE);
+		party[3] = new PartyMember("MONK", 10, Job.MONK);
+		
 	}
 	
 	/**
@@ -183,6 +202,20 @@ public class PlayScreen implements Screen {
 		// get user input
 		handleInput();
 		
+		if(!map.getCurrentMap().friendly) {
+			if(player.isMoving()) {
+				battleStep++;
+				if(battleStep >= maxBattleStep) {
+					// start encounter
+					BattleScreen bs = new BattleScreen(game);
+					game.setScreen(bs);
+					bs.setParameters(party);
+					maxBattleStep = 50; // in the future this will be somehow randomised.
+					return;
+				}
+			}
+		}
+		
 		// update the player and world
 		player.update(delta, playerColliding);
 		world.step(delta, 6, 2);
@@ -243,19 +276,27 @@ public class PlayScreen implements Screen {
 	}
 
 	@Override
-	public void show() {  }
-
-	@Override
 	public void resize(int width, int height) {  }
 
 	@Override
-	public void pause() {  }
+	public void pause() {
+		debug("PlayScreen paused.");
+	}
 
 	@Override
-	public void resume() {  }
+	public void resume() { 
+		debug("PlayScreen resumed.");
+	}
 
 	@Override
-	public void hide() {  }
+	public void show() { 
+		Gdx.input.setInputProcessor(new InputProcessor());
+	}
+
+	@Override
+	public void hide() { 
+		debug("PlayScreen hidden.");
+	}
 	
 	@Override
 	public void dispose() {

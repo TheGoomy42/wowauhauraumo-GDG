@@ -1,14 +1,19 @@
 package com.wowauhauraumo.dungeon.managers;
 
+import static com.esotericsoftware.minlog.Log.debug;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+//TODO replace this entire system to work with texture atlases
 /**
- * Manager class containing entity textures
+ * Manager class containing entity textures.
+ * Replaced by Atlas.
  * 
+ * @deprecated
+ * @see com.wowauhauraumo.dungeon.managers.Atlas
  * @author TheGoomy42
  */
 public class Content {
@@ -20,6 +25,9 @@ public class Content {
 	}
 	
 	public void loadTexture(String path, String key) {
+		if(textures.containsKey(key)) {
+			debug("Texture not loaded: duplicate key used '" + key + "'");
+		}
 		Texture tex = new Texture(Gdx.files.internal(path));
 		textures.put(key, tex);
 	}
@@ -29,7 +37,11 @@ public class Content {
 	}
 	
 	public TextureRegion getRegion(String key, int row, int col) {
-		return TextureRegion.split(textures.get(key), 32, 32)[col][row];
+		return getRegion(key, row, col, 32, 32);
+	}
+	
+	public TextureRegion getRegion(String key, int row, int col, int width, int height) {
+		return TextureRegion.split(textures.get(key), width, height)[col][row];
 	}
 	
 	public void disposeTexture(String key) {

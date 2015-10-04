@@ -1,0 +1,173 @@
+
+battle.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+bmage5
+  rotate: false
+  xy: 1, 84
+  size: 26, 26
+  orig: 26, 26
+  offset: 0, 0
+  index: -1
+monk5
+  rotate: false
+  xy: 1, 57
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+warrior5
+  rotate: false
+  xy: 29, 84
+  size: 25, 26
+  orig: 25, 26
+  offset: 0, 0
+  index: -1
+wmage5
+  rotate: false
+  xy: 1, 29
+  size: 25, 26
+  orig: 25, 26
+  offset: 0, 0
+  index: -1
+wmage4
+  rotate: false
+  xy: 56, 84
+  size: 21, 26
+  orig: 21, 26
+  offset: 0, 0
+  index: -1
+bmage2
+  rotate: false
+  xy: 1, 1
+  size: 19, 26
+  orig: 19, 26
+  offset: 0, 0
+  index: -1
+warrior3
+  rotate: false
+  xy: 79, 84
+  size: 19, 26
+  orig: 19, 26
+  offset: 0, 0
+  index: -1
+wmage0
+  rotate: false
+  xy: 100, 84
+  size: 19, 26
+  orig: 19, 26
+  offset: 0, 0
+  index: -1
+bmage0
+  rotate: false
+  xy: 121, 84
+  size: 18, 26
+  orig: 18, 26
+  offset: 0, 0
+  index: -1
+bmage1
+  rotate: false
+  xy: 141, 84
+  size: 18, 26
+  orig: 18, 26
+  offset: 0, 0
+  index: -1
+bmage3
+  rotate: false
+  xy: 161, 84
+  size: 18, 26
+  orig: 18, 26
+  offset: 0, 0
+  index: -1
+bmage4
+  rotate: false
+  xy: 181, 84
+  size: 18, 26
+  orig: 18, 26
+  offset: 0, 0
+  index: -1
+monk2
+  rotate: false
+  xy: 29, 57
+  size: 19, 25
+  orig: 19, 25
+  offset: 0, 0
+  index: -1
+warrior0
+  rotate: false
+  xy: 28, 29
+  size: 18, 26
+  orig: 18, 26
+  offset: 0, 0
+  index: -1
+warrior1
+  rotate: false
+  xy: 22, 1
+  size: 18, 26
+  orig: 18, 26
+  offset: 0, 0
+  index: -1
+warrior2
+  rotate: false
+  xy: 201, 84
+  size: 18, 26
+  orig: 18, 26
+  offset: 0, 0
+  index: -1
+warrior4
+  rotate: false
+  xy: 221, 84
+  size: 18, 26
+  orig: 18, 26
+  offset: 0, 0
+  index: -1
+monk0
+  rotate: false
+  xy: 50, 57
+  size: 18, 25
+  orig: 18, 25
+  offset: 0, 0
+  index: -1
+wmage1
+  rotate: false
+  xy: 48, 29
+  size: 18, 26
+  orig: 18, 26
+  offset: 0, 0
+  index: -1
+wmage2
+  rotate: false
+  xy: 42, 1
+  size: 18, 26
+  orig: 18, 26
+  offset: 0, 0
+  index: -1
+monk1
+  rotate: false
+  xy: 70, 57
+  size: 18, 25
+  orig: 18, 25
+  offset: 0, 0
+  index: -1
+wmage3
+  rotate: false
+  xy: 68, 29
+  size: 18, 26
+  orig: 18, 26
+  offset: 0, 0
+  index: -1
+monk3
+  rotate: false
+  xy: 62, 2
+  size: 18, 25
+  orig: 18, 25
+  offset: 0, 0
+  index: -1
+monk4
+  rotate: false
+  xy: 90, 57
+  size: 18, 25
+  orig: 18, 25
+  offset: 0, 0
+  index: -1

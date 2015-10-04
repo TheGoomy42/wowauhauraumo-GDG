@@ -1,12 +1,11 @@
 package com.wowauhauraumo.dungeon.entities;
 
+import static com.esotericsoftware.minlog.Log.debug;
 import static com.wowauhauraumo.dungeon.managers.B2DVars.BIT_ENTITY;
 import static com.wowauhauraumo.dungeon.managers.B2DVars.BIT_EXIT;
 import static com.wowauhauraumo.dungeon.managers.B2DVars.BIT_WALL;
 import static com.wowauhauraumo.dungeon.managers.B2DVars.PPM;
-import static com.esotericsoftware.minlog.Log.*;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -14,7 +13,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.wowauhauraumo.dungeon.main.Game;
+import com.wowauhauraumo.dungeon.managers.Atlas;
 
 public class Player extends B2DSprite {
 	
@@ -29,8 +28,8 @@ public class Player extends B2DSprite {
 		createPlayer(world);
 		
 		
-		Texture tex = Game.res.getTexture("warrior");
-		sprites = TextureRegion.split(tex, 16, 16)[0];
+		TextureRegion tex = Atlas.worldTextures.get("warrior");
+		sprites = tex.split(16, 16)[0];
 		upSprites = new TextureRegion[2];
 		downSprites = new TextureRegion[2];
 		sideSprites = new TextureRegion[2];
@@ -122,5 +121,6 @@ public class Player extends B2DSprite {
 	}
 	
 	public void setMoving(boolean b) { moving = b; }
+	public boolean isMoving() { return moving; }
 	
 }
