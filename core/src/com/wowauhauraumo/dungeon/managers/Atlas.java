@@ -19,11 +19,12 @@ public class Atlas {
 	private static TextureAtlas atlasWorld;  // Contains all sprites used while in the world (i.e. PlayScreen)
 	private static TextureAtlas atlasBattle; // Contains all sprites used while in battle
 //	private TextureAtlas atlasInventory;     // will contain all sprites for items in inventory
-//	private TextureAtlas atlasGUI;           // currently not implemented
+//	private TextureAtlas atlasGUI;           // will contain textures for UI
 	
 	public static final HashMap<String, TextureRegion> worldTextures = new HashMap<String, TextureRegion>();
 	public static final HashMap<String, TextureRegion> battleTextures = new HashMap<String, TextureRegion>();
-
+//	public static final Skin skin;
+	
 	static {
 		debug("Atlas initialized. Loading textures...");
 		atlasWorld = new TextureAtlas(Gdx.files.internal("sprites/world.pack"));

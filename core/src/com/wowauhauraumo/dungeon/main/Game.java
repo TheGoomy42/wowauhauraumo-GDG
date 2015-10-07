@@ -4,10 +4,8 @@ import static com.esotericsoftware.minlog.Log.debug;
 import static com.esotericsoftware.minlog.Log.info;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.wowauhauraumo.dungeon.managers.GameKeys;
 import com.wowauhauraumo.dungeon.managers.InputProcessor;
 
 /**
@@ -68,15 +66,6 @@ public class Game extends com.badlogic.gdx.Game {
 		accum += Gdx.graphics.getDeltaTime();
 		// run if the current time waited is above what we want
 		while(accum >= STEP) {
-			// TODO move this code into each screen
-			// black out screen
-			Gdx.gl.glClearColor(0, 0, 0, 1);
-			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-			// update input
-			GameKeys.update();
-			// run update and render from GameStateManager
-//			gsm.update(STEP);
-//			gsm.render();
 			super.render();
 			// reset timer
 			accum -= STEP;

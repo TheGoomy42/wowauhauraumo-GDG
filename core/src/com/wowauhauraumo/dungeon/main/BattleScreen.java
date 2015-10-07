@@ -14,7 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.wowauhauraumo.dungeon.entities.PartyMember;
 import com.wowauhauraumo.dungeon.entities.Sprite;
 import com.wowauhauraumo.dungeon.managers.Atlas;
@@ -27,7 +28,6 @@ import com.wowauhauraumo.dungeon.managers.Atlas;
  */
 public class BattleScreen implements Screen {
 	
-	@SuppressWarnings("unused")
 	private Game game; // will be used for switching back to the play screen
 	
 	// ui stuff
@@ -49,11 +49,11 @@ public class BattleScreen implements Screen {
 	
 	private void create() {
 		debug("Creating table");
-		stage = new Stage(new FitViewport(Game.width, Game.height));
+		stage = new Stage(new ScreenViewport(game.getHUDCamera()));
 		Gdx.input.setInputProcessor(stage);
 		
 		atlas = new TextureAtlas(Gdx.files.internal("ui/uiskin.atlas"));
-		skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+		skin = new Skin(Gdx.files.internal("ui/battleui.json"));
 		skin.addRegions(atlas);
 		
 		screenTable = new Table();
@@ -66,13 +66,22 @@ public class BattleScreen implements Screen {
 		friendlySpritesTable = new Table();
 		
 		// add enemy sprites to their table
-		enemySpritesTable.add();
+		//TODO add column for cursor in fight table
 		
-		spritesTable.add(enemySpritesTable);
-		spritesTable.add(friendlySpritesTable).padLeft(50);
+		spritesTable.add(enemySpritesTable).align(Align.left);
+		spritesTable.add(friendlySpritesTable).align(Align.right);
 		
 		enemyTable.add(new Label("IMP", skin));
-		fightTable.add(new Label("FIGHT", skin));
+		enemyTable.add(new Label("G.IMP", skin)); 
+		
+		fightTable.add(new Label("FIGHT", skin)).padBottom(10);
+		fightTable.add(new Label("RUN", skin)).padBottom(10).padLeft(5);
+		fightTable.row();
+		fightTable.add(new Label("MAGIC", skin)).padBottom(10);
+		fightTable.row();
+		fightTable.add(new Label("DRINK", skin)).padBottom(10);
+		fightTable.row();
+		fightTable.add(new Label("ITEM", skin));
 		
 		screenTable.setFillParent(true);
 		stage.addActor(screenTable);
@@ -89,7 +98,7 @@ public class BattleScreen implements Screen {
 		leftTable.add(spritesTable).colspan(2).top(); // sprites
 		leftTable.row();
 		leftTable.add(enemyTable); // IMP
-		leftTable.add(fightTable); // FIGHT
+		leftTable.add(fightTable).padLeft(20); // FIGHT
 		screenTable.add(leftTable).top();
 		screenTable.add(HPTable).right(); // HP
 		
@@ -98,8 +107,8 @@ public class BattleScreen implements Screen {
 	
 	private void setHPTable(PartyMember[] party) {
 		for(int i=0;i<party.length;i++) {
-			String string = party[i].getName() + "\nHP \n  " + party[i].getCurrentHP();
-			HPTable.add(new Label(string, skin));
+			String string = party[i].getName() + "\nHP \n    " + party[i].getCurrentHP();
+			HPTable.add(new Label(string, skin)).pad(5).padLeft(20);
 			HPTable.row();
 		}
 	}
@@ -108,7 +117,7 @@ public class BattleScreen implements Screen {
 		// add friendly sprites to their table
 		for(PartyMember pm : party) {
 			try {
-				friendlySpritesTable.add(new BattleActor(pm.getJob().spriteType));
+				friendlySpritesTable.add(new BattleActor(pm.getJob().spriteType)).pad(5);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -128,6 +137,7 @@ public class BattleScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
@@ -167,8 +177,8 @@ public class BattleScreen implements Screen {
 			if(this.sprite == null) {
 				throw new Exception("Could not find texture in Atlas: " + sprite.texture + '0');
 			}
-			setWidth(this.sprite.getRegionWidth()*1.5f);
-			setHeight(this.sprite.getRegionHeight()*1.5f);
+			setWidth(this.sprite.getRegionWidth()*3f);
+			setHeight(this.sprite.getRegionHeight()*3f);
 		}
 		
 		@Override

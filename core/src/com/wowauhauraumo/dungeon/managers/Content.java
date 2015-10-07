@@ -7,7 +7,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-//TODO replace this entire system to work with texture atlases
 /**
  * Manager class containing entity textures.
  * Replaced by Atlas.
