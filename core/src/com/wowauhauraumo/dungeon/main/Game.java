@@ -3,10 +3,11 @@ package com.wowauhauraumo.dungeon.main;
 import static com.esotericsoftware.minlog.Log.debug;
 import static com.esotericsoftware.minlog.Log.info;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.wowauhauraumo.dungeon.managers.InputProcessor;
 
 /**
  * This class controls the entire game and overrides LIbGDX's create() and render() methods.
@@ -27,24 +28,28 @@ public class Game extends com.badlogic.gdx.Game {
 	// camera for the HUD
 	private OrthographicCamera hudcam;
 	
+	// random number generators
+	private Random battleRandom; // for all checks in battle
+	private Random encounterRandom; // for checking if the player should run into an enemy
+	private Random statRandom; // for levelling up stats
+	
 	// time between each frame
 	public static final float STEP = 1/60f; // 60fps
 	// the current amount of time waited
 	private float accum;
 	
-	public SpriteBatch getSpriteBatch() { return sb; }
-	public OrthographicCamera getCamera() { return cam; } 
-	public OrthographicCamera getHUDCamera() { return hudcam; }
+	public SpriteBatch        getSpriteBatch    () { return sb;              }
+	public OrthographicCamera getCamera         () { return cam;             } 
+	public OrthographicCamera getHUDCamera      () { return hudcam;          }
+	public Random             getBattleRandom   () { return battleRandom;    }
+	public Random             getEncounterRandom() { return encounterRandom; }
+	public Random             getStatRandom     () { return statRandom;      }
 	
 	@Override
 	public void create () {
 		// get width and height
 		width = Gdx.graphics.getWidth() / 2;
 		height = Gdx.graphics.getHeight() / 2;
-		
-		// start receiving input
-		Gdx.input.setInputProcessor(new InputProcessor());
-		debug("Input processor created");
 		
 		// initialise objects
 		sb = new SpriteBatch();
@@ -54,6 +59,11 @@ public class Game extends com.badlogic.gdx.Game {
 		hudcam = new OrthographicCamera();
 		hudcam.setToOrtho(false, width, height);
 		debug("HUD camera initialised");
+		
+		// initialise random generators
+		battleRandom = new Random();
+		encounterRandom = new Random();
+		statRandom = new Random();
 		
 		setScreen(new MenuScreen(this));
 		debug("Screen set to play screen");

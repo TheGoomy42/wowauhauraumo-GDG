@@ -14,9 +14,8 @@ import com.wowauhauraumo.dungeon.main.Game;
 public class DesktopLauncher {
 	/**
 	 * Entry point
-	 * @param arg
 	 */
-	public static void main (String[] arg) {
+	public static void main(String[] arg) {
 		// set logging level
 		DEBUG();
 		// Configures the window's properties

@@ -7,6 +7,8 @@ import com.badlogic.gdx.InputAdapter;
  * Class to process input. When relevant input is received, this class sets the referenced value in
  * GameKeys to true.
  * 
+ * @deprecated
+ * 
  * @author TheGoomy42
  */
 public class InputProcessor extends InputAdapter {

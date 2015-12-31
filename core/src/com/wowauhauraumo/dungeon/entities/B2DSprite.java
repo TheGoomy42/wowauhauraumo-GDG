@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.wowauhauraumo.dungeon.managers.Animation;
 
+// TODO refactor game not to use Box2D
 public class B2DSprite{
 	
 	protected Body body;
@@ -46,7 +47,7 @@ public class B2DSprite{
 	public float getWidth() { return width; }
 	public float getHeight() { return height; }
 	
-	public void setRight(boolean right) {
+	public void flipRight(boolean right) {
 		if(this.right != right) {
 			for(TextureRegion i : sprites) {
 				i.flip(true, false);

@@ -21,7 +21,14 @@ public class Player extends B2DSprite {
 	private TextureRegion[] downSprites;
 	private TextureRegion[] sideSprites;
 	
-	private boolean moving;
+	private boolean moving; // for animation and battle steps
+	
+	private boolean moveUp;
+	private boolean moveDown;
+	private boolean moveLeft;
+	private boolean moveRight;
+	
+	private float moveSpeed;
 
 	public Player(World world) {
 		super();
@@ -99,22 +106,39 @@ public class Player extends B2DSprite {
 		body.createFixture(fdef).setUserData("playerR");
 	}
 	
+	private void move() {
+		Vector2 movement = new Vector2(0, 0);
+		setMoving(true);
+		if(moveUp) {
+			movement.y = moveSpeed;
+		} else if(moveDown) {
+			movement.y = -moveSpeed;
+		} else if(moveLeft) {
+			movement.x = -moveSpeed;
+		} else if(moveRight) {
+			movement.x = moveSpeed;
+		} else {
+			setMoving(false);
+		}
+		body.setLinearVelocity(movement);
+	}
+	
 	public void update(float delta, boolean[] collisions) {
-		Vector2 vector = getBody().getLinearVelocity();
-		if(moving) {
-			if(vector.y > 0) {
-				animation.switchFrames(upSprites);
-				if(!collisions[0]) super.update(delta);
-			} else if(vector.y < 0) {
-				animation.switchFrames(downSprites);
-				if(!collisions[1]) super.update(delta);
-			} else if(vector.x < 0) {
-				animation.switchFrames(sideSprites);
-				if(!collisions[2]) super.update(delta);
-			} else if(vector.x > 0) {
-				animation.switchFrames(sideSprites);
-				if(!collisions[3]) super.update(delta);
-			}
+		move();
+		if(moveUp) {
+			animation.switchFrames(upSprites);
+			if(!collisions[0]) super.update(delta);
+		} else if(moveDown) {
+			animation.switchFrames(downSprites);
+			if(!collisions[1]) super.update(delta);
+		} else if(moveLeft) {
+			flipRight(false);
+			animation.switchFrames(sideSprites);
+			if(!collisions[2]) super.update(delta);
+		} else if(moveRight) {
+			flipRight(true);
+			animation.switchFrames(sideSprites);
+			if(!collisions[3]) super.update(delta);
 		} else {
 			animation.setCurrentFrame(0);
 		}
@@ -122,5 +146,12 @@ public class Player extends B2DSprite {
 	
 	public void setMoving(boolean b) { moving = b; }
 	public boolean isMoving() { return moving; }
+	
+	public void setUp(boolean b) { moveUp = b; }
+	public void setDown(boolean b) { moveDown = b; }
+	public void setLeft(boolean b) { moveLeft = b; }
+	public void setRight(boolean b) { moveRight = b; }
+	
+	public void setMoveSpeed(float ms) { moveSpeed = ms; }
 	
 }

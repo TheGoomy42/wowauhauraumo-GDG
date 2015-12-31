@@ -6,6 +6,8 @@ import static com.esotericsoftware.minlog.Log.info;
 import static com.wowauhauraumo.dungeon.managers.B2DVars.PPM;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -17,14 +19,12 @@ import com.wowauhauraumo.dungeon.entities.PartyMember;
 import com.wowauhauraumo.dungeon.entities.PartyMember.Job;
 import com.wowauhauraumo.dungeon.entities.Player;
 import com.wowauhauraumo.dungeon.managers.GameContactListener;
-import com.wowauhauraumo.dungeon.managers.GameKeys;
-import com.wowauhauraumo.dungeon.managers.InputProcessor;
 import com.wowauhauraumo.dungeon.maps.Map;
 import com.wowauhauraumo.dungeon.maps.Map.Areas;
 import com.wowauhauraumo.dungeon.maps.Map.Portal;
 
 /**
- * The main class for the game. Contains basically everything. Currently in the form of a game state.
+ * The main class for the game. Contains basically everything.
  * 
  * @author TheGoomy42
  */
@@ -47,9 +47,8 @@ public class PlayScreen implements Screen {
 	//private FPSLogger logger; 
 	
 	private Player player;
-	private final float moveSpeedOverworld = 0.5f;
+	private final float moveSpeedOverworld = 0.5f; // TODO these should be somewhere else
 	private final float moveSpeedNormal = 0.79f;
-	private float moveSpeed = moveSpeedNormal;
 	// one boolean for each side of the player
 	private boolean[] playerColliding = new boolean[4];
 	
@@ -57,11 +56,11 @@ public class PlayScreen implements Screen {
 	private Map map;
 	private boolean shouldTravel; // whether the player should travel to a new map next tick
 	private Vector2 newSpawn;     // coords of where the player should be sent
-	private Portal fromPortal;        // the portal object that the player is travelling through
+	private Portal fromPortal;    // the portal object that the player is travelling through
 	private Areas newMap;         // The identifier of the new area
 	
 	// encounter stuff
-	private int battleStep;				// the number of steps the player has taken in a hostile world
+	private int battleStep;			// the number of steps the player has taken in a hostile world
 	private int maxBattleStep = 50;	// the next time the player will encounter an enemy
 	
 	private PartyMember[] party;
@@ -81,6 +80,7 @@ public class PlayScreen implements Screen {
 		world.setContactListener(new GameContactListener(this));
 		
 		player = new Player(world);
+		player.setMoveSpeed(moveSpeedNormal);
 		
 		map = new Map();
 		map.createMap(Areas.TOWN, world);
@@ -92,10 +92,10 @@ public class PlayScreen implements Screen {
 		
 		//TODO party members should be created when a new game is created
 		party = new PartyMember[4];
-		party[0] = new PartyMember("WARR", 15, Job.WARRIOR);
-		party[1] = new PartyMember("WMAG", 10, Job.WMAGE);
-		party[2] = new PartyMember("BMAG", 10, Job.BMAGE);
-		party[3] = new PartyMember("MONK", 10, Job.MONK);
+		party[0] = new PartyMember("WARR", Job.WARRIOR, game.getStatRandom());
+		party[1] = new PartyMember("WMAG", Job.WMAGE, game.getStatRandom());
+		party[2] = new PartyMember("BMAG", Job.BMAGE, game.getStatRandom());
+		party[3] = new PartyMember("MONK", Job.MONK, game.getStatRandom());
 		
 	}
 	
@@ -139,29 +139,28 @@ public class PlayScreen implements Screen {
 	/**
 	 * Check if any keys are pressed
 	 */
-	public void handleInput() {
-		
-		Vector2 movement = new Vector2(0,0);
-		
-		if(GameKeys.isDown(GameKeys.Keys.UP)) {
-			movement.add(0, moveSpeed);
-			player.setMoving(true);
-		} else if(GameKeys.isDown(GameKeys.Keys.DOWN)) {
-			movement.add(0, -moveSpeed);
-			player.setMoving(true);
-		} else if(GameKeys.isDown(GameKeys.Keys.RIGHT)) {
-			movement.add(moveSpeed, 0);
-			player.setRight(true);
-			player.setMoving(true);
-		} else if(GameKeys.isDown(GameKeys.Keys.LEFT)) {
-			movement.add(-moveSpeed, 0);
-			player.setRight(false);
-			player.setMoving(true);
-		} else {
-			player.setMoving(false);
-		}
-		player.getBody().setLinearVelocity(movement);
-	}
+//	public void handleInput() {
+//		Vector2 movement = new Vector2(0,0);
+//		
+//		if(GameKeys.isDown(GameKeys.Keys.UP)) {
+//			movement.add(0, moveSpeed);
+//			player.setMoving(true);
+//		} else if(GameKeys.isDown(GameKeys.Keys.DOWN)) {
+//			movement.add(0, -moveSpeed);
+//			player.setMoving(true);
+//		} else if(GameKeys.isDown(GameKeys.Keys.RIGHT)) {
+//			movement.add(moveSpeed, 0);
+//			player.setRight(true);
+//			player.setMoving(true);
+//		} else if(GameKeys.isDown(GameKeys.Keys.LEFT)) {
+//			movement.add(-moveSpeed, 0);
+//			player.setRight(false);
+//			player.setMoving(true);
+//		} else {
+//			player.setMoving(false);
+//		}
+//		player.getBody().setLinearVelocity(movement);
+//	}
 	
 	/**
 	 * Update method contains game logic and basically everything that doesn't involve drawing
@@ -188,11 +187,11 @@ public class PlayScreen implements Screen {
 			info("Player successfully teleported to map " + newMap.toString());
 			// make the player slower in the overworld
 			if(newMap == Areas.OVERWORLD)
-				moveSpeed = moveSpeedOverworld;
+				player.setMoveSpeed(moveSpeedOverworld);
 			else
-				moveSpeed = moveSpeedNormal;
+				player.setMoveSpeed(moveSpeedNormal);
 			// cancel all movement and input
-			GameKeys.resetKeys();
+//			GameKeys.resetKeys();
 			player.getBody().setLinearVelocity(0, 0);
 			player.setMoving(false);
 			// don't run this again
@@ -201,7 +200,7 @@ public class PlayScreen implements Screen {
 		}
 		
 		// get user input
-		handleInput();
+//		handleInput();
 		
 		if(!map.getCurrentMap().friendly) {
 			if(player.isMoving()) {
@@ -224,7 +223,7 @@ public class PlayScreen implements Screen {
 	
 	public void render() {
 		// update input
-		GameKeys.update();
+//		GameKeys.update();
 		// set camera to follow player
 		// need to check if the camera is off the screen
 		// get the width and height of the map
@@ -293,8 +292,40 @@ public class PlayScreen implements Screen {
 	}
 
 	@Override
-	public void show() { 
-		Gdx.input.setInputProcessor(new InputProcessor());
+	public void show() {
+		Gdx.input.setInputProcessor(new InputAdapter() {
+			@Override
+			public boolean keyDown(int key) {
+				
+				if(key == Input.Keys.UP) {
+					player.setUp(true);
+				} else if(key == Input.Keys.DOWN) {
+					player.setDown(true);
+				} else if(key == Input.Keys.RIGHT) {
+					player.setRight(true);
+				} else if(key == Input.Keys.LEFT) {
+					player.setLeft(true);
+				}
+				
+				return true;
+			}
+			
+			@Override
+			public boolean keyUp(int key) {
+				
+				if(key == Input.Keys.UP) {
+					player.setUp(false);
+				} else if(key == Input.Keys.DOWN) {
+					player.setDown(false);
+				} else if(key == Input.Keys.RIGHT) {
+					player.setRight(false);
+				} else if(key == Input.Keys.LEFT) {
+					player.setLeft(false);
+				}
+				
+				return true;
+			}
+		});
 	}
 
 	@Override
