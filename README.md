@@ -30,11 +30,10 @@ Looking for built jars? Go to the /build/ folder for all of them.
   * Continue to document existing code
   * Add a dungeon
   * Add the ability to encounter and fight enemies in this dungeon
-    * Add FF1-style battle mechanism
-    * Add multiple floors using two-way and one-way portals
+  * Add FF1-style battle mechanism
+  * Add multiple floors using two-way and one-way portals
   * Import more tiles into the tilesets to use
   * Import enemy sprites
-  * Add encounters in the overworld
 
 #### Version History
 (based off of some variation of [semantic versioning](http://semver.org/))
