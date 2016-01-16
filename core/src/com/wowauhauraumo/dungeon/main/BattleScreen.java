@@ -19,11 +19,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.wowauhauraumo.dungeon.entities.PartyMember;
 import com.wowauhauraumo.dungeon.entities.Sprite;
 import com.wowauhauraumo.dungeon.managers.Atlas;
+import com.wowauhauraumo.dungeon.managers.PlayerSingleton;
 
 /**
  * A screen for the FF1-style battles. Runs on top of the play screen. When the battle ends
@@ -36,7 +38,7 @@ public class BattleScreen implements Screen {
 	private Game game; // will be used for switching back to the play screen
 	
 	// used in stat checks when attacking
-	private PartyMember[] party;
+	private PartyMember[] party; // reference to PlayerSingleton.getInstance().getParty()
 	private Random battleRandom;
 	
 	// ui stuff
@@ -54,7 +56,7 @@ public class BattleScreen implements Screen {
 	
 	private Label status;
 	
-	private Array<Option<Choice>> options = new Array<Option<Choice>>(5);
+	private Array<Option<Choice>> options = new Array<>(5);
 	private int currentOption = 0;
 	private int currentLeft = 0; // use to return to the same option on the left
 	
@@ -66,6 +68,8 @@ public class BattleScreen implements Screen {
 	private void create() {
 		debug("Creating table");
 		stage = new Stage(new ScreenViewport(game.getHUDCamera()));
+		
+		party = PlayerSingleton.getInstance().getParty();
 		
 		atlas = new TextureAtlas(Gdx.files.internal("ui/uiskin.atlas"));
 		skin = new Skin(Gdx.files.internal("ui/battleui.json"));
@@ -80,7 +84,10 @@ public class BattleScreen implements Screen {
 		enemySpritesTable = new Table();
 		friendlySpritesTable = new Table();
 		
-		// add enemy sprites to their table
+		// TODO add enemy sprites to their table
+		
+		setHPTable(party);
+		setPartyTable(party);
 		
 		spritesTable.add(enemySpritesTable).left();
 		spritesTable.add(friendlySpritesTable).right();
@@ -172,6 +179,7 @@ public class BattleScreen implements Screen {
 		// use some fancy algorithm to escape based entirely on character agility
 		status("Successfully escaped!");
 		// close BattleScreen and return to PlayScreen
+		game.setScreen(game.getPlayScreen());
 	}
 	
 	
@@ -187,8 +195,16 @@ public class BattleScreen implements Screen {
 	
 	private void setHPTable(PartyMember[] party) {
 		for(int i=0;i<party.length;i++) {
-			String string = party[i].getName() + "\nHP \n    " + party[i].getCurrentHP();
-			HPTable.add(new Label(string, skin)).pad(5).padLeft(20);
+			HPTable.add(new Label(party[i].getName(), skin)).pad(5).padLeft(20);
+			HPTable.row();
+			
+			// create table to lay out 'HP' and # nicely
+			Table subTable = new Table();
+			subTable.add(new Label("HP", skin)).align(Align.left);
+			subTable.row();
+			subTable.add(new Label("" + party[i].getCurrentHP(), skin)).padLeft(60);
+			
+			HPTable.add(subTable).align(Align.left).padLeft(20);
 			HPTable.row();
 		}
 	}
@@ -208,13 +224,6 @@ public class BattleScreen implements Screen {
 	private void changeOption(int prev, int current) {
 		options.get(prev).getCursor().hide();
 		options.get(current).getCursor().show();
-	}
-	
-	
-	public void setParameters(PartyMember[] party) {
-		this.party = party;
-		setHPTable(party);
-		setPartyTable(party);
 	}
 
 	@Override
@@ -275,24 +284,27 @@ public class BattleScreen implements Screen {
 	}
 
 	@Override
-	public void pause() {
-
-	}
+	public void pause() {  } // will be used when escape is pressed
 
 	@Override
-	public void resume() {
-
-	}
+	public void resume() {  } // will be used when escape is pressed
 
 	@Override
 	public void hide() {
-		dispose();
+		// set window size back to normal
+		Gdx.graphics.setDisplayMode(Gdx.graphics.getWidth() + 70, Gdx.graphics.getHeight() - 15, false);
 	}
 
 	@Override
 	public void dispose() {
+		// make this instance good as new
 		stage.dispose();
-		game = null;
+		party = null;
+		battleRandom = null;
+		status = null;
+		options = new Array<Option<Choice>>(5);
+		currentOption = 0;
+		currentLeft = 0;
 	}
 	
 	private class BattleActor extends Actor {

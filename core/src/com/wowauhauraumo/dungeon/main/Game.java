@@ -6,6 +6,7 @@ import static com.esotericsoftware.minlog.Log.info;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -33,6 +34,11 @@ public class Game extends com.badlogic.gdx.Game {
 	private Random encounterRandom; // for checking if the player should run into an enemy
 	private Random statRandom; // for levelling up stats
 	
+	// the main screen - battles etc have to return here so keep a reference
+	private PlayScreen playScreen;
+	// screen showing encounters with enemies
+	private BattleScreen battleScreen;
+	
 	// time between each frame
 	public static final float STEP = 1/60f; // 60fps
 	// the current amount of time waited
@@ -44,6 +50,33 @@ public class Game extends com.badlogic.gdx.Game {
 	public Random             getBattleRandom   () { return battleRandom;    }
 	public Random             getEncounterRandom() { return encounterRandom; }
 	public Random             getStatRandom     () { return statRandom;      }
+	
+	
+	// screen management
+	public BattleScreen getBattleScreen() { // get a fresh battle screen
+		// if we don't have a battle screen make a new one
+		if(battleScreen == null) {
+			battleScreen = new BattleScreen(this);
+		} else {
+			battleScreen.dispose();
+		}
+		return battleScreen;
+	}
+	
+	public PlayScreen getPlayScreen() {
+		if(playScreen == null) {
+			setPlayScreen(new PlayScreen(this));
+			playScreen.create();
+		}
+		return playScreen;
+	}
+	
+	@Override
+	public void setScreen(Screen screen) {
+		super.setScreen(screen);
+	}
+	
+	private void setPlayScreen(PlayScreen playScreen) { this.playScreen = playScreen; }
 	
 	@Override
 	public void create () {
@@ -66,7 +99,7 @@ public class Game extends com.badlogic.gdx.Game {
 		statRandom = new Random();
 		
 		setScreen(new MenuScreen(this));
-		debug("Screen set to play screen");
+		debug("Screen set to menu screen");
 		
 		info("Game created");
 	}

@@ -19,12 +19,19 @@ import com.wowauhauraumo.dungeon.entities.PartyMember;
 import com.wowauhauraumo.dungeon.entities.PartyMember.Job;
 import com.wowauhauraumo.dungeon.entities.Player;
 import com.wowauhauraumo.dungeon.managers.GameContactListener;
+import com.wowauhauraumo.dungeon.managers.PlayerSingleton;
 import com.wowauhauraumo.dungeon.maps.Map;
 import com.wowauhauraumo.dungeon.maps.Map.Areas;
 import com.wowauhauraumo.dungeon.maps.Map.Portal;
 
 /**
- * The main class for the game. Contains basically everything.
+ * <p>
+ * This screen manages the overworld exploration, and transitions into BattleScreen. You should also
+ * be able to open the settings menu in this screen.
+ * </p>
+ * <p>
+ * This screen should also have the ability to be paused when hidden, so it can be resumed in the same place
+ * </p>
  * 
  * @author TheGoomy42
  */
@@ -63,8 +70,6 @@ public class PlayScreen implements Screen {
 	private int battleStep;			// the number of steps the player has taken in a hostile world
 	private int maxBattleStep = 50;	// the next time the player will encounter an enemy
 	
-	private PartyMember[] party;
-	
 	/**
 	 * Constructor. Creates Box2D physics world, player and map
 	 * @param gsm Reference to the GameStateManager
@@ -75,6 +80,16 @@ public class PlayScreen implements Screen {
 		cam = game.getCamera();
 		//hudcam = game.getHUDCamera();
 		
+		//TODO party members should be created when a new game is created
+		PartyMember[] party = new PartyMember[4];
+		party[0] = new PartyMember("WARR", Job.WARRIOR, game.getStatRandom());
+		party[1] = new PartyMember("WMAG", Job.WMAGE, game.getStatRandom());
+		party[2] = new PartyMember("BMAG", Job.BMAGE, game.getStatRandom());
+		party[3] = new PartyMember("MONK", Job.MONK, game.getStatRandom());
+		PlayerSingleton.getInstance().setParty(party);
+	}
+	
+	public void create() {
 		// create box2d world etc.
 		world = new World(new Vector2(0, 0), true);
 		world.setContactListener(new GameContactListener(this));
@@ -89,14 +104,6 @@ public class PlayScreen implements Screen {
 		renderer = new Box2DDebugRenderer();
 		b2dcam = new OrthographicCamera();
 		b2dcam.setToOrtho(false, Game.width / PPM, Game.height / PPM);
-		
-		//TODO party members should be created when a new game is created
-		party = new PartyMember[4];
-		party[0] = new PartyMember("WARR", Job.WARRIOR, game.getStatRandom());
-		party[1] = new PartyMember("WMAG", Job.WMAGE, game.getStatRandom());
-		party[2] = new PartyMember("BMAG", Job.BMAGE, game.getStatRandom());
-		party[3] = new PartyMember("MONK", Job.MONK, game.getStatRandom());
-		
 	}
 	
 	/**
@@ -135,32 +142,6 @@ public class PlayScreen implements Screen {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Check if any keys are pressed
-	 */
-//	public void handleInput() {
-//		Vector2 movement = new Vector2(0,0);
-//		
-//		if(GameKeys.isDown(GameKeys.Keys.UP)) {
-//			movement.add(0, moveSpeed);
-//			player.setMoving(true);
-//		} else if(GameKeys.isDown(GameKeys.Keys.DOWN)) {
-//			movement.add(0, -moveSpeed);
-//			player.setMoving(true);
-//		} else if(GameKeys.isDown(GameKeys.Keys.RIGHT)) {
-//			movement.add(moveSpeed, 0);
-//			player.setRight(true);
-//			player.setMoving(true);
-//		} else if(GameKeys.isDown(GameKeys.Keys.LEFT)) {
-//			movement.add(-moveSpeed, 0);
-//			player.setRight(false);
-//			player.setMoving(true);
-//		} else {
-//			player.setMoving(false);
-//		}
-//		player.getBody().setLinearVelocity(movement);
-//	}
 	
 	/**
 	 * Update method contains game logic and basically everything that doesn't involve drawing
@@ -207,9 +188,9 @@ public class PlayScreen implements Screen {
 				battleStep++;
 				if(battleStep >= maxBattleStep) {
 					// start encounter
-					BattleScreen bs = new BattleScreen(game);
+					BattleScreen bs = game.getBattleScreen();
 					game.setScreen(bs);
-					bs.setParameters(party);
+					battleStep = 0;
 					maxBattleStep = 50; // in the future this will be somehow randomised.
 					return;
 				}

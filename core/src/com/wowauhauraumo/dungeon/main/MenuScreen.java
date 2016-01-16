@@ -54,10 +54,24 @@ public class MenuScreen implements Screen {
 		TextButton play = new TextButton("CONTINUE", skin);
 		TextButton quit = new TextButton("QUIT", skin);
 		
+		newGame.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(game.getPlayScreen());
+			}
+		});
+		
 		play.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(new PlayScreen(game));
+				game.setScreen(game.getPlayScreen());
+			}
+		});
+		
+		quit.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				Gdx.app.exit();
 			}
 		});
 		
