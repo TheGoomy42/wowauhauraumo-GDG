@@ -1,10 +1,11 @@
 package com.wowauhauraumo.game.desktop;
 
-import static com.esotericsoftware.minlog.Log.*;
-
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.wowauhauraumo.dungeon.main.Game;
+import com.wowauhauraumo.dungeon.Game;
+
+import static com.esotericsoftware.minlog.Log.DEBUG;
+import static com.esotericsoftware.minlog.Log.info;
 
 /**
  * The desktop wrapper for the game. Contains main() method.
