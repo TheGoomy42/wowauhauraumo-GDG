@@ -45,7 +45,7 @@ public class PlayerEntity extends Entity {
         }
         else {
             debug("PLAYER ENTITY", "mapobject:" + o.getName());
-            return !o.collide(false, false);
+            return !o.collide(false, false, screen);
         }
     }
 

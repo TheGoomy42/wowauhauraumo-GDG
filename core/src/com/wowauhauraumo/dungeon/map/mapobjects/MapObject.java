@@ -1,6 +1,7 @@
 package com.wowauhauraumo.dungeon.map.mapobjects;
 
 import com.badlogic.gdx.math.Vector2;
+import com.wowauhauraumo.dungeon.screens.PlayScreen;
 
 /**
  * Object to represent anything that you can interact with on a map.
@@ -34,9 +35,10 @@ public abstract class MapObject {
      *
      * @param isSailing if the player is on a boat
      * @param isFlying  if the player is on an airship
+     * @param screen    the play screen
      * @return true if the MapObject should prevent movement
      */
-    public abstract boolean collide(boolean isSailing, boolean isFlying);
+    public abstract boolean collide(boolean isSailing, boolean isFlying, PlayScreen screen);
 
     /**
      * Sets properties when the map is loaded.

@@ -1,5 +1,7 @@
 package com.wowauhauraumo.dungeon.map.mapobjects;
 
+import com.wowauhauraumo.dungeon.screens.PlayScreen;
+
 /**
  * Object representing a door. Opens when the player walks through, unless the door is locked and the player doesn't
  * have a key.
@@ -21,10 +23,11 @@ public class MapObjectDoor extends MapObject {
      *
      * @param isSailing if the player is on a boat
      * @param isFlying  if the player is on an airship
+     * @param screen    the play screen
      * @return true if the MapObject should prevent movement
      */
     @Override
-    public boolean collide(boolean isSailing, boolean isFlying) {
+    public boolean collide(boolean isSailing, boolean isFlying, PlayScreen screen) {
         if(this.state == State.LOCKED) {
             // check if the player has a key
             // display message otherwise

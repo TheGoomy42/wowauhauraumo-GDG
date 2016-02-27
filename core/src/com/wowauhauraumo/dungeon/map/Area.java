@@ -4,7 +4,7 @@ package com.wowauhauraumo.dungeon.map;
  * Stores the names of all of the maps and their names.
  */
 public enum Area {
-    NULL, OVERWORLD(false, "maps/object_test");
+    NULL, OVERWORLD(false, "maps/object_test"), TOWN(true, "maps/abetterwaytolive");
 
     public final boolean friendly;
     public final String name;

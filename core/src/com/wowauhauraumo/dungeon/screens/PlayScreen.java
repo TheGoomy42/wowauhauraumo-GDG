@@ -15,6 +15,7 @@ import com.wowauhauraumo.dungeon.collisions.PlayerEntity;
 import com.wowauhauraumo.dungeon.content.PlayerSingleton;
 import com.wowauhauraumo.dungeon.map.Area;
 import com.wowauhauraumo.dungeon.map.Map;
+import com.wowauhauraumo.dungeon.map.Map.PortalData;
 import com.wowauhauraumo.dungeon.util.Direction;
 
 import static com.esotericsoftware.minlog.Log.debug;
@@ -97,6 +98,13 @@ public class PlayScreen implements Screen {
 //        info("Reactivating portal...");
 //        p.setActive(true);
 //    }
+
+    public void enterPortal(Vector2 position) {
+        PortalData data = map.getDataFromPortal(position);
+        map.setMap(data.destination);
+        player.setColumn((int) data.spawnPosition.x);
+        player.setRow((int) data.spawnPosition.y);
+    }
 
 //    old update method, may need to copy some logic
 //    public void update(float delta) {

@@ -42,6 +42,7 @@ class MapLoader {
 
     private FileHandle saveFile;
     private boolean loaded;
+    private Area area;
 
     MapLoader() {
         objectMap = new HashMap<>();
@@ -77,9 +78,8 @@ class MapLoader {
      * @param map the map to load
      */
     TiledMap loadMap(Area map) {
-        if(loaded) {
-            error("MAP", "Trying to load a map, but map is already loaded!");
-        }
+        free();
+        this.area = map;
         // load tmx
         TmxMapLoader loader = new TmxMapLoader();
         TiledMap tiledMap = loader.load(map.name + Save.TMX_FILE_EXTENSION);
@@ -130,7 +130,7 @@ class MapLoader {
 
     private void loadJson() {
         // check to see if there is a save/save0/[Area].json file present
-        saveFile = Gdx.files.external(Save.DATA_DIR + "/save/save1/object_test.json");
+        saveFile = Gdx.files.external(Save.DATA_DIR + "/save/save3/" + area.name + ".json");
 
         if(!saveFile.exists()) {
             try {
@@ -185,7 +185,7 @@ class MapLoader {
         } // close streams automatically
     }
 
-    void free() {
+    private void free() {
         if(!loaded) return;
         try {
             writeJson(saveFile);
@@ -193,14 +193,7 @@ class MapLoader {
             throw new IllegalArgumentException("Could not save map to json.", e);
         }
         objectMap.clear();
-    }
-
-    private Vector2 stringToVector(String string) {
-        return new Vector2(Integer.parseInt(string.split(":")[0]), Integer.parseInt(string.split(":")[1]));
-    }
-
-    private String vectorToString(Vector2 vector) {
-        return (int) vector.x + ":" + (int) vector.y;
+        loaded = false;
     }
 
     /**
@@ -211,6 +204,17 @@ class MapLoader {
      */
     void editObject(Vector2 coord, State newState) {
         objectMap.get(coord).changeState(newState);
+    }
+
+
+    // helper methods
+
+    Vector2 stringToVector(String string) {
+        return new Vector2(Integer.parseInt(string.split(":")[0]), Integer.parseInt(string.split(":")[1]));
+    }
+
+    String vectorToString(Vector2 vector) {
+        return (int) vector.x + ":" + (int) vector.y;
     }
 
     MapObject getObject(Vector2 coord) { return objectMap.get(coord); }

@@ -1,5 +1,7 @@
 package com.wowauhauraumo.dungeon.map.mapobjects;
 
+import com.wowauhauraumo.dungeon.screens.PlayScreen;
+
 /**
  * Object to represent a portal. Transports the player to another map. Needs a destination.
  */
@@ -21,10 +23,12 @@ public class MapObjectPortal extends MapObject {
      *
      * @param isSailing if the player is on a boat
      * @param isFlying  if the player is on an airship
+     * @param screen    a reference to the play screen
      * @return true
      */
     @Override
-    public boolean collide(boolean isSailing, boolean isFlying) {
+    public boolean collide(boolean isSailing, boolean isFlying, PlayScreen screen) {
+        screen.enterPortal(position);
         return false;
     }
 

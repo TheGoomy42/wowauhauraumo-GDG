@@ -1,5 +1,7 @@
 package com.wowauhauraumo.dungeon.map.mapobjects;
 
+import com.wowauhauraumo.dungeon.screens.PlayScreen;
+
 /**
  * Object representing tough terrain, e.g. a hill or mountain. Can only be passed through if the
  */
@@ -20,10 +22,11 @@ public class MapObjectHill extends MapObject {
      *
      * @param isSailing if the player is on a boat
      * @param isFlying  if the player is on an airship
+     * @param screen    the play screen
      * @return true if the MapObject should prevent movement
      */
     @Override
-    public boolean collide(boolean isSailing, boolean isFlying) {
+    public boolean collide(boolean isSailing, boolean isFlying, PlayScreen screen) {
         return !isFlying;
     }
 
